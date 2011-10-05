@@ -5,5 +5,11 @@ Date: 2011-10-04
 Author: John A. Ramey
 Maintainer: John A. Ramey <john.ramey@pnnl.gov>
 Description: TODO
-Depends: foreach, mvtnorm
+Depends:
+    foreach,
+    mvtnorm
 License: GPL-2
+Collate:
+    'clust_omit.r'
+    'helpers.r'
+    'parametric.r'

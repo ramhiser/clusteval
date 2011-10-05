@@ -1,14 +1,4 @@
-#' A Bootstrap Approach to Evaluate Clustering Stability via Cluster Omission.
-#'
-#' This is a bootstrapping approach to evaluating the stability of a clustering
-#' algorithm through the clustering admissibility criteria in Fisher and 
-#' Van Ness (1971). In particular, the focus here is on the cluster omission
-#' admissibility criterion.
-#'
-#' We remove each cluster at a time. Then, we bootstrap from the given data
-#' after removing the cluster, and use a measure of similarity between the
-#' the cluster labels of the original data set and the cluster labels of
-#' the bootstrapped sample.
+#' A Parametric Bootstrap Approach to Evaluate Clustering Stability via Cluster Omission.
 #'
 #' The cluster method should take the data as 'x' and the 'num_clusters'.
 #'
@@ -21,7 +11,7 @@
 #' @param B TODO
 #' @param ... TODO
 #' @return list of scores by omitted cluster
-clustomit_boot <- function(x, num_clusters, cluster_method, similarity_method, B = 100, ...) {
+clustomit_parboot <- function(x, num_clusters, cluster_method, similarity_method, noise = 0.1, B = 100, ...) {
 	# Find the cluster for each observation in the provided data set, x.
 	clust_orig <- cluster_wrapper(x, num_clusters, method = cluster_method, ...)
 
@@ -51,3 +41,31 @@ clustomit_boot <- function(x, num_clusters, cluster_method, similarity_method, B
 	)
 }
 
+#' Perturbs a multivariate data set stored in a matrix.
+#'
+#' On the blog "X-Informatics" there is a post called "Add noise to data"
+#' where a method is described to add noise to a data set. The method
+#' finds the smallest dimension of the bounding box enclosing the data.
+#' Take the square root of this, multiply by 'noise' (which is defaulted to 0.02), and
+#' use this as the standard deviation when generating a normal random variate.
+#'
+#' The idea originates in the paper:
+#' Balasubramanian, M., Schwartz, E.L., Tenenbaum, J.B., de Silva, V. & Langford, J.C.
+#' "The Isomap Algorithm and Topological Stability". Science 295, 7a (2002).
+#'
+#' The blog post is located:
+#' http://c13s.wordpress.com/2010/04/13/add-noise-to-data/
+#'
+#' A note about the minimum bounding box idea is located:
+#' http://en.wikipedia.org/wiki/Minimum_bounding_box
+#'
+#' @export
+#' @param x TODO
+#' @param noise TODO
+#' @return TODO
+perturb_data <- function(x, noise = 0.1) {
+	n <- nrow(x)
+	p <- ncol(x)
+	smallest_bounding_box_dim <- min(apply(x, 2, function(col) max(col) - min(col)))
+	x + replicate(p, rnorm(n, sd = noise * sqrt(smallest_bounding_box_dim)))
+}
