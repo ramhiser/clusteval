@@ -1,10 +1,9 @@
-Package: bootclust
-Title: A Bootstrap Approach to Evaluating Clustering Algorithms
-Version: 0.0.1
-Date: 2011-06-24
+Package: clustomit
+Title: Cluster Stability Evaluation via Cluster Omission
+Version: 0.0.2
+Date: 2011-10-04
 Author: John A. Ramey
-Maintainer: John A. Ramey <johnramey@gmail.com>
+Maintainer: John A. Ramey <john.ramey@pnnl.gov>
 Description: TODO
 Depends: foreach, mvtnorm
 License: GPL-2
-URL: http://www.github.com/ramey/regdiscrim/, http://www.johnramey.net/
