@@ -1,13 +1,15 @@
 Package: clustomit
 Title: Cluster Stability Evaluation via Cluster Omission
 Version: 0.0.2
-Date: 2011-10-04
+Date: 2011-10-07
 Author: John A. Ramey
 Maintainer: John A. Ramey <john.ramey@pnnl.gov>
 Description: TODO
 Depends:
     foreach,
-    mvtnorm
+    mvtnorm,
+		clues,
+		clv
 License: GPL-2
 Collate:
     'clust_omit.r'

@@ -9,10 +9,10 @@
 #' @param ... TODO
 #' @return TODO
 cluster_wrapper <- function(x, num_clusters, method, ...) {
-	cluster_methods <- c("kmeans", "hierarchical", "pam", "diana", "mclust")
+	cluster_methods <- c("hierarchical", "kmeans", "pam", "model", "diana")
 	method <- match.arg(method, cluster_methods)
 	method <- paste(method, "_wrapper", sep = "")
-	list(result = get(method)(x = x, num_clusters = num_clusters, ...))
+	get(method)(x = x, num_clusters = num_clusters, ...)
 }
 
 #' Wrapper for k-means, so that only the data set and number of clusters is specified.
@@ -82,7 +82,7 @@ diana_wrapper <- function(x, num_clusters, ...) {
 #' @param hennig TODO
 #' @param ... TODO
 #' @return TODO
-mclust_wrapper <- function(x, num_clusters, hennig = FALSE, ...) {
+model_wrapper <- function(x, num_clusters, hennig = FALSE, ...) {
   mclust_out <- Mclust(data = x, G = num_clusters, ...)
   if(hennig) {
     hennig_list <- list()

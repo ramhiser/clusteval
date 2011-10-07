@@ -1,8 +1,16 @@
-plot(z)
 Implement my two alternatives.
-	Ramey1
 	Ramey2
 
+Implement a 'mapply' statement or something similar to process all of Hennig's methods on the grid.
+
+
+Implement everything for one data set.
+	Use a very small q to check everything. (q = 30)
+After that, it should just be copy and paste except for changing the data.
+	Use a common number of selected variables that is small enough to keep this reasonable in runtime (200)?
+
+Try the Landon, Ramey1, and Ramey2 methods 'with_replacement = TRUE'.
+	If there's time, how do things change if FALSE?
 
 
 
