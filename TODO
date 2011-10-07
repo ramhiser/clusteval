@@ -1,3 +1,31 @@
-Add hierarchical with single-linkage
+plot(z)
+Implement my two alternatives.
+	Ramey1
+	Ramey2
+
+
+
+
+
+
+Add bootstrap_type argument to clustomit_landon
+	Should be in: c("nonparametric, parametric")
+	If nonparametric, use what we already have. with_replacement only affects this.
+	If parametric, use the method in section 3.3 in Hennig
+		An additional argument should be added to clustomit_landon that is a RNG function that matches the
+			criteria in 'boot'
+		If it is NULL, we use the one in Hennig.
+		This should allow additional support for other types of parametric bootstrapping/jittering
+			such as the one we used in the original paper.
+
+Once I figure out what a good value for B (the bootstrap replicates) is, update the default values
+	for each of the clustomit functions
+
+
+
+
 Add more documentation to clustomit_boot
 Add documentation to helper functions.
+
+Make sure the WARNINGS being thrown by the similarity functions is not critical.
+	Fix it, if possible.

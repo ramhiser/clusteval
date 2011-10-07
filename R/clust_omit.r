@@ -24,12 +24,20 @@
 clustomit_boot <- function(x, num_clusters, cluster_method, similarity_method, B = 100, ...) {
 	# Find the cluster for each observation in the provided data set, x.
 	clust_orig <- cluster_wrapper(x, num_clusters, method = cluster_method, ...)
+	
+	lapply(clust_orig, function(k) {
+	  kept <- which(clust_orig != cl)
+		x_kept <- x[kept,]
+		clust_kept <- clust_orig[kept]
+	})
 
 	# Iterates through each cluster and omit all of its observations for sensitivity analysis.
 	clust_omit <- foreach(cl = levels(factor(clust_orig))) %do% {
 		kept <- which(clust_orig != cl)
 		x_kept <- x[kept,]
 		clust_kept <- clust_orig[kept]
+		
+		boot()
 
 		# Perturbs (jitters) the data B times and applies the user-specified clustering
 		# method to the jittered data while omitting the current cluster of interest.
@@ -51,3 +59,12 @@ clustomit_boot <- function(x, num_clusters, cluster_method, similarity_method, B
 	)
 }
 
+cluster_method <- "kmeans"
+similarity_method <- "jaccard"
+clustomit_worker <- function(x, idx, K, cluster_method, similarity_method, with_replacement = TRUE) {
+  if(!with_replacement) {
+    idx <- unique(idx)
+  }
+  x <- x[idx,]
+  # TODO: Keep going
+}
