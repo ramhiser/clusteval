@@ -1,4 +1,4 @@
-#' Landon's Alternative Method
+#' Ramey's Alternative Method
 #'
 #' TODO
 #'
@@ -13,17 +13,19 @@
 #' @param ncpus TODO
 #' @param ... TODO
 #' @return list of scores by omitted cluster
-clustomit_landon <- function(x, K, cluster_method, similarity_method, B = 100, with_replacement = TRUE, use_multicore = FALSE, ncpus = 1, ...) {
+clustomit_ramey <- function(x, K, cluster_method, similarity_method, B = 100, with_replacement = TRUE, use_multicore = FALSE, ncpus = 1, ...) {
   K <- as.integer(K)
   cluster_method <- as.character(cluster_method)
   similarity_method <- as.character(similarity_method)
-  
+
   parallel_type <- ifelse(use_multicore, "multicore", "no")
   
-  out <- boot(x, landon_boot, R = B, cluster_method = cluster_method,
+  clusters <- cluster_wrapper(x, num_clusters = K, method = cluster_method, ...)
+  out <- boot(x, ramey_boot, R = B, cluster_method = cluster_method,
     similarity_method = similarity_method, K = K, with_replacement = with_replacement,
-    parallel = parallel_type, ncpus = ncpus
+    parallel = parallel_type, ncpus = ncpus, clusters = clusters
   )
+
 	obj <- list(
 		observed_value = out$t0,
 		observed_mean = mean(out$t0),
@@ -37,17 +39,17 @@ clustomit_landon <- function(x, K, cluster_method, similarity_method, B = 100, w
 		cluster_method = cluster_method,
 		similarity_method = similarity_method,
 		with_replacement = with_replacement,
-		approach = "landon"
+		approach = "ramey"
 	)
 	class(obj) <- "clustomit"
 	obj
 }
 
 
-#' The worker function for Landon's Alternative Method
+#' The worker function for Ramey's Alternative Method
 #'
 #' This function is repeatedly called by boot() from the 'boot' package
-#' to generate the approximate sampling distribution of Landon's alternative method.
+#' to generate the approximate sampling distribution of Ramey's alternative method.
 #'
 #' TODO
 #'
@@ -59,24 +61,22 @@ clustomit_landon <- function(x, K, cluster_method, similarity_method, B = 100, w
 #' @param with_replacement TODO
 #' @param ... TODO
 #' @return list with results (TODO: Add more detail)
-landon_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = TRUE, ...) {
+ramey_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = TRUE, clusters, ...) {
   if(!with_replacement) {
     idx <- unique(idx)
   }
-  x <- x[idx,]
-  clusters <- cluster_wrapper(x, num_clusters = K, method = cluster_method, ...)
+  idx <- sort(idx)
   cluster_levels <- unique(clusters)
   omit_similarities <- sapply(cluster_levels, function(k) {
     kept <- which(k != clusters)
+    kept <- idx[idx %in% kept]
     clusters_omit <- cluster_wrapper(x[kept,], num_clusters = K - 1, method = cluster_method, ...)
     cluster_similarity(clusters[kept], clusters_omit, method = similarity_method)
   })
-  # With Landon's idea, it is important to understand that the ordering of 'omit_similarities'
-  # will change each time because each call to 'landon_boot' yields different cluster labelings.
-  # In other words, the cluster labelings are arbitrary for each bootstrap replication.
-  # So, we can summarize each call to 'landon_boot' (e.g. min, max, or mean) to better understand
-  # the cluster stability of the current bootstrapped iteration, but we cannot focus on the
-  # stability of individual clusters without an ill-advised, computationally expensive ad-hoc approach,
-  # which are often seen in the literature.
+  # Unlike Landon's method, the cluster labelings are not arbitrary for each bootstrap replication
+  # because the cluster labelings are set with the initial clustering of the data. Hence, we
+  # are able to discuss the stability of individual clusters. Furthermore, similar to Landon's method
+  # we can summarize each bootstrap replication (e.g. min, max, or mean) to better understand
+  # the aggregate cluster stability of the current bootstrapped iteration.
   omit_similarities
 }

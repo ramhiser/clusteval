@@ -65,8 +65,24 @@ pam_wrapper <- function(x, num_clusters, ...) {
 #' @param num_clusters TODO
 #' @param ... TODO
 #' @return TODO
-diana_wrapper <- function(x, num_clusters, ...) {
-	cutree(as.hclust(diana(x = x, ...)), k = num_clusters)
+diana_wrapper <- function(x, num_clusters, hennig = FALSE, ...) {
+	diana_out <- cutree(as.hclust(diana(x = x, ...)), k = num_clusters)
+	if(hennig) {
+    hennig_list <- list()
+    hennig_list$result <- diana_out
+    hennig_list$nc <- num_clusters
+    hennig_list$partition <- diana_out
+    hennig_list$clustermethod <- "diana"
+    # A list whose elements are logical vectors of length n.
+    # The ith element in the list is 1 if observation i is said to belong to the current class,
+    # and 0 otherwise.
+    hennig_list$clusterlist <- lapply(unique(diana_out), function(cl) {
+      as.integer(cl == diana_out)
+    })
+    return(hennig_list)
+	} else {
+	 return(diana_out)
+	}
 }
 
 #' Wrapper for model-based clustering, so that only the data set and number of clusters is specified.
