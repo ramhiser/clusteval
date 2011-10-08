@@ -8,10 +8,14 @@ Description: TODO
 Depends:
     foreach,
     mvtnorm,
-		clues,
-		clv
+    clues,
+    clv
 License: GPL-2
 Collate:
     'clust_omit.r'
-    'helpers.r'
     'parametric.r'
+    'clustering_methods.r'
+    'landon.r'
+    'plot.r'
+    'ramey.r'
+    'similarity.r'
