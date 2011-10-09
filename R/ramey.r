@@ -70,7 +70,19 @@ ramey_boot <- function(x, idx, K, cluster_method, similarity_method, with_replac
   omit_similarities <- sapply(cluster_levels, function(k) {
     kept <- which(k != clusters)
     kept <- idx[idx %in% kept]
-    clusters_omit <- cluster_wrapper(x[kept,], num_clusters = K - 1, method = cluster_method, ...)
+    x <- x[kept,]
+    if(is.vector(x)) {
+      x <- t(x)
+    }
+    
+    if(nrow(x) == 0) {
+      return(NA)
+    }
+    clusters_omit <- try(cluster_wrapper(x, num_clusters = K - 1, method = cluster_method, ...))
+    if(inherits(clusters_omit, "try-error")) {
+      warning("Returning NA")
+      return(NA)
+    }
     cluster_similarity(clusters[kept], clusters_omit, method = similarity_method)
   })
   # Unlike Landon's method, the cluster labelings are not arbitrary for each bootstrap replication

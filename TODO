@@ -1,13 +1,24 @@
-Do a git commit.
-Build R documentation and package
-Reboot and do trial run again for q = 5 and B = 5.
-Then try all other data sets with q = 5 and B = 5.
-Update all data sets to q = 200, B = 100, num_clusters = 3:7, and
+Fix the following simulations:
+	Both Ramey methods are breaking on these data sets.
+		Wen - (p = 9)
+		Bhattacharjee
+
+Update the working data sets to q = 200, B = 100, num_clusters = 3:7, and
 	cl_methods <- c("hierarchical", "kmeans", "pam", "model", "diana")
 	similarity_methods <- c("rand", "jaccard", "adjustedrand")
-Run them!
+Run them! (Kodiak?)
 
 
+It would be useful to consider an external validation approach here as well.
+	Rather than using a clustering method to get the truth, use the true, external
+	labels to see how well the method could match it.
+
+Consider using 'clara' as a clustering method. To quote Hennig's documentation,
+	"PAM is better, CLARA is faster"
+	If this is true, then CLARA may yield results that we can criticize.
+
+Data Sets with 'issues' that we should come back to:
+	Bhattacharjee (the 'harvard' data set in 'lungExpression')
 
 Add bootstrap_type argument to clustomit_landon
 	Should be in: c("nonparametric, parametric")
@@ -30,3 +41,5 @@ Add documentation to helper functions.
 
 Make sure the WARNINGS being thrown by the similarity functions is not critical.
 	Fix it, if possible.
+	
+	
