@@ -1,13 +1,16 @@
-Fix the following simulations:
-	Both Ramey methods are breaking on these data sets.
-		Wen - (p = 9)
-		Bhattacharjee
+Push clustomit and cluster_evaluation to github.
+Clone on Kodiak
+Install clustomit on Kodiak
+Run bioconductor_install on Kodiak
+Rerun sims
+Add/update data-microarray with data sets
+Begin wiki with basic descriptions that will be added to the conference paper
+Add note to wiki to port data sets to Python
 
-Update the working data sets to q = 200, B = 100, num_clusters = 3:7, and
-	cl_methods <- c("hierarchical", "kmeans", "pam", "model", "diana")
-	similarity_methods <- c("rand", "jaccard", "adjustedrand")
-Run them! (Kodiak?)
-
+Summarize data graphically
+	Handle NAs
+Need to set up some way to quickly look at all the plots
+	webnotebook or Sweave
 
 It would be useful to consider an external validation approach here as well.
 	Rather than using a clustering method to get the truth, use the true, external
@@ -16,9 +19,6 @@ It would be useful to consider an external validation approach here as well.
 Consider using 'clara' as a clustering method. To quote Hennig's documentation,
 	"PAM is better, CLARA is faster"
 	If this is true, then CLARA may yield results that we can criticize.
-
-Data Sets with 'issues' that we should come back to:
-	Bhattacharjee (the 'harvard' data set in 'lungExpression')
 
 Add bootstrap_type argument to clustomit_landon
 	Should be in: c("nonparametric, parametric")
