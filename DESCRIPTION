@@ -9,7 +9,8 @@ Depends:
     foreach,
     mvtnorm,
     clues,
-    clv
+    clv,
+    mclust
 License: GPL-2
 Collate:
     'clust_omit.r'

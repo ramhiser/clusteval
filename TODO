@@ -1,16 +1,10 @@
-Push clustomit and cluster_evaluation to github.
-Clone on Kodiak
-Install clustomit on Kodiak
-Run bioconductor_install on Kodiak
-Rerun sims
+Ensure that the licensing for 'mclust' does not create an issue with our R package.
+
 Add/update data-microarray with data sets
-Begin wiki with basic descriptions that will be added to the conference paper
 Add note to wiki to port data sets to Python
 
 Summarize data graphically
 	Handle NAs
-Need to set up some way to quickly look at all the plots
-	webnotebook or Sweave
 
 It would be useful to consider an external validation approach here as well.
 	Rather than using a clustering method to get the truth, use the true, external
