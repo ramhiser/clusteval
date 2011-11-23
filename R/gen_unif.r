@@ -26,7 +26,8 @@
 #' contain the generated observation.
 #' @export
 #' @examples
-#' TODO
+#' x <- gen_unif(50, delta = 1.5)
+#' plyr:::ddply(x, .(Population), summarize, xbar_1 = mean(x1), xbar_2 = mean(x2))
 gen_unif <- function(n = 25, delta = 0, seed = NULL) {
   if(!is.null(seed)) {
     set.seed(seed)
