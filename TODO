@@ -1,7 +1,13 @@
+Add remote git repository at:
+  - \\PNL\Projects\SQM\RPackages
+
+Use weighted average of Jaccard scores
+  Weights are sample sizes of each cluster
+
 Ensure that the licensing for 'mclust' does not create an issue with our R package.
 
 Add/update data-microarray with data sets
-Add note to wiki to port data sets to Python
+
 
 Summarize data graphically
 	Handle NAs
