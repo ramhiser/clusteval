@@ -1,11 +1,10 @@
 Add remote git repository at:
   - \\PNL\Projects\SQM\RPackages
 Implement functions to generate from each family of distributions:
-  - Bivariate Uniform
   - Multivariate Normal
   - Multivariate Student's t
   - Multivariate Gamma
-Modify each simulation writeup and add to corresponding family of distributions:
+Modify each simulation writeup and add to corresponding gen_ function for the family of distributions:
   - Bivariate Uniform
   - Multivariate Normal
   - Multivariate Student's t
