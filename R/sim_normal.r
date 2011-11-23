@@ -70,6 +70,8 @@ delta = 0, epsilon = 0.1, sigma2 = 1, seed = NULL) {
   # A matrix whose rows are the population means.
   means <- delta * diag(1, nrow = M, ncol = p) + z
 
+Sigma <- diag(p)
+
 # TODO: Stopped here.
   pop1 <- c(-1/2, 1/2, delta - 1/2, delta + 1/2)
   pop2 <- c(delta - 1/2, delta + 1/2, -1/2, 1/2)
