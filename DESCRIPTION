@@ -20,4 +20,6 @@ Collate:
     'plot.r'
     'ramey.r'
     'similarity.r'
-    'simulated_data.r'
+    'gen_normal.r'
+    'gen_unif.r'
+    'gen_gamma.r'
