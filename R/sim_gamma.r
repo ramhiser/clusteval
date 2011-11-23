@@ -27,7 +27,7 @@
 #' @export
 #' @examples
 #' TODO
-gen_unif <- function(n = 25, delta = 0, seed = NULL) {
+sim_gamma <- function(n = 25, delta = 0, seed = NULL) {
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")
   }

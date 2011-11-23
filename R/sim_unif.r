@@ -26,9 +26,9 @@
 #' contain the generated observation.
 #' @export
 #' @examples
-#' x <- gen_unif(50, delta = 1.5)
+#' x <- sim_unif(50, delta = 1.5)
 #' plyr:::ddply(x, .(Population), summarize, xbar_1 = mean(x1), xbar_2 = mean(x2))
-gen_unif <- function(n = 25, delta = 0, seed = NULL) {
+sim_unif <- function(n = 25, delta = 0, seed = NULL) {
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")
   }
