@@ -3,7 +3,7 @@
 \title{The worker function for Ramey's Alternative Method}
 \usage{
   ramey_boot(x, idx, K, cluster_method, similarity_method,
-  with_replacement = TRUE, clusters, ...)
+    with_replacement = TRUE, clusters, ...)
 }
 \arguments{
   \item{x}{data matrix with N observations (rows) and p

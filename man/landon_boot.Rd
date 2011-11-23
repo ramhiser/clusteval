@@ -3,7 +3,7 @@
 \title{The worker function for Landon's Alternative Method}
 \usage{
   landon_boot(x, idx, K, cluster_method, similarity_method,
-  with_replacement = TRUE, ...)
+    with_replacement = TRUE, ...)
 }
 \arguments{
   \item{x}{data matrix with N observations (rows) and p

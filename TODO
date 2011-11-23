@@ -1,8 +1,5 @@
 Add remote git repository at:
   - \\PNL\Projects\SQM\RPackages
-Add the following data sets to clustomit:
-  - St. Jude
-  - SRBCT
 Implement functions to generate from each family of distributions:
   - Bivariate Uniform
   - Multivariate Normal
@@ -23,6 +20,12 @@ Create graphical outputs for each of FOM, clusterboot, and clustomit for each fa
   - Multivariate Normal
   - Multivariate Student's t
   - Multivariate Gamma
+Add package level documentation to clustomit
+Add documentation for each data set in clustomit:
+  - St. Jude
+  - SRBCT
+  - For an example, see:
+    - https://github.com/hadley/devtools/wiki/docs-function
 Copy and paste sim writeups and graphical figure code to webnotebook
 Now, go back and update the Jaccard scores for each method and use weighted average of Jaccard scores
   Weights are sample sizes of each cluster
@@ -37,21 +40,15 @@ Now, go back and update the Jaccard scores for each method and use weighted aver
 
 
 Ensure that the licensing for 'mclust' does not create an issue with our R package.
-
 Add/update data-microarray with data sets
-
-
 Summarize data graphically
 	Handle NAs
-
 It would be useful to consider an external validation approach here as well.
 	Rather than using a clustering method to get the truth, use the true, external
 	labels to see how well the method could match it.
-
 Consider using 'clara' as a clustering method. To quote Hennig's documentation,
 	"PAM is better, CLARA is faster"
 	If this is true, then CLARA may yield results that we can criticize.
-
 Add bootstrap_type argument to clustomit_landon
 	Should be in: c("nonparametric, parametric")
 	If nonparametric, use what we already have. with_replacement only affects this.
@@ -61,11 +58,8 @@ Add bootstrap_type argument to clustomit_landon
 		If it is NULL, we use the one in Hennig.
 		This should allow additional support for other types of parametric bootstrapping/jittering
 			such as the one we used in the original paper.
-
 Add more documentation to clustomit_boot
 Add documentation to helper functions.
-
 Make sure the WARNINGS being thrown by the similarity functions is not critical.
 	Fix it, if possible.
-	
 	

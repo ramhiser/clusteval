@@ -3,7 +3,7 @@
 \title{A Bootstrap Approach to Evaluate Clustering Stability via Cluster Omission.}
 \usage{
   clustomit_boot(x, num_clusters, cluster_method,
-  similarity_method, B = 100, ...)
+    similarity_method, B = 100, ...)
 }
 \arguments{
   \item{x}{data matrix with N observations (rows) and p

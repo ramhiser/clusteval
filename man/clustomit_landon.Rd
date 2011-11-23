@@ -3,8 +3,8 @@
 \title{Landon's Alternative Method}
 \usage{
   clustomit_landon(x, K, cluster_method, similarity_method,
-  B = 100, with_replacement = TRUE, use_multicore = FALSE,
-  ncpus = 1, ...)
+    B = 100, with_replacement = TRUE,
+    use_multicore = FALSE, ncpus = 1, ...)
 }
 \arguments{
   \item{x}{data matrix with N observations (rows) and p

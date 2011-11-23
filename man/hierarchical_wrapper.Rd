@@ -3,7 +3,7 @@
 \title{Wrapper for hierarhical clustering, so that only the data set and number of clusters is specified.}
 \usage{
   hierarchical_wrapper(x, num_clusters, method = "single",
-  ...)
+    ...)
 }
 \arguments{
   \item{x}{TODO}
