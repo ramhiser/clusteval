@@ -1,12 +1,4 @@
-Add remote git repository at:
-  - \\PNL\Projects\SQM\RPackages
 Implement functions to generate from each family of distributions:
-  - Multivariate Normal
-  - Multivariate Student's t
-  - Multivariate Gamma
-Modify each simulation writeup and add to corresponding gen_ function for the family of distributions:
-  - Bivariate Uniform
-  - Multivariate Normal
   - Multivariate Student's t
   - Multivariate Gamma
 Write implementation code for FOM, clusterboot, and clustomit for each family of distributions:
@@ -30,7 +22,21 @@ Now, go back and update the Jaccard scores for each method and use weighted aver
   Weights are sample sizes of each cluster
 Add 'clusteval' package to PNNL's version of the CRAN repository
 Rename 'clustomit' on github to 'clusteval' and push the latest changes
-
+Add error checking for positive sample sizes to:
+  - Bivariate Uniform
+  - Multivariate Normal
+  - Multivariate Student's t
+  - Multivariate Gamma
+Add unit test to check the errors for each of:
+  - Bivariate Uniform
+  - Multivariate Normal
+  - Multivariate Student's t
+  - Multivariate Gamma
+Add unit test to verify proper output of:
+  - Bivariate Uniform
+  - Multivariate Normal
+  - Multivariate Student's t
+  - Multivariate Gamma
 
 
 

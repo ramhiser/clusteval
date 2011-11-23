@@ -54,7 +54,7 @@ delta = 0, epsilon = 0.1, sigma2 = 1, seed = NULL) {
   if (sigma2 <= 0) {
     stop("The value for 'sigma2' must be positive.")
   }
-  if (length(n) != rho) {
+  if (length(n) != length(rho)) {
     stop("The length of the vectors 'n' and 'rho' must be equal.")
   }
   if(!is.null(seed)) {
@@ -70,24 +70,17 @@ delta = 0, epsilon = 0.1, sigma2 = 1, seed = NULL) {
   # A matrix whose rows are the population means.
   means <- delta * diag(1, nrow = M, ncol = p) + z
 
-Sigma <- diag(p)
+  # A list containing each of the covariance matrices.
+  # TODO: This may not be very practical for large p.
+  #       Use another approach.
+  cov_list <- lapply(rho, intraclass_cov, p = p)
 
-# TODO: Stopped here.
-  pop1 <- c(-1/2, 1/2, delta - 1/2, delta + 1/2)
-  pop2 <- c(delta - 1/2, delta + 1/2, -1/2, 1/2)
-  pop3 <- c(-1/2, 1/2, -delta - 1/2, -delta + 1/2)
-  pop4 <- c(-delta - 1/2, -delta + 1/2, -1/2, 1/2)
+  # Generates the data in a list of length M.
+  # Then, we rbind the data together.
+  x <- lapply(seq_len(M), function(m) cbind(m, rmvnorm(n[m], means[m, ], cov_list[[m]])))
+  x <- do.call(rbind.data.frame, x)
   
-  unif_pops <- rbind.data.frame(pop1, pop2, pop3, pop4)
-  colnames(unif_pops) <- c("a1", "b1", "a2", "b2")
-  unif_pops$n <- n
-  
-  bivar_unif <- function(n, a1, b1, a2, b2) {
-    cbind(runif(n, a1, b1), runif(n, a2, b2))
-  }
-  
-  x <- mdply(unif_pops, as.data.frame(bivar_unif), .expand = F)
-  colnames(x) <- c("Population", "x1", "x2")
+  colnames(x) <- c("Population", paste("x", seq.int(ncol(x) - 1), sep = ""))
   x$Population <- as.factor(x$Population)  
   x
 }
