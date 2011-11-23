@@ -1,8 +1,40 @@
 Add remote git repository at:
   - \\PNL\Projects\SQM\RPackages
-
-Use weighted average of Jaccard scores
+Add the following data sets to clustomit:
+  - St. Jude
+  - SRBCT
+Implement functions to generate from each family of distributions:
+  - Bivariate Uniform
+  - Multivariate Normal
+  - Multivariate Student's t
+  - Multivariate Gamma
+Modify each simulation writeup and add to corresponding family of distributions:
+  - Bivariate Uniform
+  - Multivariate Normal
+  - Multivariate Student's t
+  - Multivariate Gamma
+Write implementation code for FOM, clusterboot, and clustomit for each family of distributions:
+  - Bivariate Uniform
+  - Multivariate Normal
+  - Multivariate Student's t
+  - Multivariate Gamma
+Create graphical outputs for each of FOM, clusterboot, and clustomit for each family of distributions:
+  - Bivariate Uniform
+  - Multivariate Normal
+  - Multivariate Student's t
+  - Multivariate Gamma
+Copy and paste sim writeups and graphical figure code to webnotebook
+Now, go back and update the Jaccard scores for each method and use weighted average of Jaccard scores
   Weights are sample sizes of each cluster
+
+
+
+
+
+
+
+
+
 
 Ensure that the licensing for 'mclust' does not create an issue with our R package.
 
@@ -29,12 +61,6 @@ Add bootstrap_type argument to clustomit_landon
 		If it is NULL, we use the one in Hennig.
 		This should allow additional support for other types of parametric bootstrapping/jittering
 			such as the one we used in the original paper.
-
-Once I figure out what a good value for B (the bootstrap replicates) is, update the default values
-	for each of the clustomit functions
-
-
-
 
 Add more documentation to clustomit_boot
 Add documentation to helper functions.
