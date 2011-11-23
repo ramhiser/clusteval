@@ -1,4 +1,3 @@
-Rename package to 'clusteval'
 Add remote git repository at:
   - \\PNL\Projects\SQM\RPackages
 Implement functions to generate from each family of distributions:
@@ -29,8 +28,8 @@ Add documentation for each data set in clustomit:
 Copy and paste sim writeups and graphical figure code to webnotebook
 Now, go back and update the Jaccard scores for each method and use weighted average of Jaccard scores
   Weights are sample sizes of each cluster
-Add 'clustomit' package to PNNL's version of the CRAN repository
-
+Add 'clusteval' package to PNNL's version of the CRAN repository
+Rename 'clustomit' on github to 'clusteval' and push the latest changes
 
 
 
