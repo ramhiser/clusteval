@@ -1,5 +1,5 @@
-Package: clustomit
-Title: Cluster Stability Evaluation via Cluster Omission
+Package: clusteval
+Title: Evaluation of Clustering Algorithms
 Version: 0.0.2
 Date: 2011-11-22
 Author: John A. Ramey
