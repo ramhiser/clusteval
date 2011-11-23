@@ -1,5 +1,4 @@
 Implement functions to generate from each family of distributions:
-  - Multivariate Student's t
   - Multivariate Gamma
 Write implementation code for FOM, clusterboot, and clustomit for each family of distributions:
   - Bivariate Uniform
