@@ -28,7 +28,7 @@
 #' @export
 #' @examples
 #' x <- sim_unif(50, delta = 1.5)
-#' plyr:::ddply(x, .(Population), summarize, xbar_1 = mean(x1), xbar_2 = mean(x2), xbar_3 = mean(x3))
+#' plyr:::ddply(x, .(Population), summarize, xbar1 = mean(x1), xbar2 = mean(x2), xbar3 = mean(x3))
 sim_unif <- function(n = 25, delta = 0, seed = NULL) {
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")

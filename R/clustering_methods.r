@@ -24,8 +24,8 @@ cluster_wrapper <- function(x, num_clusters, method, ...) {
 #' @param num_clusters TODO
 #' @param ... TODO
 #' @return TODO
-kmeans_wrapper <- function(x, num_clusters, ...) {
-	kmeans(x = x, centers = num_clusters, ...)$cluster
+kmeans_wrapper <- function(x, num_clusters, num_starts = 10, ...) {
+	kmeans(x = x, centers = num_clusters, nstart = num_starts, ...)$cluster
 }
 
 #' Wrapper for hierarhical clustering, so that only the data set and number of clusters is specified.

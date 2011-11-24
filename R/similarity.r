@@ -1,4 +1,4 @@
-#' A wrapper for the similarity wrappers
+#' A wrapper for the similarity measures
 #'
 #' TODO
 #'
@@ -11,12 +11,60 @@ cluster_similarity <- function(cl1, cl2, method) {
 	similarity_measures <- c("rand", "jaccard", "adjustedrand")
 	method <- match.arg(method, similarity_measures)
 	method <- paste(method, "_wrapper", sep = "")
-	
-	# The clustering similarity measures prefer integer values for the cluster labels;
-	# otherwise, a warning is thrown. The typecasting is done to avoid this warning.
-	cl1 <- as.integer(cl1)
-	cl2 <- as.integer(cl2)
-	get(method)(cl1 = cl1, cl2 = cl2)
+
+  # TODO: For now, I have short-circuited this function
+  # and only use the Jaccard score because it is the only one
+  # of interest in our current paper.
+  jaccard(cl1, cl2)	
+}
+
+#' Test if all the elements of the vector x are equal.
+#'
+#' TODO
+#'
+#' My code is based on the following Stack Overflow post.
+#' http://stackoverflow.com/questions/4752275/test-for-equality-among-all-elements-of-a-single-vector
+#' 
+#' @param x TODO
+#' @param tol TODO
+#' @return TODO
+vec_equal <- function(x,  tol = .Machine$double.eps ^ 0.5) {
+  diff(range(x)) < tol
+}
+
+#' Summary of pairs of observations from two different clusterings of the same data set.
+#'
+#' TODO
+#'
+#' We assume that the lengths of each vector of cluster labels are equal.
+#'
+#' @export
+#' @param cl1 the cluster labels
+#' @param cl2 TODO
+#' @return TODO
+cluster_pairs <- function(cl1, cl2) {
+  if (length(cl1) != length(cl2)) {
+    stop("The length of 'cl1' must be equal to the length of 'cl2'.")
+  }
+  out <- list()
+  out$pairs1 <- combn(cl1, 2, vec_equal)
+  out$pairs2 <- combn(cl2, 2, vec_equal)
+  out$and <- with(out, pairs1 & pairs2)
+  out$or <- with(out, pairs1 | pairs2)
+  out
+}
+
+#' Computes the Jaccard index for comparing two clusterings of the same data set.
+#'
+#' TODO
+#'
+#' @export
+#' @param cl1 TODO
+#' @param cl2 TODO
+#' @return numeric the Jaccard index for the two sets of cluster labels. If an error is encountered, we return NULL.
+jaccard <- function(cl1, cl2) {
+  cl_pairs <- cluster_pairs(cl1, cl2)
+  plyr:::try_default(sum(cl_pairs$and) / (sum(cl_pairs$or)), default = NULL)
 }
 
 #' Wrapper for the Rand index for comparing two clusterings of the same data set.

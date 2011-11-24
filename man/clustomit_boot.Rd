@@ -20,6 +20,9 @@
 
   \item{with_replacement}{TODO}
 
+  \item{clusters}{the clustered found from the orignal data
+  set}
+
   \item{...}{TODO}
 }
 \value{

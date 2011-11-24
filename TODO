@@ -15,8 +15,7 @@ Add documentation for each data set in clustomit:
   - For an example, see:
     - https://github.com/hadley/devtools/wiki/docs-function
 Copy and paste sim writeups and graphical figure code to webnotebook
-Now, go back and update the Jaccard scores for each method and use weighted average of Jaccard scores
-  Weights are sample sizes of each cluster
+Use weighted average of Jaccard scores for clustomit
 Add 'clusteval' package to PNNL's version of the CRAN repository
 Rename 'clustomit' on github to 'clusteval' and push the latest changes
 Add error checking for positive sample sizes to:

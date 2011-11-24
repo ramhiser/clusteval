@@ -45,7 +45,7 @@ clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 1
 		observed_value = out$t0,
 		observed_mean = mean(out$t0),
 		observed_min = min(out$t0),
-		observed_maxn = max(out$t0),
+		observed_max = max(out$t0),
 		scores = out$t,
 		mean = rowMeans(out$t),
 		min = apply(out$t, 1, min),
@@ -74,6 +74,7 @@ clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 1
 #' @param cluster_method TODO
 #' @param similarity_method TODO
 #' @param with_replacement TODO
+#' @param clusters the clustered found from the orignal data set
 #' @param ... TODO
 #' @return list with results (TODO: Add more detail)
 clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = TRUE, clusters, ...) {
