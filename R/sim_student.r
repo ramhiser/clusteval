@@ -39,7 +39,7 @@ sim_student <- function(n = c(25, 25, 50, 50), p = 10, df = c(10, 10, 3, 3), del
 
   # Generates the data in a list of length M.
   # Then, we rbind the data together.
-  x <- lapply(seq_len(M), function(m) cbind(m, rmvt(n[m], sigma = Sigma, delta = centroids[m])))
+  x <- lapply(seq_len(M), function(m) cbind(m, rmvt(n[m], sigma = Sigma, df = df[m], delta = centroids[[m]])))
   x <- do.call(rbind.data.frame, x)
   
   colnames(x) <- c("Population", paste("x", seq.int(ncol(x) - 1), sep = ""))
