@@ -8,6 +8,7 @@ Description: TODO
 Depends:
     foreach,
     mvtnorm,
+    plyr,
     clues,
     clv,
     mclust
