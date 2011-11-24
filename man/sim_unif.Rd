@@ -1,6 +1,6 @@
 \name{sim_unif}
 \alias{sim_unif}
-\title{Generates four bivariate uniform populations.}
+\title{Generates four trivariate uniform populations.}
 \usage{
   sim_unif(n = 25, delta = 0, seed = NULL)
 }
@@ -19,7 +19,7 @@
   generated observation.
 }
 \description{
-  We generate 'n' observations from each of four bivariate
+  We generate 'n' observations from each of four trivariate
   distributions such that the Euclidean distance between
   each of the populations is a fixed constant, 'delta' > 0.
 }
@@ -28,7 +28,7 @@
   and \eqn{X_2 \sim U(a_2, b_2)} be independently
   distributed uniform random variables with \eqn{a_1 < b_1}
   and \eqn{a_2 < b_2}. Then, we denote the (independent)
-  bivariate uniform distribution as \eqn{X = (X_1, X_2)'
+  trivariate uniform distribution as \eqn{X = (X_1, X_2)'
   \sim U(a_1, b_1) \times U(a_2, b_2)}. Let \eqn{Pi_m}
   denote the \eqn{m}th population \eqn{(m = 1, \ldots, 4)}.
   Then, we have the four populations: \deqn{ \Pi_1 =
@@ -36,10 +36,11 @@
   = U(\Delta - 1/2, \Delta + 1/2) \times U(-1/2, 1/2),
   \Pi_3 = U(-1/2, 1/2) \times U(-\Delta - 1/2, -\Delta +
   1/2), \Pi_4 = U(-\Delta - 1/2, -\Delta + 1/2) \times
-  U(-1/2, 1/2). }
+  U(-1/2, 1/2). } TODO: Update the populations to be
+  trivariate.
 }
 \examples{
 x <- sim_unif(50, delta = 1.5)
-plyr:::ddply(x, .(Population), summarize, xbar_1 = mean(x1), xbar_2 = mean(x2))
+plyr:::ddply(x, .(Population), summarize, xbar_1 = mean(x1), xbar_2 = mean(x2), xbar_3 = mean(x3))
 }
 

@@ -31,6 +31,10 @@
 \description{
   TODO
 }
+\details{
+  TODO: Unit test: all(sim_data("student", seed = 42) ==
+  sim_data("student", seed = 42))
+}
 \examples{
 TODO
 }
