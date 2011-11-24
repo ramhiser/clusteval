@@ -35,7 +35,8 @@ sim_unif <- function(n = 25, delta = 0, seed = NULL) {
   if (!is.null(seed)) {
     set.seed(seed)
   }
-  
+  # TODO: Double-check that the means are equidistant
+  # now that we have gone to trivariate.  
   pop1 <- c(-1/2, 1/2, delta - 1/2, delta + 1/2)
   pop2 <- c(delta - 1/2, delta + 1/2, -1/2, 1/2)
   pop3 <- c(-1/2, 1/2, -delta - 1/2, -delta + 1/2)

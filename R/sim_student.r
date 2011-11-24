@@ -2,6 +2,9 @@
 #'
 #' TODO
 #'
+#' TODO: Unit test:
+#'  all(sim_data("student", seed = 42) == sim_data("student", seed = 42))
+#'
 #' @param n a vector (of length M) of the sample sizes for each population
 #' @param p the dimension of the distributions
 #' @param df a vector (of length M) of the degrees of freedom for each population
