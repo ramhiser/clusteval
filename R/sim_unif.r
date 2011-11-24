@@ -1,13 +1,13 @@
-#' Generates four bivariate uniform populations.
+#' Generates four trivariate uniform populations.
 #'
-#' We generate 'n' observations from each of four bivariate
+#' We generate 'n' observations from each of four trivariate
 #' distributions such that the Euclidean distance between
 #' each of the populations is a fixed constant, 'delta' > 0.
 #'
 #' To define the populations, let \eqn{X_1 \sim U(a_1, b_1)}
 #' and \eqn{X_2 \sim U(a_2, b_2)} be independently distributed
 #' uniform random variables with \eqn{a_1 < b_1} and \eqn{a_2 < b_2}.
-#' Then, we denote the (independent) bivariate uniform distribution
+#' Then, we denote the (independent) trivariate uniform distribution
 #' as \eqn{X = (X_1, X_2)' \sim U(a_1, b_1) \times U(a_2, b_2)}.
 #' Let \eqn{Pi_m} denote the \eqn{m}th population \eqn{(m = 1, \ldots, 4)}.
 #' Then, we have the four populations:
@@ -17,6 +17,7 @@
 #'  \Pi_3 = U(-1/2, 1/2) \times U(-\Delta - 1/2, -\Delta + 1/2),
 #'  \Pi_4 = U(-\Delta - 1/2, -\Delta + 1/2) \times U(-1/2, 1/2).
 #' }
+#' TODO: Update the populations to be trivariate.
 #'
 #' @param n sample size of each population
 #' @param delta the fixed distance between each population
@@ -43,15 +44,15 @@ sim_unif <- function(n = 25, delta = 0, seed = NULL) {
   pop4 <- c(-delta - 1/2, -delta + 1/2, -1/2, 1/2)
   
   unif_pops <- rbind.data.frame(pop1, pop2, pop3, pop4)
-  colnames(unif_pops) <- c("a1", "b1", "a2", "b2")
+  colnames(unif_pops) <- c("a1", "b1", "a2", "b2", "a3", "b3")
   unif_pops$n <- n
   
-  bivar_unif <- function(n, a1, b1, a2, b2) {
-    cbind(runif(n, a1, b1), runif(n, a2, b2))
+  trivar_unif <- function(n, a1, b1, a2, b2, a3, b3) {
+    cbind(runif(n, a1, b1), runif(n, a2, b2), runif(n, a3, b3))
   }
   
-  x <- mdply(unif_pops, as.data.frame(bivar_unif), .expand = F)
-  colnames(x) <- c("Population", "x1", "x2")
+  x <- mdply(unif_pops, as.data.frame(trivar_unif), .expand = F)
+  colnames(x) <- c("Population", "x1", "x2", "x3")
   x$Population <- as.factor(x$Population)  
   x
 }
