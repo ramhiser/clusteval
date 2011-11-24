@@ -1,44 +1,37 @@
 \name{clustomit_boot}
 \alias{clustomit_boot}
-\title{A Bootstrap Approach to Evaluate Clustering Stability via Cluster Omission.}
+\title{The worker function for Cluster Omission}
 \usage{
-  clustomit_boot(x, num_clusters, cluster_method,
-    similarity_method, B = 100, ...)
+  clustomit_boot(x, idx, K, cluster_method,
+    similarity_method, with_replacement = TRUE, clusters,
+    ...)
 }
 \arguments{
   \item{x}{data matrix with N observations (rows) and p
   features (columns).}
 
-  \item{num_clusters}{TODO}
+  \item{idx}{TODO}
+
+  \item{K}{TODO}
 
   \item{cluster_method}{TODO}
 
   \item{similarity_method}{TODO}
 
-  \item{noise}{TODO}
-
-  \item{B}{TODO}
+  \item{with_replacement}{TODO}
 
   \item{...}{TODO}
 }
 \value{
-  list of scores by omitted cluster
+  list with results (TODO: Add more detail)
 }
 \description{
-  This is a bootstrapping approach to evaluating the
-  stability of a clustering algorithm through the
-  clustering admissibility criteria in Fisher and Van Ness
-  (1971). In particular, the focus here is on the cluster
-  omission admissibility criterion.
+  This function is repeatedly called by boot() from the
+  'boot' package to generate the approximate sampling
+  distribution of the similarity index of the cluster
+  omission method.
 }
 \details{
-  We remove each cluster at a time. Then, we bootstrap from
-  the given data after removing the cluster, and use a
-  measure of similarity between the the cluster labels of
-  the original data set and the cluster labels of the
-  bootstrapped sample.
-
-  The cluster method should take the data as 'x' and the
-  'num_clusters'.
+  TODO
 }
 

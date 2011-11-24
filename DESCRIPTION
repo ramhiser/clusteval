@@ -14,14 +14,11 @@ Depends:
     mclust
 License: MIT
 Collate:
-    'clust_omit.r'
-    'parametric.r'
     'clustering_methods.r'
-    'landon.r'
     'plot.r'
-    'ramey.r'
     'similarity.r'
     'sim_gamma.r'
     'sim_normal.r'
     'sim_unif.r'
     'sim_student.r'
+    'clustomit.r'
