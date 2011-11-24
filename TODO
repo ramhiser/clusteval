@@ -1,16 +1,14 @@
 Implement functions to generate from each family of distributions:
   - Multivariate Gamma
-Write implementation code for FOM, clusterboot, and clustomit for each family of distributions:
-  - Bivariate Uniform
-  - Multivariate Normal
-  - Multivariate Student's t
-  - Multivariate Gamma
 Create graphical outputs for each of FOM, clusterboot, and clustomit for each family of distributions:
   - Bivariate Uniform
   - Multivariate Normal
   - Multivariate Student's t
   - Multivariate Gamma
 Add package level documentation to clustomit
+Add data sets for each data set in the package:
+  - St. Jude
+  - SRBCT
 Add documentation for each data set in clustomit:
   - St. Jude
   - SRBCT

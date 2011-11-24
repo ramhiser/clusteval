@@ -1,6 +1,18 @@
-#' Ramey's Alternative Method
+#' Cluster Stability Evaluation via Cluster Omission
 #'
-#' TODO
+#' TODO: Add more thorough documentation
+#'
+#' This is a bootstrapping approach to evaluating the stability of a clustering
+#' algorithm through the clustering admissibility criteria in Fisher and
+#' Van Ness (1971). In particular, the focus here is on the cluster omission
+#' admissibility criterion.
+#'
+#' We remove each cluster at a time. Then, we bootstrap from the given data
+#' after removing the cluster, and use a measure of similarity between the
+#' the cluster labels of the original data set and the cluster labels of
+#' the bootstrapped sample.
+#'
+#' The cluster method should take the data as 'x' and the 'num_clusters'.
 #'
 #' @export
 #' @param x data matrix with N observations (rows) and p features (columns).
@@ -13,7 +25,10 @@
 #' @param ncpus TODO
 #' @param ... TODO
 #' @return list of scores by omitted cluster
-clustomit_ramey <- function(x, K, cluster_method, similarity_method, B = 100, with_replacement = TRUE, use_multicore = FALSE, ncpus = 1, ...) {
+clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 100,
+  with_replacement = TRUE, use_multicore = FALSE, ncpus = 1, ...) {
+
+  # TODO: Unit tests to make sure these arguments are handled correctly.
   K <- as.integer(K)
   cluster_method <- as.character(cluster_method)
   similarity_method <- as.character(similarity_method)
@@ -21,7 +36,7 @@ clustomit_ramey <- function(x, K, cluster_method, similarity_method, B = 100, wi
   parallel_type <- ifelse(use_multicore, "multicore", "no")
   
   clusters <- cluster_wrapper(x, num_clusters = K, method = cluster_method, ...)
-  out <- boot(x, ramey_boot, R = B, cluster_method = cluster_method,
+  out <- boot(x, clustomit_boot, R = B, cluster_method = cluster_method,
     similarity_method = similarity_method, K = K, with_replacement = with_replacement,
     parallel = parallel_type, ncpus = ncpus, clusters = clusters
   )
@@ -38,18 +53,18 @@ clustomit_ramey <- function(x, K, cluster_method, similarity_method, B = 100, wi
 		K = K,
 		cluster_method = cluster_method,
 		similarity_method = similarity_method,
-		with_replacement = with_replacement,
-		approach = "ramey"
+		with_replacement = with_replacement
 	)
 	class(obj) <- "clustomit"
 	obj
 }
 
 
-#' The worker function for Ramey's Alternative Method
+#' The worker function for Cluster Omission
 #'
 #' This function is repeatedly called by boot() from the 'boot' package
-#' to generate the approximate sampling distribution of Ramey's alternative method.
+#' to generate the approximate sampling distribution of the similarity
+#' index of the cluster omission method.
 #'
 #' TODO
 #'
@@ -61,7 +76,7 @@ clustomit_ramey <- function(x, K, cluster_method, similarity_method, B = 100, wi
 #' @param with_replacement TODO
 #' @param ... TODO
 #' @return list with results (TODO: Add more detail)
-ramey_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = TRUE, clusters, ...) {
+clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = TRUE, clusters, ...) {
   if(!with_replacement) {
     idx <- unique(idx)
   }
@@ -85,10 +100,6 @@ ramey_boot <- function(x, idx, K, cluster_method, similarity_method, with_replac
     }
     cluster_similarity(clusters[kept], clusters_omit, method = similarity_method)
   })
-  # Unlike Landon's method, the cluster labelings are not arbitrary for each bootstrap replication
-  # because the cluster labelings are set with the initial clustering of the data. Hence, we
-  # are able to discuss the stability of individual clusters. Furthermore, similar to Landon's method
-  # we can summarize each bootstrap replication (e.g. min, max, or mean) to better understand
-  # the aggregate cluster stability of the current bootstrapped iteration.
+
   omit_similarities
 }
