@@ -1,7 +1,7 @@
 Package: clusteval
 Title: Evaluation of Clustering Algorithms
-Version: 0.0.2
-Date: 2011-11-22
+Version: 0.1
+Date: 2011-11-28
 Author: John A. Ramey
 Maintainer: John A. Ramey <john.ramey@pnnl.gov>
 Description: TODO
