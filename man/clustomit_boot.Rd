@@ -3,8 +3,8 @@
 \title{The worker function for Cluster Omission}
 \usage{
   clustomit_boot(x, idx, K, cluster_method,
-    similarity_method, with_replacement = FALSE, clusters,
-    ...)
+    similarity_method, with_replacement = FALSE,
+    obs_clusters, ...)
 }
 \arguments{
   \item{x}{data matrix with N observations (rows) and p
@@ -20,13 +20,13 @@
 
   \item{with_replacement}{TODO}
 
-  \item{clusters}{the clustered found from the orignal data
-  set}
+  \item{obs_clusters}{vector cluster labels for each
+  observation from the observed (original) data set}
 
   \item{...}{TODO}
 }
 \value{
-  list with results (TODO: Add more detail)
+  vector the similarity scores for each omitted cluster
 }
 \description{
   This function is repeatedly called by boot() from the

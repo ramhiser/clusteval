@@ -19,14 +19,17 @@
 #' @param num_clusters TODO
 #' @param K TODO
 #' @param similarity_method TODO
-#' @param noise TODO
+#' @param weighted_mean logical Should the aggergate similarity score for each
+#'  bootstrap replication be weighted by the number of observations in each of
+#'  the observed clusters?
 #' @param B TODO
 #' @param use_multicore TODO
 #' @param ncpus TODO
 #' @param ... TODO
 #' @return list of scores by omitted cluster
-clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 100,
-  with_replacement = FALSE, use_multicore = FALSE, ncpus = 1, ...) {
+clustomit <- function(x, K, cluster_method, similarity_method = "jaccard",
+  weighted_mean = TRUE, B = 100, with_replacement = FALSE, use_multicore = FALSE,
+  ncpus = 1, ...) {
 
   # TODO: Unit tests to make sure these arguments are handled correctly.
   K <- as.integer(K)
@@ -34,23 +37,30 @@ clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 1
   similarity_method <- as.character(similarity_method)
 
   parallel_type <- ifelse(use_multicore, "multicore", "no")
-  
-  clusters <- cluster_wrapper(x, num_clusters = K, method = cluster_method, ...)
-  out <- boot(x, clustomit_boot, R = B, cluster_method = cluster_method,
+
+  # The cluster labels for the observed (original) data (i.e. x).  
+  obs_clusters <- cluster_wrapper(x, num_clusters = K, method = cluster_method, ...)
+  obs_num_clusters <- as.vector(table(obs_clusters))
+
+  boot_out <- boot(x, clustomit_boot, R = B, cluster_method = cluster_method,
     similarity_method = similarity_method, K = K, with_replacement = with_replacement,
-    parallel = parallel_type, ncpus = ncpus, clusters = clusters
+    parallel = parallel_type, ncpus = ncpus, obs_clusters = obs_clusters
   )
 
+  if (weighted_mean) {
+    obs_aggregate <- weighted.mean(boot_out$t0, w = obs_num_clusters)
+    boot_aggregate <- apply(boot_out$t, 1, weighted.mean, w = obs_num_clusters)    
+  } else {
+    obs_aggregate <- mean(boot_out$t0)
+    boot_aggregate <- rowMeans(boot_out$t)
+  }
+
 	obj <- list(
-		observed_value = out$t0,
-		observed_mean = mean(out$t0),
-		observed_min = min(out$t0),
-		observed_max = max(out$t0),
-		scores = out$t,
-    orig_clusters = clusters,
-		mean = rowMeans(out$t),
-		min = apply(out$t, 1, min),
-		max = apply(out$t, 1, max),
+		obs_cluster_similarity = boot_out$t0,
+		obs_aggregate = obs_aggregate,
+		boot_cluster_similarity = boot_out$t,
+    boot_aggregate = boot_aggregate,
+    obs_clusters = obs_clusters,
 		K = K,
 		cluster_method = cluster_method,
 		similarity_method = similarity_method,
@@ -75,17 +85,17 @@ clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 1
 #' @param cluster_method TODO
 #' @param similarity_method TODO
 #' @param with_replacement TODO
-#' @param clusters the clustered found from the orignal data set
+#' @param obs_clusters vector cluster labels for each observation from the observed (original) data set
 #' @param ... TODO
-#' @return list with results (TODO: Add more detail)
-clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = FALSE, clusters, ...) {
+#' @return vector the similarity scores for each omitted cluster
+clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = FALSE, obs_clusters, ...) {
   if(!with_replacement) {
     idx <- unique(idx)
   }
   idx <- sort(idx)
-  cluster_levels <- unique(clusters)
+  cluster_levels <- unique(obs_clusters)
   omit_similarities <- sapply(cluster_levels, function(k) {
-    kept <- which(k != clusters)
+    kept <- which(k != obs_clusters)
     kept <- idx[idx %in% kept]
     x <- x[kept,]
     if(is.vector(x)) {
@@ -96,11 +106,12 @@ clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_re
       return(NA)
     }
     clusters_omit <- try(cluster_wrapper(x, num_clusters = K - 1, method = cluster_method, ...))
+    # TODO: Give more detail here if an error is thrown and why it is thrown.
     if(inherits(clusters_omit, "try-error")) {
       warning("Returning NA")
       return(NA)
     }
-    cluster_similarity(clusters[kept], clusters_omit, method = similarity_method)
+    cluster_similarity(obs_clusters[kept], clusters_omit, method = similarity_method)
   })
 
   omit_similarities

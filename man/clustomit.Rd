@@ -3,9 +3,9 @@
 \title{Cluster Stability Evaluation via Cluster Omission}
 \usage{
   clustomit(x, K, cluster_method,
-    similarity_method = "jaccard", B = 100,
-    with_replacement = FALSE, use_multicore = FALSE,
-    ncpus = 1, ...)
+    similarity_method = "jaccard", weighted_mean = TRUE,
+    B = 100, with_replacement = FALSE,
+    use_multicore = FALSE, ncpus = 1, ...)
 }
 \arguments{
   \item{x}{data matrix with N observations (rows) and p
@@ -17,7 +17,10 @@
 
   \item{similarity_method}{TODO}
 
-  \item{noise}{TODO}
+  \item{weighted_mean}{logical Should the aggergate
+  similarity score for each bootstrap replication be
+  weighted by the number of observations in each of the
+  observed clusters?}
 
   \item{B}{TODO}
 
