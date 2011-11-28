@@ -5,12 +5,14 @@ Date: 2011-11-22
 Author: John A. Ramey
 Maintainer: John A. Ramey <john.ramey@pnnl.gov>
 Description: TODO
-Depends:
+Imports:
+    boot,
     foreach,
-    mvtnorm,
     plyr,
     clues,
-    clv,
+    clv
+Suggests:
+    mvtnorm,
     mclust
 License: MIT
 Collate:

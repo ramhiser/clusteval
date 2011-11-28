@@ -3,7 +3,7 @@
 \title{The worker function for Cluster Omission}
 \usage{
   clustomit_boot(x, idx, K, cluster_method,
-    similarity_method, with_replacement = TRUE, clusters,
+    similarity_method, with_replacement = FALSE, clusters,
     ...)
 }
 \arguments{

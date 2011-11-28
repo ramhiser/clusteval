@@ -4,7 +4,7 @@
 \usage{
   clustomit(x, K, cluster_method,
     similarity_method = "jaccard", B = 100,
-    with_replacement = TRUE, use_multicore = FALSE,
+    with_replacement = FALSE, use_multicore = FALSE,
     ncpus = 1, ...)
 }
 \arguments{
