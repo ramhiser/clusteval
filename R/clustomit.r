@@ -26,7 +26,7 @@
 #' @param ... TODO
 #' @return list of scores by omitted cluster
 clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 100,
-  with_replacement = TRUE, use_multicore = FALSE, ncpus = 1, ...) {
+  with_replacement = FALSE, use_multicore = FALSE, ncpus = 1, ...) {
 
   # TODO: Unit tests to make sure these arguments are handled correctly.
   K <- as.integer(K)
@@ -47,6 +47,7 @@ clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 1
 		observed_min = min(out$t0),
 		observed_max = max(out$t0),
 		scores = out$t,
+    orig_clusters = clusters,
 		mean = rowMeans(out$t),
 		min = apply(out$t, 1, min),
 		max = apply(out$t, 1, max),
@@ -77,7 +78,7 @@ clustomit <- function(x, K, cluster_method, similarity_method = "jaccard", B = 1
 #' @param clusters the clustered found from the orignal data set
 #' @param ... TODO
 #' @return list with results (TODO: Add more detail)
-clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = TRUE, clusters, ...) {
+clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = FALSE, clusters, ...) {
   if(!with_replacement) {
     idx <- unique(idx)
   }
