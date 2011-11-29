@@ -1,3 +1,4 @@
+# Simulation Writeups
 Implement functions to generate from each family of distributions:
   - Multivariate Gamma
 Create graphical outputs for each of FOM, clusterboot, and clustomit for each family of distributions:
@@ -33,32 +34,15 @@ Add unit test to verify proper output of:
   - Multivariate Gamma
 
 
-
-
-
-
-
-Ensure that the licensing for 'mclust' does not create an issue with our R package.
+# After Simulation Writeups
 Add/update data-microarray with data sets
-Summarize data graphically
-	Handle NAs
-It would be useful to consider an external validation approach here as well.
-	Rather than using a clustering method to get the truth, use the true, external
-	labels to see how well the method could match it.
+Code the basic consensus clustering algorithm
+
+
 Consider using 'clara' as a clustering method. To quote Hennig's documentation,
 	"PAM is better, CLARA is faster"
 	If this is true, then CLARA may yield results that we can criticize.
-Add bootstrap_type argument to clustomit_landon
-	Should be in: c("nonparametric, parametric")
-	If nonparametric, use what we already have. with_replacement only affects this.
-	If parametric, use the method in section 3.3 in Hennig
-		An additional argument should be added to clustomit_landon that is a RNG function that matches the
-			criteria in 'boot'
-		If it is NULL, we use the one in Hennig.
-		This should allow additional support for other types of parametric bootstrapping/jittering
-			such as the one we used in the original paper.
 Add more documentation to clustomit_boot
 Add documentation to helper functions.
-Make sure the WARNINGS being thrown by the similarity functions is not critical.
-	Fix it, if possible.
 	
+Ensure that the licensing for 'mclust' does not create an issue with our R package.
