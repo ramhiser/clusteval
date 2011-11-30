@@ -49,7 +49,7 @@ consensus <- function(x, num_clusters, methods = c("hierarchical", "kmeans", "pa
 #' @examples
 #' TODO
 boot_subsample <- function(x, subsample_size) {
-  x[sample(x = seq_len(n), size = subsample_size), ]
+  x[sample(x = seq_len(nrow(x)), size = subsample_size), ]
 }
 
 #' The worker function for consensus clustering
