@@ -26,3 +26,4 @@ Collate:
     'sim_student.r'
     'clustomit.r'
     'sim_data.r'
+    'consensus.r'
