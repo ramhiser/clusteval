@@ -105,11 +105,12 @@ clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_re
     if(nrow(x) == 0) {
       return(NA)
     }
-    clusters_omit <- try(cluster_wrapper(x, num_clusters = K - 1, method = cluster_method, ...))
-    # TODO: Give more detail here if an error is thrown and why it is thrown.
+    clusters_omit <- try(cluster_wrapper(x, num_clusters = K - 1, method = cluster_method, ...),
+                         silent = TRUE)
+
     if(inherits(clusters_omit, "try-error")) {
-      warning("Returning NA")
-      return(NA)
+      warning("Error calling cluster_wrapper in clusteval:::clustomit_boot.")
+      return(clusters_omit)
     }
     cluster_similarity(obs_clusters[kept], clusters_omit, method = similarity_method)
   })

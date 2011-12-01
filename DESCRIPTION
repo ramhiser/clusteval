@@ -12,6 +12,7 @@ Imports:
     clues,
     clv
 Suggests:
+    cluster,
     mvtnorm,
     mclust
 License: MIT
