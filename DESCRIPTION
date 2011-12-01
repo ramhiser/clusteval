@@ -5,13 +5,15 @@ Date: 2011-11-28
 Author: John A. Ramey
 Maintainer: John A. Ramey <john.ramey@pnnl.gov>
 Description: TODO
-Imports:
+Depends:
     boot,
     foreach,
     plyr,
     clues,
-    clv
-Suggests:
+    clv,
+    Matrix,
+    reshape2,
+    ggplot2,
     cluster,
     mvtnorm,
     mclust

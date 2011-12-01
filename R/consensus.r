@@ -9,22 +9,62 @@
 #' @param ... (optional) additional arguments to pass to the clustering methods
 #' @return TODO
 #' @export
-consensus <- function(x, num_clusters, methods = c("hierarchical", "kmeans", "pam", "model", "diana"),
-                      resample = c("boot", "subsample", "perturb"), num_resamples = 100,
+consensus <- function(x, num_clusters, method = c("hierarchical", "kmeans", "pam", "model", "diana"),
+                      resample = c("subsample", "boot", "perturb"), num_resamples = 100,
                       subsample_size = 100, perturb_noise = 0.1, use_multicore = FALSE, ncpus = 1,
                       ...) {
   if (resample == "boot" || resample == "perturb") {
     stop("The bootstrap and perturbation methods are not implemented.")
   }
   # TODO: Use the boot function here with parallel. See clustomit for an example.
-  parallel_type <- ifelse(use_multicore, "multicore", "no")
+  # parallel_type <- ifelse(use_multicore, "multicore", "no")
   
-  boot_out <- boot(x, # TODO: Statistic,
-                   sim = 'parametric', R = num_resamples, methods = methods,
-                   ran.gen = boot_subsample, mle = subsample_size,
-                   parallel = parallel_type, ncpus = ncpus, ...)
-  names(cl_results) <- methods
-  cl_results
+  n <- nrow(x)
+  
+  out <- replicate(num_resamples, {
+  subsample_idx <- sort(sample(x = seq.int(n), size = subsample_size))
+  subsample_clust <- cluster_wrapper(x = iris_x[subsample_idx, ],
+                                     num_clusters = num_clusters,
+                                     method = method)
+  
+  combs <- combn(subsample_idx, 2)
+  list(
+    comember_mat = spMatrix(nrow = n, ncol = n, i = combs[1, ], j = combs[2, ], x = comembership(subsample_clust)),
+    indicator_mat = spMatrix(nrow = n, ncol = n, i = combs[1, ], j = combs[2, ], x = rep(1, ncol(combs)))
+  )}, simplify = FALSE)
+
+  comember_mat_sum <- Reduce("+", lapply(out, function(x) x$comember_mat))
+  indicator_mat_sum <- Reduce("+", lapply(out, function(x) x$indicator_mat))
+  consensus_mat <- as.matrix(comember_mat_sum / indicator_mat_sum)
+  diag(consensus_mat) <- 0
+  consensus_mat[which(is.nan(consensus_mat), arr.ind = TRUE)] <- 0
+
+  # consensus_mat <- triu(comember_mat_sum / indicator_mat_sum, k = 1)
+  list(comember_mat_sum = comember_mat_sum, indicator_mat_sum = indicator_mat_sum,
+       consensus_mat = consensus_mat)
+}
+
+#' Heatmap of consensus matrix
+#'
+#' TODO
+#' NOTE: Returns a ggplot2 object. Need to 'print' the object.
+#'
+#' @param mat the consensus matrix
+#' @param num_clusters the number of clusters
+#' @param methods a vector of clustering methods to apply in consensus
+#' @param ... (optional) additional arguments to pass to the clustering methods
+#' @return TODO
+#' @export
+plot_consensus <- function(mat) {
+  require('reshape2')
+  require('ggplot2')
+  mat <- mat + t(mat)
+  mat <- unname(mat)
+  mat <- reshape2:::melt(mat)
+  mat <- mat[complete.cases(mat), ]
+  p <- ggplot(mat, aes(x=X1, y=X2, z = value, color = value))
+  p <- p + geom_tile(aes(fill = value), colour = "white")
+  p <- p + scale_fill_gradient(low = "white", high = "steelblue")
 }
 
 #' Randomly subsample a matrix or data frame.
