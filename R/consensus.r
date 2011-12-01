@@ -23,7 +23,7 @@ consensus <- function(x, num_clusters, method = c("hierarchical", "kmeans", "pam
   
   out <- replicate(num_resamples, {
   subsample_idx <- sort(sample(x = seq.int(n), size = subsample_size))
-  subsample_clust <- cluster_wrapper(x = iris_x[subsample_idx, ],
+  subsample_clust <- cluster_wrapper(x = x[subsample_idx, ],
                                      num_clusters = num_clusters,
                                      method = method)
   
