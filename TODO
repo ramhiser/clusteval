@@ -1,4 +1,5 @@
 # Simulation Writeups
+Finish Unit Test #2 for consensus clustering
 Implement functions to generate from each family of distributions:
   - Multivariate Gamma
 Create graphical outputs for each of FOM, clusterboot, and clustomit for each family of distributions:

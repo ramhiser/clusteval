@@ -32,6 +32,24 @@ vec_equal <- function(x,  tol = .Machine$double.eps ^ 0.5) {
   diff(range(x)) < tol
 }
 
+#' Co-Membership
+#'
+#' For a set of clustering labels, computes the co-membership of all
+#' pairs of observations. Basically, the co-membership is defined
+#' as the pairs of observations that are clustered together.
+#'
+#' TODO: Add purpose. (Label switching problem).
+#' TODO: Add Kapp and Tibshirani (2007) Biostatistics paper as reference on 'co-membership' term.
+#' TODO: Add to the name of the function.
+#'
+#' @param clust_labels a vector of clustering labels
+#' @return a vector of co-membership bits
+#' @examples
+#' TODO
+comembership <- function(clust_labels) {
+  as.integer(combn(clust_labels, 2, vec_equal))
+}
+
 #' Summary of pairs of observations from two different clusterings of the same data set.
 #'
 #' TODO
@@ -47,8 +65,8 @@ cluster_pairs <- function(cl1, cl2) {
     stop("The length of 'cl1' must be equal to the length of 'cl2'.")
   }
   out <- list()
-  out$pairs1 <- combn(cl1, 2, vec_equal)
-  out$pairs2 <- combn(cl2, 2, vec_equal)
+  out$pairs1 <- comembership(cl1)
+  out$pairs2 <- comembership(cl2)
   out$and <- with(out, pairs1 & pairs2)
   out$or <- with(out, pairs1 | pairs2)
   out
