@@ -1,49 +1,113 @@
-# Simulation Writeups
-Finish Unit Test #2 for consensus clustering
-Implement functions to generate from each family of distributions:
-  - Multivariate Gamma
-Create graphical outputs for each of FOM, clusterboot, and clustomit for each family of distributions:
+* ClustOmit SimDesign for Testing
+
+J = Jaccard
+CR = Completely Random with equal a priori probabilities
+COS = Cluster Omission Stability statistic
+
+** DONE Code random clustering and add to my clustering version of caret
+   CLOSED: [2011-12-31 Sat 12:48]
+** TODO For each SimDesign, manually calculate:
+    E_CR[COS] = 1/(M-1) (?)
+    V_CR[COS] = ?
+** TODO For each simulation, check that the average simulated COS score is very close to the E_CR[COS]
+    By close, I mean with 3 standard deviations
+
+** Sim #1 - Low-dimensional, well-separated populations with simple covariance structure
+n = 40
+p = 2
+M = 4 (# of populations)
+For m = 1 to M
+    n_m = 10
+    mu_m = 10^m * (-1, 1)'
+    Sigma_m = I_2
+    
+** Sim #2 - Low-dimensional with two extreme outyling singletons
+n = 47
+p = 2
+M = 5 (# of populations)
+Sigma_m = I_2 for all m = 1 to M
+n_1 = n_2 = n_3 = 15
+n_4 = n_5 = 1
+mu_1 = (0,0)'
+mu_2 = (2,2)'
+mu_3 = (-2,-2)'
+mu_4 = (20, 20)'
+mu_5 = (-20, -20)
+
+** TODO Error Checking
+*** TODO Add DEBUG = T/F option
+*** TODO If DEBUG = TRUE:
+    Use try() to save results for every iteration to determine which index fails.
+    For each iteration, save every detail, including RNG seed and generated data
+*** TODO Write script to parse output and objects to summarize state during error.
+*** TODO Fix error
+*** TODO Add problem case as a unit test.
+
+* Clustering Wrappers
+** Determine the common items that each clustering algorithm should return
+
+Obviously, the cluster labels should be returned. But there should be some conditional items that should be returned, such
+as cluster membership posterior probabilities if available (fuzzy labels). Obviously, there will be the actual object returned
+by the clustering algorithm. Because this can be quite large, this should only be stored if the user sets the flag to do so.
+By default, this should be stored, so that out of the box, things are handled as expected. But this should be turned off
+because the storage can be quite overwhelming for a large number of clustering algorithms and/or large data sets.
+
+See the 'caret' package for a lookup table of available features for each clustering algorithm.
+
+** TODO Create the frontend function for clustering
+** TODO Create kmeans wrapper
+** TODO Add kmeans unit test with iris data set for a variety of values of K
+For a fixed RNG seed, the cluster labels should be the same using the wrapper and the original method. 
+** TODO Create diana wrapper
+** TODO Add diana unit test with iris data set for a variety of values of K
+For a fixed RNG seed, the cluster labels should be the same using the wrapper and the original method. 
+** TODO Create PAM wrapper
+** TODO Add PAM unit test with iris data set for a variety of values of K
+For a fixed RNG seed, the cluster labels should be the same using the wrapper and the original method. 
+
+
+** TODO Create mclust wrapper
+** TODO Add mclust unit test with iris data set for a variety of values of K
+For a fixed RNG seed, the cluster labels should be the same using the wrapper and the original method. 
+
+** TODO Create lookup table for common elements
+
+* Next Actions
+** TODO Determine SimConfig for Multivariate Gamma data
+** TODO Implement Multivariate Gamma function to generate data
+** TODO Create graphical outputs for each of FOM, clusterboot, and clustomit for each family of distributions:
   - Bivariate Uniform
   - Multivariate Normal
   - Multivariate Student's t
   - Multivariate Gamma
-Add package level documentation to clustomit
-Add data sets for each data set in the package:
+** TODO Add 'clusteval' package to PNNL's version of the CRAN repository :pnnl:
+** TODO Add package level documentation to clustomit                   :pnnl:
+** TODO Add data sets for each data set in the package:                :pnnl:
   - St. Jude
   - SRBCT
-Add documentation for each data set in clustomit:
+** TODO Add documentation for each data set in clustomit:              :pnnl:
   - St. Jude
   - SRBCT
   - For an example, see:
     - https://github.com/hadley/devtools/wiki/docs-function
-Copy and paste sim writeups and graphical figure code to webnotebook
-Add 'clusteval' package to PNNL's version of the CRAN repository
-Add error checking for positive sample sizes to:
+** TODO Add error checking for positive sample sizes to:               :pnnl:
   - Bivariate Uniform
   - Multivariate Normal
   - Multivariate Student's t
   - Multivariate Gamma
-Add unit test to check the errors for each of:
+** TODO Add unit test to check the errors for each of:                 :pnnl:
   - Bivariate Uniform
   - Multivariate Normal
   - Multivariate Student's t
   - Multivariate Gamma
-Add unit test to verify proper output of:
+** TODO Add unit test to verify proper output of:                      :pnnl:
   - Bivariate Uniform
   - Multivariate Normal
   - Multivariate Student's t
   - Multivariate Gamma
+** TODO Finish Unit Test #2 for consensus clustering                   :pnnl:
 
-
-# After Simulation Writeups
-Add/update data-microarray with data sets
-Code the basic consensus clustering algorithm
-
-
-Consider using 'clara' as a clustering method. To quote Hennig's documentation,
-	"PAM is better, CLARA is faster"
-	If this is true, then CLARA may yield results that we can criticize.
-Add more documentation to clustomit_boot
-Add documentation to helper functions.
-	
-Ensure that the licensing for 'mclust' does not create an issue with our R package.
+* Maybe/Someday
+** Implement improved version of FOM
+** Create a MapReduce or GPU version of major clustering algorithms
+** Add hpc = T/F option. If TRUE, use a better method than the built-in method.  
