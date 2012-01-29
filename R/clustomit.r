@@ -109,7 +109,7 @@ clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_re
                          silent = TRUE)
 
     if(inherits(clusters_omit, "try-error")) {
-      warning("Error in clustomit_boot: ", attr(clusters_omit, "condition")$message, "\nNumber of Rows in x: ", nrow(x), "\nNumber of Clusters: ", K - 1)
+      warning("Error in clustomit_boot: ", attr(clusters_omit, "condition")$message, "\nNumber of Rows in x: ", nrow(x), "\nNumber of Clusters: ", K - 1, "\nIndices: ", kept)
       return(clusters_omit)
     }
     cluster_similarity(obs_clusters[kept], clusters_omit, method = similarity_method)

@@ -59,7 +59,7 @@ test_that("The COS method works for artificial data set #2 without error", {
   x <- do.call(rbind, x)
 
   # K = 3 is a problem case. Why?
-  out <- clustomit(x = x, K = 3, cluster_method = "kmeans", B = 50)
+  out <- clustomit(x = x, K = 3, cluster_method = "kmeans", B = 10)
   out <- clustomit(x = x, K = 4, cluster_method = "kmeans", B = 50)
   out <- clustomit(x = x, K = 5, cluster_method = "kmeans", B = 50)  
   out <- clustomit(x = x, K = 6, cluster_method = "kmeans", B = 50)

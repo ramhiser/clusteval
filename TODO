@@ -22,6 +22,11 @@ For message #2, I don't see how this is possible. This must be a bug.
 
 ** TODO Determine when and why message #2 is occurring. Squash it.
 
+For now, I should probably remove the try call. Then, use one of the R debugging methods, such
+as trace().
+
+** TODO After bugs are squashed. Alter the error message in clustomit_boot.
+
 * ClustOmit SimDesign for Testing
 
 J = Jaccard
