@@ -1,38 +1,38 @@
+* Fix Errors
+
+I'm getting the following two errors in the second artificial data set with K = 3:
+
+Warning messages:
+1: In FUN(c(3L, 2L, 1L)[[3L]], ...) :
+  Error in clustomit_boot: number of cluster centres must lie between 1 and nrow(x)
+Number of Rows in x: 2
+Number of Clusters: 2
+2: In FUN(c(3L, 2L, 1L)[[3L]], ...) :
+  Error in clustomit_boot: more cluster centers than distinct data points.
+Number of Rows in x: 1
+
+Let's call the messages #1 and #2.
+
+It seems quite possible that message #1 can occur often, such as there are K - 1
+extreme outliers and the other cluster is omitted.
+
+** TODO For this case, the Jaccard coefficient must be zero. Return this automatically.
+
+For message #2, I don't see how this is possible. This must be a bug.
+
+** TODO Determine when and why message #2 is occurring. Squash it.
+
 * ClustOmit SimDesign for Testing
 
 J = Jaccard
 CR = Completely Random with equal a priori probabilities
 COS = Cluster Omission Stability statistic
 
-** DONE Code random clustering and add to my clustering version of caret
-   CLOSED: [2011-12-31 Sat 12:48]
 ** TODO For each SimDesign, manually calculate:
     E_CR[COS] = 1/(M-1) (?)
     V_CR[COS] = ?
 ** TODO For each simulation, check that the average simulated COS score is very close to the E_CR[COS]
     By close, I mean with 3 standard deviations
-
-** Sim #1 - Low-dimensional, well-separated populations with simple covariance structure
-n = 40
-p = 2
-M = 4 (# of populations)
-For m = 1 to M
-    n_m = 10
-    mu_m = 10^m * (-1, 1)'
-    Sigma_m = I_2
-    
-** Sim #2 - Low-dimensional with two extreme outyling singletons
-n = 47
-p = 2
-M = 5 (# of populations)
-Sigma_m = I_2 for all m = 1 to M
-n_1 = n_2 = n_3 = 15
-n_4 = n_5 = 1
-mu_1 = (0,0)'
-mu_2 = (2,2)'
-mu_3 = (-2,-2)'
-mu_4 = (20, 20)'
-mu_5 = (-20, -20)
 
 ** TODO Error Checking
 *** TODO Add DEBUG = T/F option

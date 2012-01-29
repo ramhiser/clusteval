@@ -29,3 +29,4 @@ Collate:
     'clustomit.r'
     'sim_data.r'
     'consensus.r'
+    'cluster.r'
