@@ -12,6 +12,14 @@ cluster_wrapper <- function(x, num_clusters, method, ...) {
 	cluster_methods <- c("hierarchical", "kmeans", "pam", "model", "diana")
 	method <- match.arg(method, cluster_methods)
 	method <- paste(method, "_wrapper", sep = "")
+
+  # Several of the clustering algorithms throw an error if the number of
+  # observations are equal to the number of clusters. In this case, each of the
+  # clusters are singletons. So, we return a sequence of integers with the same
+  # length as 'num_clusters'.
+  if (nrow(x) == num_clusters) {
+    return(seq_len(num_clusters))
+  }
 	get(method)(x = x, num_clusters = num_clusters, ...)
 }
 

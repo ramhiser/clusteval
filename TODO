@@ -1,31 +1,52 @@
 * Fix Errors
 
-I'm getting the following two errors in the second artificial data set with K = 3:
+I'm getting the following error in the second artificial data set with K = 3:
 
-Warning messages:
-1: In FUN(c(3L, 2L, 1L)[[3L]], ...) :
-  Error in clustomit_boot: number of cluster centres must lie between 1 and nrow(x)
-Number of Rows in x: 2
 Number of Clusters: 2
 2: In FUN(c(3L, 2L, 1L)[[3L]], ...) :
   Error in clustomit_boot: more cluster centers than distinct data points.
 Number of Rows in x: 1
 
-Let's call the messages #1 and #2.
+The issue is caused by the 'with_replacement' option. Let n be the true sample size, and
+let m be the number of unique observations kept. If n = 5 and K = 3, it is quite possible
+that m = 1 or 2. This can cause m < 2, which causes the above error.
 
-It seems quite possible that message #1 can occur often, such as there are K - 1
-extreme outliers and the other cluster is omitted.
+Now we need to figure out how to overcome this. One possibility is to resort back to
+the regular bootstrap and warn that for n << p, we can have an issue in that there is
+multicollinearity, in that the same observation can be used multiple times.
 
-** TODO For this case, the Jaccard coefficient must be zero. Return this automatically.
+However, I'm starting to question my original reasoning for using the 'with_replacement'
+option. If there are enough bootstrap samples used, repeating the same observation, say
+5 times, can yield a lower intrinsic dimension; however, as B, the number of bootstrap
+reps, increases, this should not matter. If any thing, having problematic observations
+can yield bimodal/multimodal Jaccard scores, which can be useful for diagnostic purposes.
+TODO: Add this note to the paper.
 
-For message #2, I don't see how this is possible. This must be a bug.
 
-** TODO Determine when and why message #2 is occurring. Squash it.
+With that in mind, I am going to set the default to 'with_replacement = TRUE'.
 
-For now, I should probably remove the try call. Then, use one of the R debugging methods, such
-as trace().
+There is still an issue though. Consider for example K = 3 with the following number of
+observations in each cluster:
+n_1 = 98
+n_2 = 1
+n_3 = 1
 
-** TODO After bugs are squashed. Alter the error message in clustomit_boot.
+Suppose that we sample with replacement from the 100 observations, which omits the
+singleton observation from cluster 2. Now, if we omit cluster 1, we only have
+a single observation from cluster 3. Hence, we try to cluster a single observation
+with K - 1 = 2 clusters. This is the exact cause of the above error in the unit test.
+
+One possible fix is a stratified bootstrapping approach (i.e. resample with replacement
+from each of the observed clusters), but I am not convinced that this mixes up the
+data enough to really test how good the clustering is. Perhaps, I should add this as
+an option and see how well it works.
+
+Another fix is to borrow something like Hennig's method. With his method, he looks for
+overlap between a cluster and the bootstrapped sample. If there is no overlap, he
+ignores this bootstrap rep. So, his reported Jaccard average only averages over the
+bootstrap reps that had overlap. Although this seems a bit ad hoc, this might provide
+a reasonable model to follow in how to deal with the above problem case.
+
 
 * ClustOmit SimDesign for Testing
 
@@ -38,15 +59,6 @@ COS = Cluster Omission Stability statistic
     V_CR[COS] = ?
 ** TODO For each simulation, check that the average simulated COS score is very close to the E_CR[COS]
     By close, I mean with 3 standard deviations
-
-** TODO Error Checking
-*** TODO Add DEBUG = T/F option
-*** TODO If DEBUG = TRUE:
-    Use try() to save results for every iteration to determine which index fails.
-    For each iteration, save every detail, including RNG seed and generated data
-*** TODO Write script to parse output and objects to summarize state during error.
-*** TODO Fix error
-*** TODO Add problem case as a unit test.
 
 * Clustering Wrappers
 ** Determine the common items that each clustering algorithm should return
@@ -111,8 +123,8 @@ For a fixed RNG seed, the cluster labels should be the same using the wrapper an
   - Multivariate Student's t
   - Multivariate Gamma
 ** TODO Finish Unit Test #2 for consensus clustering                   :pnnl:
-
 * Maybe/Someday
+** Write Rcpp version of similarity functions
 ** Implement improved version of FOM
 ** Create a MapReduce or GPU version of major clustering algorithms
 ** Add hpc = T/F option. If TRUE, use a better method than the built-in method.  

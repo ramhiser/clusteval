@@ -78,11 +78,19 @@ cluster_pairs <- function(cl1, cl2) {
 #'
 #' @export
 #' @param cl1 TODO
-#' @param cl2 TODO
+#' @Param cl2 TODO
 #' @return numeric the Jaccard index for the two sets of cluster labels. If an error is encountered, we return NULL.
 jaccard <- function(cl1, cl2) {
   cl_pairs <- cluster_pairs(cl1, cl2)
-  plyr:::try_default(sum(cl_pairs$and) / (sum(cl_pairs$or)), default = NULL)
+  jaccard_out <- plyr:::try_default(sum(cl_pairs$and) / (sum(cl_pairs$or)), default = NULL)
+
+  # In the case where 'cl1' and 'cl2' contain all singletons, the Jaccard coefficient
+  # results in the expression 0 / 0, which yields a NaN value in R.
+  # We define such cases as 0.
+  if (is.nan(jaccard_out)) {
+    jaccard_out <- 0
+  }
+  jaccard_out
 }
 
 #' Wrapper for the Rand index for comparing two clusterings of the same data set.

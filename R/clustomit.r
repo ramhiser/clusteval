@@ -28,10 +28,9 @@
 #' @param ... TODO
 #' @return list of scores by omitted cluster
 clustomit <- function(x, K, cluster_method, similarity_method = "jaccard",
-  weighted_mean = TRUE, B = 100, with_replacement = FALSE, use_multicore = FALSE,
+  weighted_mean = TRUE, B = 100, with_replacement = TRUE, use_multicore = FALSE,
   ncpus = 1, ...) {
 
-  # TODO: Unit tests to make sure these arguments are handled correctly.
   K <- as.integer(K)
   cluster_method <- as.character(cluster_method)
   similarity_method <- as.character(similarity_method)
@@ -79,6 +78,7 @@ clustomit <- function(x, K, cluster_method, similarity_method = "jaccard",
 #'
 #' TODO
 #'
+#' @export
 #' @param x data matrix with N observations (rows) and p features (columns).
 #' @param idx TODO
 #' @param K TODO
@@ -102,18 +102,15 @@ clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_re
       x <- t(x)
     }
     
-    if(nrow(x) == 0) {
-      return(NA)
-    }
     clusters_omit <- try(cluster_wrapper(x, num_clusters = K - 1, method = cluster_method, ...),
                          silent = TRUE)
 
     if(inherits(clusters_omit, "try-error")) {
-      warning("Error in clustomit_boot: ", attr(clusters_omit, "condition")$message, "\nNumber of Rows in x: ", nrow(x), "\nNumber of Clusters: ", K - 1, "\nIndices: ", kept)
-      return(clusters_omit)
+      return(NA)
     }
     cluster_similarity(obs_clusters[kept], clusters_omit, method = similarity_method)
   })
+  
 
   omit_similarities
 }
