@@ -1,0 +1,62 @@
+Wednesday, 13 March 2012 @ 8:51 PM
+
+Happy Pi Day.
+
+I start by mentioning a note to myself from the TODO file that contained notes about
+how to fix the "major" issue that I was getting with the ClustOmit code.
+
+I'm getting the following error in the second artificial data set with K = 3:
+
+Number of Clusters: 2
+2: In FUN(c(3L, 2L, 1L)[[3L]], ...) :
+  Error in clustomit_boot: more cluster centers than distinct data points.
+Number of Rows in x: 1
+
+The issue is caused by the 'with_replacement' option. Let n be the true sample size, and
+let m be the number of unique observations kept. If n = 5 and K = 3, it is quite possible
+that m = 1 or 2. This can cause m < 2, which causes the above error.
+
+Now we need to figure out how to overcome this. One possibility is to resort back to
+the regular bootstrap and warn that for n << p, we can have an issue in that there is
+multicollinearity, in that the same observation can be used multiple times.
+
+However, I'm starting to question my original reasoning for using the 'with_replacement'
+option. If there are enough bootstrap samples used, repeating the same observation, say
+5 times, can yield a lower intrinsic dimension; however, as B, the number of bootstrap
+reps, increases, this should not matter. If any thing, having problematic observations
+can yield bimodal/multimodal Jaccard scores, which can be useful for diagnostic purposes.
+TODO: Add this note to the paper.
+
+With that in mind, I am going to set the default to 'with_replacement = TRUE'.
+
+There is still an issue though. Consider for example K = 3 with the following number of
+observations in each cluster:
+n_1 = 98
+n_2 = 1
+n_3 = 1
+
+Suppose that we sample with replacement from the 100 observations, which omits the
+singleton observation from cluster 2. Now, if we omit cluster 1, we only have
+a single observation from cluster 3. Hence, we try to cluster a single observation
+with K - 1 = 2 clusters. This is the exact cause of the above error in the unit test.
+
+One possible fix is a stratified bootstrapping approach (i.e. resample with replacement
+from each of the observed clusters), but I am not convinced that this mixes up the
+data enough to really test how good the clustering is. Perhaps, I should add this as
+an option and see how well it works.
+
+Another fix is to borrow something like Hennig's method. With his method, he looks for
+overlap between a cluster and the bootstrapped sample. If there is no overlap, he
+ignores this bootstrap rep. So, his reported Jaccard average only averages over the
+bootstrap reps that had overlap. Although this seems a bit ad hoc, this might provide
+a reasonable model to follow in how to deal with the above problem case.
+
+Okay, that's the end of the copy/paste from TODO. After much thought, I have decided to
+go with the stratified bootstrapping technique.
+
+First, it overcomes the need for ad hockery. Second, it allows for a more straightforward
+analytical analysis and rigor of the the COS statistic under the baseline model of a
+multinomial model.
+
+For an interesting discussion about stratified bootstrapping (resampling), see
+[[http://www.stat.fi/isi99/proceedings/arkisto/varasto/boot0244.pdf][this link]] and [[https://stat.ethz.ch/pipermail/r-help/2004-June/052357.html][this link]]. Furthermore, the [[http://stat.ethz.ch/R-manual/R-devel/library/boot/html/boot.html][CRAN 'boot' package]]

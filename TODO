@@ -1,52 +1,46 @@
-* Fix Errors
+* Next Actions
+** TODO Code stratified bootstrapping version of 'clustomit'
+** TODO Test stratified bootstrapping version of 'clustomit'
+** TODO Write a Rhipe version of 'boot' (i.e. 'boot_rhipe').
+** TODO Add PIC option to simulation code
+** TODO Run small PIC sim and ensure results match the same for same sim on martingale
+** TODO Run 'clustomit' sim results
+** TODO Create summary graphics of 'clustomit' sim results
+** TODO Write summaries of simulation results
+** TODO Add summaries to main document
+** TODO Add summary code (i.e. code for graphics and tables) to main document via 'knitr'
+** TODO Derive Jaccard COS statistic for cluster omission
+** TODO Discuss estimation of Jaccard COS statistic as MLE, citing Fligner and Verducci (2002)
+** TODO Run gap statistic on the data sets
+*** Cite Izenman
+*** Izenman has said that the gap statistic may overestimate K.
+** TODO Add the Silhouette method as a diagnostic test
+** TODO Change a portion of the paper to a "diagnostic discovery" paper
 
-I'm getting the following error in the second artificial data set with K = 3:
+Show how ClustOmit is useful when performing a cluster analysis
 
-Number of Clusters: 2
-2: In FUN(c(3L, 2L, 1L)[[3L]], ...) :
-  Error in clustomit_boot: more cluster centers than distinct data points.
-Number of Rows in x: 1
+*** Cite Handl et al. for the idea
 
-The issue is caused by the 'with_replacement' option. Let n be the true sample size, and
-let m be the number of unique observations kept. If n = 5 and K = 3, it is quite possible
-that m = 1 or 2. This can cause m < 2, which causes the above error.
+*** If the idea ultimately does not fit the paper, write a tutorial paper that shows how to use clustering evaluation in practice.
 
-Now we need to figure out how to overcome this. One possibility is to resort back to
-the regular bootstrap and warn that for n << p, we can have an issue in that there is
-multicollinearity, in that the same observation can be used multiple times.
+Perhaps, a tutorial paper is warranted and would be widely cited.
 
-However, I'm starting to question my original reasoning for using the 'with_replacement'
-option. If there are enough bootstrap samples used, repeating the same observation, say
-5 times, can yield a lower intrinsic dimension; however, as B, the number of bootstrap
-reps, increases, this should not matter. If any thing, having problematic observations
-can yield bimodal/multimodal Jaccard scores, which can be useful for diagnostic purposes.
-TODO: Add this note to the paper.
+** TODO Download the LaTeX template for Bioinformatics
+** TODO Create Bioinformatics version of paper with their LaTeX template
+** TODO Email rough draft to Landon and Dr. Young along with Bioinformatics version of paper
+** TODO Add package level documentation to clustomit                   :pnnl:
+** TODO Add data sets for each data set in the package:                :pnnl:
+*** St. Jude
+*** SRBCT
+** TODO Add documentation for each data set in clustomit:              :pnnl:
 
+For an example, see:
+https://github.com/hadley/devtools/wiki/docs-function
 
-With that in mind, I am going to set the default to 'with_replacement = TRUE'.
-
-There is still an issue though. Consider for example K = 3 with the following number of
-observations in each cluster:
-n_1 = 98
-n_2 = 1
-n_3 = 1
-
-Suppose that we sample with replacement from the 100 observations, which omits the
-singleton observation from cluster 2. Now, if we omit cluster 1, we only have
-a single observation from cluster 3. Hence, we try to cluster a single observation
-with K - 1 = 2 clusters. This is the exact cause of the above error in the unit test.
-
-One possible fix is a stratified bootstrapping approach (i.e. resample with replacement
-from each of the observed clusters), but I am not convinced that this mixes up the
-data enough to really test how good the clustering is. Perhaps, I should add this as
-an option and see how well it works.
-
-Another fix is to borrow something like Hennig's method. With his method, he looks for
-overlap between a cluster and the bootstrapped sample. If there is no overlap, he
-ignores this bootstrap rep. So, his reported Jaccard average only averages over the
-bootstrap reps that had overlap. Although this seems a bit ad hoc, this might provide
-a reasonable model to follow in how to deal with the above problem case.
-
+*** St. Jude
+***  - SRBCT
+** TODO Determine SimConfig for Multivariate Gamma data
+** TODO Implement Multivariate Gamma function to generate data
 
 * ClustOmit SimDesign for Testing
 
@@ -82,49 +76,14 @@ For a fixed RNG seed, the cluster labels should be the same using the wrapper an
 ** TODO Add PAM unit test with iris data set for a variety of values of K
 For a fixed RNG seed, the cluster labels should be the same using the wrapper and the original method. 
 
-
 ** TODO Create mclust wrapper
 ** TODO Add mclust unit test with iris data set for a variety of values of K
 For a fixed RNG seed, the cluster labels should be the same using the wrapper and the original method. 
 
 ** TODO Create lookup table for common elements
-
-* Next Actions
-** TODO Determine SimConfig for Multivariate Gamma data
-** TODO Implement Multivariate Gamma function to generate data
-** TODO Create graphical outputs for each of FOM, clusterboot, and clustomit for each family of distributions:
-  - Bivariate Uniform
-  - Multivariate Normal
-  - Multivariate Student's t
-  - Multivariate Gamma
-** TODO Add 'clusteval' package to PNNL's version of the CRAN repository :pnnl:
-** TODO Add package level documentation to clustomit                   :pnnl:
-** TODO Add data sets for each data set in the package:                :pnnl:
-  - St. Jude
-  - SRBCT
-** TODO Add documentation for each data set in clustomit:              :pnnl:
-  - St. Jude
-  - SRBCT
-  - For an example, see:
-    - https://github.com/hadley/devtools/wiki/docs-function
-** TODO Add error checking for positive sample sizes to:               :pnnl:
-  - Bivariate Uniform
-  - Multivariate Normal
-  - Multivariate Student's t
-  - Multivariate Gamma
-** TODO Add unit test to check the errors for each of:                 :pnnl:
-  - Bivariate Uniform
-  - Multivariate Normal
-  - Multivariate Student's t
-  - Multivariate Gamma
-** TODO Add unit test to verify proper output of:                      :pnnl:
-  - Bivariate Uniform
-  - Multivariate Normal
-  - Multivariate Student's t
-  - Multivariate Gamma
-** TODO Finish Unit Test #2 for consensus clustering                   :pnnl:
 * Maybe/Someday
 ** Write Rcpp version of similarity functions
+** TODO Finish Unit Test #2 for consensus clustering                   :pnnl:
 ** Implement improved version of FOM
 ** Create a MapReduce or GPU version of major clustering algorithms
 ** Add hpc = T/F option. If TRUE, use a better method than the built-in method.  
