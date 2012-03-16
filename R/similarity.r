@@ -78,7 +78,7 @@ cluster_pairs <- function(cl1, cl2) {
 #'
 #' @export
 #' @param cl1 TODO
-#' @Param cl2 TODO
+#' @param cl2 TODO
 #' @return numeric the Jaccard index for the two sets of cluster labels. If an error is encountered, we return NULL.
 jaccard <- function(cl1, cl2) {
   cl_pairs <- cluster_pairs(cl1, cl2)

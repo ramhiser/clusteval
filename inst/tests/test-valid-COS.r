@@ -26,11 +26,10 @@ test_that("The COS method works for artificial data set #1 without error", {
   })
   x <- do.call(rbind, x)
 
-  out <- clustomit(x = x, K = 2, cluster_method = "kmeans", B = 50)
-  out <- clustomit(x = x, K = 3, cluster_method = "kmeans", B = 50)
-  out <- clustomit(x = x, K = 4, cluster_method = "kmeans", B = 50)
-  out <- clustomit(x = x, K = 5, cluster_method = "kmeans", B = 50)
-  out <- clustomit(x = x, K = 6, cluster_method = "kmeans", B = 50)
+  out <- clustomit(x = x, K = 3, cluster_method = "kmeans", B = 20)
+  out <- clustomit(x = x, K = 4, cluster_method = "kmeans", B = 20)
+  out <- clustomit(x = x, K = 5, cluster_method = "kmeans", B = 20)
+  out <- clustomit(x = x, K = 6, cluster_method = "kmeans", B = 20)
 })
 
 test_that("The COS method works for artificial data set #2 without error", {
@@ -59,9 +58,9 @@ test_that("The COS method works for artificial data set #2 without error", {
   x <- do.call(rbind, x)
 
   # K = 3 is a problem case. Why?
-  trace("clustomit_boot", quote(if (any(is.na(omit_similarities))) { browser() }), at = 6, print = F)  
-  out <- clustomit(x = x, K = 3, cluster_method = "kmeans", B = 10)
-  out <- clustomit(x = x, K = 4, cluster_method = "kmeans", B = 50)
-  out <- clustomit(x = x, K = 5, cluster_method = "kmeans", B = 50)  
-  out <- clustomit(x = x, K = 6, cluster_method = "kmeans", B = 50)
+  #trace("clustomit_boot", quote(if (any(is.na(omit_similarities))) { browser() }), at = 6, print = F)  
+  out <- clustomit(x = x, K = 3, cluster_method = "kmeans", B = 20)
+  out <- clustomit(x = x, K = 4, cluster_method = "kmeans", B = 20)
+  out <- clustomit(x = x, K = 5, cluster_method = "kmeans", B = 20)  
+  out <- clustomit(x = x, K = 6, cluster_method = "kmeans", B = 20)
 })

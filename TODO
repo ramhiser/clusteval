@@ -1,6 +1,4 @@
 * Next Actions
-** TODO Code stratified bootstrapping version of 'clustomit'
-** TODO Test stratified bootstrapping version of 'clustomit'
 ** TODO Write a Rhipe version of 'boot' (i.e. 'boot_rhipe').
 ** TODO Add PIC option to simulation code
 ** TODO Run small PIC sim and ensure results match the same for same sim on martingale
@@ -28,11 +26,11 @@ Perhaps, a tutorial paper is warranted and would be widely cited.
 ** TODO Download the LaTeX template for Bioinformatics
 ** TODO Create Bioinformatics version of paper with their LaTeX template
 ** TODO Email rough draft to Landon and Dr. Young along with Bioinformatics version of paper
-** TODO Add package level documentation to clustomit                   :pnnl:
-** TODO Add data sets for each data set in the package:                :pnnl:
+** TODO Add package level documentation to clustomit
+** TODO Add data sets for each data set in the package:
 *** St. Jude
 *** SRBCT
-** TODO Add documentation for each data set in clustomit:              :pnnl:
+** TODO Add documentation for each data set in clustomit:
 
 For an example, see:
 https://github.com/hadley/devtools/wiki/docs-function

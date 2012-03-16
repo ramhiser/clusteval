@@ -6,7 +6,7 @@ Author: John A. Ramey
 Maintainer: John A. Ramey <john.ramey@pnnl.gov>
 Description: TODO
 Depends:
-    boot,
+    parallel,
     foreach,
     plyr,
     clues,
@@ -30,3 +30,4 @@ Collate:
     'sim_data.r'
     'consensus.r'
     'cluster.r'
+    'helper-boot.r'

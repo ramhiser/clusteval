@@ -28,89 +28,57 @@
 #' @param ... TODO
 #' @return list of scores by omitted cluster
 clustomit <- function(x, K, cluster_method, similarity_method = "jaccard",
-  weighted_mean = TRUE, B = 100, with_replacement = TRUE, use_multicore = FALSE,
-  ncpus = 1, ...) {
+                      weighted_mean = TRUE, B = 100, parallel = FALSE,
+                      num_cores = getOption("mc.cores", 2), num_reps = 50, ...) {
 
   K <- as.integer(K)
   cluster_method <- as.character(cluster_method)
   similarity_method <- as.character(similarity_method)
 
-  parallel_type <- ifelse(use_multicore, "multicore", "no")
-
-  # The cluster labels for the observed (original) data (i.e. x).  
-  obs_clusters <- cluster_wrapper(x, num_clusters = K, method = cluster_method, ...)
-  obs_num_clusters <- as.vector(table(obs_clusters))
-
-  boot_out <- boot(x, clustomit_boot, R = B, cluster_method = cluster_method,
-    similarity_method = similarity_method, K = K, with_replacement = with_replacement,
-    parallel = parallel_type, ncpus = ncpus, obs_clusters = obs_clusters
-  )
-
-  if (weighted_mean) {
-    obs_aggregate <- weighted.mean(boot_out$t0, w = obs_num_clusters)
-    boot_aggregate <- apply(boot_out$t, 1, weighted.mean, w = obs_num_clusters)    
-  } else {
-    obs_aggregate <- mean(boot_out$t0)
-    boot_aggregate <- rowMeans(boot_out$t)
+  # If the user indicates that parallel should not be used, then set the number
+  # of cores to 1. This forces 'mclapply' to use 'lapply.
+  if (!parallel) {
+    num_cores <- 1
   }
 
+  # The cluster labels for the observed (original) data (i.e. x).  
+  obs_clusters <- cluster_wrapper(x, num_clusters = K, method = cluster_method,
+                                  ...)
+  cluster_sizes <- as.vector(table(obs_clusters))
+
+  # Determines the indices for the bootstrap reps.
+  boot_indices <- boot_stratified_omit(obs_clusters, num_reps = num_reps)
+
+  # For each set of bootstrap indices, cluster the resampled data and
+  # compute the similarity with the corresponding original clusters.
+  boot_similarity <- mclapply(boot_indices, function(idx) {
+    clusters_omit <- cluster_wrapper(x[idx, ], num_clusters = K - 1,
+                                     method = cluster_method, ...)
+
+    cluster_similarity(obs_clusters[idx], clusters_omit,
+                       method = similarity_method)
+  }, mc.cores = num_cores)
+
+  # Because 'mclapply' returns a list, we first simplify the list to an array and
+  # then 'split' the similarity scores into a list by cluster.
+  boot_similarity <- simplify2array(boot_similarity)
+  boot_similarity <- split(boot_similarity, gl(K, num_reps))
+
+  # Now, we compute the weighted average of the similarity scores for each
+  # bootstrap replication. The weights correspond to the sample sizes of each
+  # cluster.
+  boot_similarity_matrix <- do.call(cbind, boot_similarity)
+  boot_aggregate <- apply(boot_similarity_matrix, 1, weighted.mean,
+                          w = cluster_sizes)
+
 	obj <- list(
-		obs_cluster_similarity = boot_out$t0,
-		obs_aggregate = obs_aggregate,
-		boot_cluster_similarity = boot_out$t,
+		boot_similarity = boot_similarity,
     boot_aggregate = boot_aggregate,
     obs_clusters = obs_clusters,
 		K = K,
 		cluster_method = cluster_method,
-		similarity_method = similarity_method,
-		with_replacement = with_replacement
+		similarity_method = similarity_method
 	)
 	class(obj) <- "clustomit"
 	obj
-}
-
-
-#' The worker function for Cluster Omission
-#'
-#' This function is repeatedly called by boot() from the 'boot' package
-#' to generate the approximate sampling distribution of the similarity
-#' index of the cluster omission method.
-#'
-#' TODO
-#'
-#' @export
-#' @param x data matrix with N observations (rows) and p features (columns).
-#' @param idx TODO
-#' @param K TODO
-#' @param cluster_method TODO
-#' @param similarity_method TODO
-#' @param with_replacement TODO
-#' @param obs_clusters vector cluster labels for each observation from the observed (original) data set
-#' @param ... TODO
-#' @return vector the similarity scores for each omitted cluster
-clustomit_boot <- function(x, idx, K, cluster_method, similarity_method, with_replacement = FALSE, obs_clusters, ...) {
-  if(!with_replacement) {
-    idx <- unique(idx)
-  }
-  idx <- sort(idx)
-  cluster_levels <- unique(obs_clusters)
-  omit_similarities <- sapply(cluster_levels, function(k) {
-    kept <- which(k != obs_clusters)
-    kept <- idx[idx %in% kept]
-    x <- x[kept,]
-    if(is.vector(x)) {
-      x <- t(x)
-    }
-    
-    clusters_omit <- try(cluster_wrapper(x, num_clusters = K - 1, method = cluster_method, ...),
-                         silent = TRUE)
-
-    if(inherits(clusters_omit, "try-error")) {
-      return(NA)
-    }
-    cluster_similarity(obs_clusters[kept], clusters_omit, method = similarity_method)
-  })
-  
-
-  omit_similarities
 }
