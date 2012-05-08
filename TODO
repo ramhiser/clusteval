@@ -1,8 +1,4 @@
 * Next Actions
-** TODO Write a Rhipe version of 'boot' (i.e. 'boot_rhipe').
-** TODO Add PIC option to simulation code
-** TODO Run small PIC sim and ensure results match the same for same sim on martingale
-** TODO Run 'clustomit' sim results
 ** TODO Create summary graphics of 'clustomit' sim results
 ** TODO Write summaries of simulation results
 ** TODO Add summaries to main document
@@ -12,7 +8,6 @@
 ** TODO Run gap statistic on the data sets
 *** Cite Izenman
 *** Izenman has said that the gap statistic may overestimate K.
-** TODO Add the Silhouette method as a diagnostic test
 ** TODO Change a portion of the paper to a "diagnostic discovery" paper
 
 Show how ClustOmit is useful when performing a cluster analysis
@@ -39,7 +34,6 @@ https://github.com/hadley/devtools/wiki/docs-function
 ***  - SRBCT
 ** TODO Determine SimConfig for Multivariate Gamma data
 ** TODO Implement Multivariate Gamma function to generate data
-
 * ClustOmit SimDesign for Testing
 
 J = Jaccard
