@@ -43,7 +43,7 @@
 #' @export
 #' @examples
 #' TODO
-sim_normal <- function(n = 10 * seq_len(5), p = 100, rho = 0.1 * seq.int(1, 9, by = 2),
+sim_normal <- function(n = 10 * seq_len(5), p = 50, rho = 0.1 * seq.int(1, 9, by = 2),
 delta = 0, epsilon = 0.1, sigma2 = 1, seed = NULL) {
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")

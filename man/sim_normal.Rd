@@ -2,7 +2,7 @@
 \alias{sim_normal}
 \title{Generates multivariate normal populations with intraclass covariance matrices.}
 \usage{
-  sim_normal(n = 10 * seq_len(5), p = 100,
+  sim_normal(n = 10 * seq_len(5), p = 50,
     rho = 0.1 * seq.int(1, 9, by = 2), delta = 0,
     epsilon = 0.1, sigma2 = 1, seed = NULL)
 }
