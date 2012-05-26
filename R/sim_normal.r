@@ -44,7 +44,7 @@
 #' @examples
 #' TODO
 sim_normal <- function(n = 10 * seq_len(5), p = 50, rho = 0.1 * seq.int(1, 9, by = 2),
-delta = 0, epsilon = 0.1, sigma2 = 1, seed = NULL) {
+delta = 0, epsilon = 1, sigma2 = 1, seed = NULL) {
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")
   }
@@ -68,7 +68,12 @@ delta = 0, epsilon = 0.1, sigma2 = 1, seed = NULL) {
   z <- rmvnorm(M, sigma = epsilon * diag(p))
 
   # A matrix whose rows are the population means.
-  means <- delta * diag(1, nrow = M, ncol = p) + z
+  means <- lapply(seq.int(M), function(m) {
+    mu_m <- matrix(0, nrow = M, ncol = 2 * M)
+    mu_m[m, ] <- 1
+    mu_m
+  })
+  means <- delta * do.call(cbind, means)
 
   # A list containing each of the covariance matrices.
   # TODO: This may not be very practical for large p.
@@ -106,3 +111,4 @@ intraclass_cov <- function(p, rho, sigma2 = 1) {
   }
   sigma2 * ((1 - rho) * matrix(1, nrow = p, ncol = p) + rho * diag(p))
 }
+
