@@ -68,8 +68,8 @@
   By default, we let \eqn{\sigma^2 = 1}.
 
   We generate \eqn{n_m} observations from population
-  \eqn{\Pi_m}. By default, we generate 10, 30, 50, 70, and
-  90 observations from populations 1, 2, 3, 4, and 5,
+  \eqn{\Pi_m}. By default, we generate 10, 20, 30, 40, and
+  50 observations from populations 1, 2, 3, 4, and 5,
   respectively.
 }
 \examples{
