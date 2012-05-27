@@ -4,9 +4,8 @@
 \usage{
   clustomit(x, K, cluster_method,
     similarity_method = "jaccard", weighted_mean = TRUE,
-    B = 100, parallel = FALSE,
-    num_cores = getOption("mc.cores", 2), num_reps = 50,
-    ...)
+    parallel = FALSE, num_cores = getOption("mc.cores", 2),
+    num_reps = 50, ...)
 }
 \arguments{
   \item{x}{data matrix with N observations (rows) and p

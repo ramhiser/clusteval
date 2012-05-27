@@ -28,7 +28,7 @@
 #' @param ... TODO
 #' @return list of scores by omitted cluster
 clustomit <- function(x, K, cluster_method, similarity_method = "jaccard",
-                      weighted_mean = TRUE, B = 100, parallel = FALSE,
+                      weighted_mean = TRUE, parallel = FALSE,
                       num_cores = getOption("mc.cores", 2), num_reps = 50, ...) {
 
   K <- as.integer(K)
@@ -36,7 +36,7 @@ clustomit <- function(x, K, cluster_method, similarity_method = "jaccard",
   similarity_method <- as.character(similarity_method)
 
   # If the user indicates that parallel should not be used, then set the number
-  # of cores to 1. This forces 'mclapply' to use 'lapply.
+  # of cores to 1. This forces 'mclapply' to use 'lapply'.
   if (!parallel) {
     num_cores <- 1
   }
