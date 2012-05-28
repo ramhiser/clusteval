@@ -27,8 +27,7 @@
 #' By default, we let \eqn{\sigma^2 = 1}.
 #'
 #' We generate \eqn{n_m} observations from population \eqn{\Pi_m}. By default, we
-#' generate 10, 20, 30, 40, and 50 observations from populations 1, 2, 3, 4, and 5,
-#' respectively.
+#' generate 25 observations from each population.
 #'
 #' @param n a vector (of length M) of the sample sizes for each population
 #' @param p the dimension of the multivariate normal populations
@@ -43,7 +42,7 @@
 #' @export
 #' @examples
 #' TODO
-sim_normal <- function(n = 10 * seq_len(5), p = 50, rho = 0.1 * seq.int(1, 9, by = 2),
+sim_normal <- function(n = rep(25, 5), p = 50, rho = 0.1 * seq.int(1, 9, by = 2),
 delta = 0, epsilon = 1, sigma2 = 1, seed = NULL) {
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")
