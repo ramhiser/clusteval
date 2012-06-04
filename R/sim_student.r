@@ -17,7 +17,7 @@
 #' @export
 #' @examples
 #' TODO
-sim_student <- function(n = c(15, 15, 15, 30, 30), p = 10, df = c(10, 10, 10, 3, 3), delta = 0,
+sim_student <- function(n = c(25, 25, 25, 50, 50), p = 10, df = c(10, 10, 10, 3, 3), delta = 0,
   Sigma = diag(p), seed = NULL) {
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")
