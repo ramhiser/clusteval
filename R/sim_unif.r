@@ -36,23 +36,23 @@ sim_unif <- function(n = 25, delta = 0, seed = NULL) {
   if (!is.null(seed)) {
     set.seed(seed)
   }
-  # TODO: Double-check that the means are equidistant
-  # now that we have gone to trivariate.  
-  pop1 <- c(-1/2, 1/2, delta - 1/2, delta + 1/2, -1/2, 1/2)
-  pop2 <- c(delta - 1/2, delta + 1/2, -1/2, 1/2, -1/2, 1/2)
-  pop3 <- c(-1/2, 1/2, -delta - 1/2, -delta + 1/2, -1/2, 1/2)
-  pop4 <- c(-1/2, 1/2, -1/2, 1/2, delta - 1/2, delta + 1/2)
+
+  pop1 <- c(-1/2, 1/2, delta - 1/2, delta + 1/2, -1/2, 1/2, -1/2, 1/2)
+  pop2 <- c(delta - 1/2, delta + 1/2, -1/2, 1/2, -1/2, 1/2, -1/2, 1/2)
+  pop3 <- c(-1/2, 1/2, -delta - 1/2, -delta + 1/2, -1/2, 1/2, -1/2, 1/2)
+  pop4 <- c(-1/2, 1/2, -1/2, 1/2, delta - 1/2, delta + 1/2, -1/2, 1/2)
+  pop5 <- c(-1/2, 1/2, -1/2, 1/2, -1/2, 1/2, delta - 1/2, delta + 1/2)  
   
-  unif_pops <- rbind.data.frame(pop1, pop2, pop3, pop4)
-  colnames(unif_pops) <- c("a1", "b1", "a2", "b2", "a3", "b3")
+  unif_pops <- rbind.data.frame(pop1, pop2, pop3, pop4, pop5)
+  colnames(unif_pops) <- c("a1", "b1", "a2", "b2", "a3", "b3", "a4", "b4")
   unif_pops$n <- n
   
-  trivar_unif <- function(n, a1, b1, a2, b2, a3, b3) {
-    cbind(runif(n, a1, b1), runif(n, a2, b2), runif(n, a3, b3))
+  multivariate_unif <- function(n, a1, b1, a2, b2, a3, b3, a4, b4) {
+    cbind(runif(n, a1, b1), runif(n, a2, b2), runif(n, a3, b3), runif(n, a4, b4))
   }
   
-  x <- mdply(unif_pops, as.data.frame(trivar_unif), .expand = F)
-  colnames(x) <- c("Population", "x1", "x2", "x3")
+  x <- mdply(unif_pops, as.data.frame(multivariate_unif), .expand = F)
+  colnames(x) <- c("Population", "x1", "x2", "x3", "x4")
   x$Population <- as.factor(x$Population)  
   x
 }
