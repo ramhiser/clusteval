@@ -18,36 +18,26 @@ cluster_similarity <- function(cl1, cl2, method) {
   jaccard(cl1, cl2)	
 }
 
-#' Test if all the elements of the vector x are equal.
+#' Cluster Comembership
 #'
-#' TODO
-#'
-#' My code is based on the following Stack Overflow post.
-#' http://stackoverflow.com/questions/4752275/test-for-equality-among-all-elements-of-a-single-vector
-#' 
-#' @param x TODO
-#' @param tol TODO
-#' @return TODO
-vec_equal <- function(x,  tol = .Machine$double.eps ^ 0.5) {
-  diff(range(x)) < tol
-}
-
-#' Co-Membership
-#'
-#' For a set of clustering labels, computes the co-membership of all
-#' pairs of observations. Basically, the co-membership is defined
+#' For a set of clustering labels, computes the comembership of all
+#' pairs of observations. Basically, the comembership is defined
 #' as the pairs of observations that are clustered together.
 #'
 #' TODO: Add purpose. (Label switching problem).
 #' TODO: Add Kapp and Tibshirani (2007) Biostatistics paper as reference on 'co-membership' term.
 #' TODO: Add to the name of the function.
 #'
-#' @param clust_labels a vector of clustering labels
+#' We use the \code{Rcpp} package to improve the runtime speed of
+#' the \code{comembership} function.
+#'
+#' @export
+#' @param labels a vector of clustering labels
 #' @return a vector of co-membership bits
 #' @examples
 #' TODO
-comembership <- function(clust_labels) {
-  as.integer(combn(clust_labels, 2, vec_equal))
+comembership <- function(labels) {
+	.Call("rcpp_comembership", labels, PACKAGE = "clusteval")
 }
 
 #' Summary of pairs of observations from two different clusterings of the same data set.

@@ -2,9 +2,8 @@
 \alias{sim_student}
 \title{Generates multivariate Student's t populations.}
 \usage{
-  sim_student(n = c(25, 25, 25, 50, 50), p = 10,
-    df = c(10, 10, 10, 3, 3), delta = 0, Sigma = diag(p),
-    seed = NULL)
+  sim_student(n = rep(25, 5), p = 50, df = rep(6, 5),
+    delta = 0, Sigma = diag(p), seed = NULL)
 }
 \arguments{
   \item{n}{a vector (of length M) of the sample sizes for

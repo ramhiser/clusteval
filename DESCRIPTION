@@ -1,9 +1,9 @@
 Package: clusteval
 Title: Evaluation of Clustering Algorithms
 Version: 0.1
-Date: 2011-11-28
+Date: 2012-07-16
 Author: John A. Ramey
-Maintainer: John A. Ramey <john.ramey@pnnl.gov>
+Maintainer: John A. Ramey <johnramey@gmail.com>
 Description: TODO
 Depends:
     parallel,
@@ -16,7 +16,9 @@ Depends:
     ggplot2,
     cluster,
     mvtnorm,
-    mclust
+    mclust,
+    Rcpp (>= 0.9.13)
+LinkingTo: Rcpp
 License: MIT
 Collate:
     'clustering_methods.r'
@@ -31,3 +33,5 @@ Collate:
     'consensus.r'
     'cluster.r'
     'helper-boot.r'
+    'comembership.r'
+    'help.r'

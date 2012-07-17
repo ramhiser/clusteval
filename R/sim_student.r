@@ -17,7 +17,7 @@
 #' @export
 #' @examples
 #' TODO
-sim_student <- function(n = c(25, 25, 25, 50, 50), p = 10, df = c(10, 10, 10, 3, 3), delta = 0,
+sim_student <- function(n = rep(25, 5), p = 50, df = rep(6, 5), delta = 0,
   Sigma = diag(p), seed = NULL) {
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")
@@ -33,16 +33,19 @@ sim_student <- function(n = c(25, 25, 25, 50, 50), p = 10, df = c(10, 10, 10, 3,
   M <- length(n)
 
   # A matrix whose rows are the population centroids.
-  centroids <- lapply(seq_len(M), function(m) {
-    e_m <- rep(0, p)
-    e_m[c(m, 2*m)] <- delta
-    e_m
+  centroids <- lapply(seq.int(M), function(m) {
+    mu_m <- matrix(0, nrow = M, ncol = p / M)
+    mu_m[m, ] <- 1
+    mu_m
   })
+  centroids <- delta * do.call(cbind, centroids)
 
 
   # Generates the data in a list of length M.
   # Then, we rbind the data together.
-  x <- lapply(seq_len(M), function(m) cbind(m, rmvt(n[m], sigma = Sigma, df = df[m], delta = centroids[[m]])))
+  x <- lapply(seq_len(M), function(m) {
+    cbind(m, rmvt(n[m], sigma = Sigma, df = df[m], delta = centroids[m,]))
+  })
   x <- do.call(rbind.data.frame, x)
   
   colnames(x) <- c("Population", paste("x", seq.int(ncol(x) - 1), sep = ""))
