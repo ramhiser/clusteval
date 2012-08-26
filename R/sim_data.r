@@ -10,11 +10,10 @@
 #' @export
 #' @examples
 #' TODO
-sim_data <- function(family = c("uniform", "normal", "student", "gamma"), ...) {
+sim_data <- function(family = c("uniform", "normal", "student"), ...) {
   switch(family,
     uniform = sim_unif(...),
     normal = sim_normal(...),
-    student = sim_student(...),
-    gamma = sim_gamma(...)
+    student = sim_student(...)
   )
 }
