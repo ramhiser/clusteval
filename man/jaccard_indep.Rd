@@ -1,8 +1,8 @@
-\name{jaccard}
-\alias{jaccard}
+\name{jaccard_indep}
+\alias{jaccard_indep}
 \title{Computes the Jaccard index for comparing two clusterings of the same data set.}
 \usage{
-  jaccard(cl1, cl2)
+  jaccard_indep(cl1, cl2)
 }
 \arguments{
   \item{cl1}{TODO}

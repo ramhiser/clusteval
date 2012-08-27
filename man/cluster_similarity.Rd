@@ -2,7 +2,9 @@
 \alias{cluster_similarity}
 \title{A wrapper for the similarity measures}
 \usage{
-  cluster_similarity(cl1, cl2, method)
+  cluster_similarity(cl1, cl2,
+    similarity = c("jaccard", "rand"),
+    method = "independence")
 }
 \arguments{
   \item{cl1}{TODO}

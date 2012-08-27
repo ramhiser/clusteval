@@ -5,31 +5,26 @@ Date: 2012-08-26
 Author: John A. Ramey
 Maintainer: John A. Ramey <johnramey@gmail.com>
 Description: TODO
-Depends:
+Imports:
     parallel,
     plyr,
     clues,
     clv,
     Matrix,
     reshape2,
-    ggplot2,
     cluster,
-    mvtnorm,
+    mvtnorm
+Depends:
     Rcpp (>= 0.9.13)
 LinkingTo: Rcpp
 License: MIT
 Collate:
-    'clustering_methods.r'
-    'plot.r'
     'similarity.r'
-    'sim_gamma.r'
     'sim_normal.r'
     'sim_unif.r'
     'sim_student.r'
     'clustomit.r'
     'sim_data.r'
-    'consensus.r'
-    'cluster.r'
     'helper-boot.r'
-    'comembership.r'
-    'help.r'
+    'clusteval.r'
+    'random_clustering.r'

@@ -2,8 +2,7 @@
 \alias{sim_data}
 \title{Wrapper function to generate data from a variety of distributions.}
 \usage{
-  sim_data(family = c("uniform", "normal", "student", "gamma"),
-    ...)
+  sim_data(family = c("uniform", "normal", "student"), ...)
 }
 \arguments{
   \item{family}{the family of distributions from which to

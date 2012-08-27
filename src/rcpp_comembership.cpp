@@ -1,7 +1,7 @@
 #include "rcpp_comembership.h"
 
 SEXP rcpp_comembership(SEXP labels) {
-  using namespace Rcpp ;
+  using namespace Rcpp;
     
   Rcpp::NumericVector cluster_labels(labels);
   int n = cluster_labels.size();
