@@ -12,11 +12,11 @@ SEXP rcpp_comembership_table(SEXP labels1, SEXP labels2) {
   }
 
   // The counts of comembership pairs.
-  // AA: the number of comemberships in both partitions
-  // AD: the number of comemberships in clustering 1 but not in clustering 2
-  // DA: the number of comemberships in clustering 2 but not in clustering 1
-  // DD: the number of non-comemberships in both partitions
-  int AA = 0, AD = 0, DA = 0, DD = 0;
+  // n_11: the number of comemberships in both partitions
+  // n_10: the number of comemberships in clustering 1 but not in clustering 2
+  // n_01: the number of comemberships in clustering 2 but not in clustering 1
+  // n_00: the number of non-comemberships in both partitions
+  int n_11 = 0, n_10 = 0, n_01 = 0, n_00 = 0;
 
   // Flags that indicate if the current pair of cluster labels in clusterings 1
   // and 2 if are comemberships.
@@ -31,20 +31,20 @@ SEXP rcpp_comembership_table(SEXP labels1, SEXP labels2) {
       comembership2 = (cluster_labels2[i] == cluster_labels2[j]);
 
       if (comembership1 && comembership2) {
-        AA++;
+        n_11++;
       } else if (comembership1 && !comembership2) {
-        AD++;
+        n_10++;
       } else if (!comembership1 && comembership2) {
-        DA++;
+        n_01++;
       } else { // if (!comembership1 && !comembership2)
-        DD++;
+        n_00++;
       }
     }
   }
   
   // Returns a list that contains the 2x2 contingecy table results.
-  return Rcpp::List::create(Rcpp::Named("AA") = AA,
-                          Rcpp::Named("AD") = AD,
-                          Rcpp::Named("DA") = DA,
-                          Rcpp::Named("DD") = DD);
+  return Rcpp::List::create(Rcpp::Named("n_11") = n_11,
+                            Rcpp::Named("n_10") = n_10,
+                            Rcpp::Named("n_01") = n_01,
+                            Rcpp::Named("n_00") = n_00);
 }

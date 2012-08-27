@@ -28,3 +28,4 @@ Collate:
     'helper-boot.r'
     'clusteval.r'
     'random_clustering.r'
+    'comembership.r'
