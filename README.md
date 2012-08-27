@@ -14,5 +14,6 @@ install.packages('clusteval', dependencies = TRUE)
 If you prefer to download the latest version, instead type:
 
 ```r
-library(devtools); install_github('clusteval', 'ramey')
+library(devtools)
+install_github('clusteval', 'ramey')
 ```
