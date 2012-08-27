@@ -5,6 +5,8 @@
 \alias{package-clusteval}
 \title{Evaluation of Clustering Algorithms}
 \description{
-  TODO: Add Description
+  An R package that provides a suite of tools to evaluate
+  clustering algorithms, clusterings, and individual
+  clusters.
 }
 

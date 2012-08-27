@@ -4,7 +4,8 @@ Version: 0.1
 Date: 2012-08-26
 Author: John A. Ramey
 Maintainer: John A. Ramey <johnramey@gmail.com>
-Description: TODO
+Description: An R package that provides a suite of tools to evaluate clustering
+    algorithms, clusterings, and individual clusters.
 Imports:
     parallel,
     plyr,
@@ -13,8 +14,7 @@ Imports:
     Matrix,
     reshape2,
     cluster,
-    mvtnorm
-Depends:
+    mvtnorm,
     Rcpp (>= 0.9.13)
 LinkingTo: Rcpp
 License: MIT

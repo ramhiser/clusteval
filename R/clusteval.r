@@ -1,6 +1,7 @@
 #' Evaluation of Clustering Algorithms
 #'
-#' TODO: Add Description
+#' An R package that provides a suite of tools to evaluate clustering algorithms,
+#' clusterings, and individual clusters.
 #' 
 #' @docType package
 #' @name clusteval
