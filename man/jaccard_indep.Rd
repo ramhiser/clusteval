@@ -46,6 +46,7 @@ data set under the assumption that the two clusterings are independent.}
   \code{\link{comembership_table}} function.
 }
 \examples{
+\dontrun{
 # We generate K = 3 labels for each of n = 10 observations and compute the
 # Jaccard similarity coefficient between the two clusterings.
 set.seed(42)
@@ -62,5 +63,6 @@ jaccard_indep(labels1, labels2)
 iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 jaccard_indep(iris_kmeans, iris_hclust)
+}
 }
 

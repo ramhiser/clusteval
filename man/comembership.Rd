@@ -39,9 +39,9 @@ comembership_out
 length(comembership_out) == choose(n, 2)
 }
 \references{
-  Tibshirani, R. and Walther, G. (2005). Cluster Validation
-  by Prediction Strength. Journal of Computational and
-  Graphical Statistics, 14, 3, 511-528.
+  Tibshirani, R. and Walther, G. (2005), Cluster Validation
+  by Prediction Strength, _Journal of Computational and
+  Graphical Statistics_, 14, 3, 511-528.
   \url{http://amstat.tandfonline.com/doi/abs/10.1198/106186005X59243}.
 }
 
