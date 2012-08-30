@@ -67,6 +67,8 @@
 #' @param weighted_mean logical value. Should the aggregate similarity score for
 #' each bootstrap replication be weighted by the number of observations in each
 #' of the observed clusters? By default, yes (i.e., \code{TRUE}).
+#' @param num_reps the number of bootstrap replicates to draw for each omitted
+#' cluster
 #' @param num_cores the number of coures to use. If 1 core is specified, then
 #' \code{\link{lapply}} is used without parallelization. See the \code{mc.cores}
 #' argument in \code{\link{mclapply}} for more details.

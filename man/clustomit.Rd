@@ -34,6 +34,9 @@
   weighted by the number of observations in each of the
   observed clusters? By default, yes (i.e., \code{TRUE}).}
 
+  \item{num_reps}{the number of bootstrap replicates to
+  draw for each omitted cluster}
+
   \item{num_cores}{the number of coures to use. If 1 core
   is specified, then \code{\link{lapply}} is used without
   parallelization. See the \code{mc.cores} argument in

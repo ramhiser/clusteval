@@ -34,7 +34,7 @@ under the assumption that the two clusterings are independent.}
   comembers in either clustering} }
 
   The Rand similarity index is defined as: \deqn{R =
-  \dfrac{n_{11} + n_{00}}{n_{11} + n_{10} + n_{01} +
+  \frac{n_{11} + n_{00}}{n_{11} + n_{10} + n_{01} +
   n_{00}}}.
 
   To compute the contingency table, we use the

@@ -6,7 +6,7 @@
 #' @docType package
 #' @name clusteval
 #' @aliases clusteval package-clusteval
-#' @import parallel plyr clues clv Matrix reshape2 cluster mvtnorm
+#' @import parallel mvtnorm Rcpp
 #' @useDynLib clusteval
 NULL
 

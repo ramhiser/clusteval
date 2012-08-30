@@ -86,7 +86,7 @@ comembership <- function(labels) {
 #' # Here, we cluster the \code{\link{iris}} data set with the K-means and
 #' # hierarchical algorithms using the true number of clusters, K = 3.
 #' # Then, we compute the 2x2 contingency table agreements and disagreements of
-#' the comemberships.
+#' #' the comemberships.
 #' iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' comembership_table(iris_kmeans, iris_hclust)

@@ -35,7 +35,7 @@ data set under the assumption that the two clusterings are independent.}
   comembers in either clustering} }
 
   The Jaccard similarity coefficient is defined as: \deqn{J
-  = \dfrac{n_{11}}{n_{11} + n_{10} + n_{01}}}.
+  = \frac{n_{11}}{n_{11} + n_{10} + n_{01}}}.
 
   In the special case that the Jaccard coefficient results
   in \eqn{0/0}, we define \eqn{J = 0}. For instance, this

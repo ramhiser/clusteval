@@ -73,7 +73,7 @@ cluster_similarity <- function(labels1, labels2,
 #' }
 #'
 #' The Jaccard similarity coefficient is defined as:
-#' \deqn{J = \dfrac{n_{11}}{n_{11} + n_{10} + n_{01}}}.
+#' \deqn{J = \frac{n_{11}}{n_{11} + n_{10} + n_{01}}}.
 #'
 #' In the special case that the Jaccard coefficient results in \eqn{0/0},
 #' we define \eqn{J = 0}. For instance, this case can occur when both clusterings
@@ -82,6 +82,7 @@ cluster_similarity <- function(labels1, labels2,
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
 #'
+#' @export
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
 #' @return the Jaccard coefficient for the two sets of cluster labels (See
@@ -139,11 +140,12 @@ jaccard_indep <- function(labels1, labels2) {
 #' }
 #'
 #' The Rand similarity index is defined as:
-#' \deqn{R = \dfrac{n_{11} + n_{00}}{n_{11} + n_{10} + n_{01} + n_{00}}}.
+#' \deqn{R = \frac{n_{11} + n_{00}}{n_{11} + n_{10} + n_{01} + n_{00}}}.
 #'
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
 #'
+#' @export
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
 #' @return the Rand index for the two sets of cluster labels
