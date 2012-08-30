@@ -1,0 +1,61 @@
+clusteval 0.1
+-------------
+
+NEW FEATURES
+
+* First version of the `clusteval` package. With this package, we aim to provide
+  tools to evaluate the quality of clusterings and individual clusters obtained
+  by applying a clustering algorithm to a data set.
+
+CLUSTER EVALUATION METHODS
+
+* `clustomit()` is an implementation of the ClustOmit statistic, which assesses
+  the cluster omission admissibility condition from Fisher and Van Ness (1971)
+  to evaluate the stability of a clustering algorithm applied to a data set.
+  The sampling distribution of the ClustOmit statistic is approximated with a
+  stratifed, nonparametric bootstrapping scheme, which we compute with the
+  `mclapply()` function in the `parallel` package.
+
+CLUSTER SIMILARITY
+
+* `cluster_similarity()` computes the similarity between the cluster labels
+  determined by two clustering algorithms applied to the same data set.
+  Currently, we have implemented the Jaccard coefficient and the Rand index, each
+  of which result in proportions with values near 1 suggesting similar
+  clusterings, while values near 0 suggest dissimilar clusterings.
+
+* `comembership()` calculates the comemberships of all pairs of a vector of
+  clustering labels. Two observations are said to be comembers if they are
+  clustered together. We use the `Rcpp` package to calculate quickly the
+  comemberships for all observations pairs.
+
+* `comembership_table()` calculates the comemberships of all pairs of a vector of
+  clustering labels obtained from two clustering algorithms and summarizes the
+  agreements and disagreements between the two clustering algorithms in a 2x2
+  contingency table. Similar to `comembership()`, we use the `Rcpp` package here
+  to calculate quickly the comemberships for all observations pairs.
+
+SIMULATED DATA SETS
+
+* `sim_data()` is a wrapper function that generates data from the three
+  data-generating models given below. By default, each of the models samples
+  random variates from five populations. The separation between the models and
+  the origin is controlled by a nonnegative scalar 'delta', which is useful in
+  determining the efficacy of a clustering algorithm as the population separation
+  is increased.
+
+* `sim_unif()` generates random variates from five multivariate uniform
+  populations. The populations do not overlap for values of `delta` greater than
+  or equal to 1.
+
+* `sim_normal()` generates random variates from multivariate normal populations
+  with intraclass covariance matrices.
+
+* `sim_student()` generates random variates from multivariate Student's t
+  populations having a common covariance matrix.
+
+MISCELLANEOUS
+
+* `random_clustering()` randomly clusters a data set into K clusters and is
+  useful for a baseline comparison of a clustering algorithm.
+
