@@ -6,6 +6,8 @@ Author: John A. Ramey
 Maintainer: John A. Ramey <johnramey@gmail.com>
 Description: An R package that provides a suite of tools to evaluate clustering
     algorithms, clusterings, and individual clusters.
+Depends:
+    R (>= 2.15)
 Imports:
     parallel,
     mvtnorm,

@@ -82,12 +82,12 @@ cluster_similarity <- function(labels1, labels2,
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
 #'
-#' @export
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
 #' @return the Jaccard coefficient for the two sets of cluster labels (See
 #' Details.)
 #' @examples
+#'\dontrun{
 #' # We generate K = 3 labels for each of n = 10 observations and compute the
 #' # Jaccard similarity coefficient between the two clusterings.
 #' set.seed(42)
@@ -104,6 +104,7 @@ cluster_similarity <- function(labels1, labels2,
 #' iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' jaccard_indep(iris_kmeans, iris_hclust)
+#' }
 jaccard_indep <- function(labels1, labels2) {
   com_table <- comembership_table(labels1, labels2)
   jaccard_out <- with(com_table, n_11 / (n_11 + n_10 + n_01))
@@ -145,11 +146,11 @@ jaccard_indep <- function(labels1, labels2) {
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
 #'
-#' @export
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
 #' @return the Rand index for the two sets of cluster labels
 #' @examples
+#'\dontrun{
 #' # We generate K = 3 labels for each of n = 10 observations and compute the
 #' # Rand similarity index between the two clusterings.
 #' set.seed(42)
@@ -165,6 +166,7 @@ jaccard_indep <- function(labels1, labels2) {
 #' iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' rand_indep(iris_kmeans, iris_hclust)
+#' }
 rand_indep <- function(labels1, labels2) {
   com_table <- comembership_table(labels1, labels2)
   with(com_table, (n_11 + n_00) / (n_11 + n_10 + n_01 + n_00))

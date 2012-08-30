@@ -13,9 +13,10 @@
 #' @export
 #' @param labels a vector of \code{n} clustering labels
 #' @return a vector of \code{choose(n, 2)} comembership bits
-#' @references Tibshirani, R. and  Walther, G. (2005). Cluster Validation by
-#' Prediction Strength. Journal of Computational and Graphical Statistics, 14, 3,
-#' 511-528. \url{http://amstat.tandfonline.com/doi/abs/10.1198/106186005X59243}.
+#' @references Tibshirani, R. and  Walther, G. (2005), Cluster Validation by
+#' Prediction Strength, _Journal of Computational and Graphical Statistics_, 14,
+#' 3, 511-528.
+#' \url{http://amstat.tandfonline.com/doi/abs/10.1198/106186005X59243}.
 #' @examples
 #' # We generate K = 3 labels for each of n = 10 observations and compute the
 #' # comembership for all 'n choose 2' pairs.
