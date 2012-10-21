@@ -1,9 +1,9 @@
-\name{jaccard_indep}
-\alias{jaccard_indep}
-\title{Computes the Jaccard similarity coefficient of two clusterings of the same
-data set under the assumption that the two clusterings are independent.}
+\name{jaccard_standard}
+\alias{jaccard_standard}
+\title{Computes the standard Jaccard similarity coefficient of two clusterings of the
+same data set.}
 \usage{
-  jaccard_indep(labels1, labels2)
+  jaccard_standard(labels1, labels2)
 }
 \arguments{
   \item{labels1}{a vector of \code{n} clustering labels}
@@ -15,13 +15,18 @@ data set under the assumption that the two clusterings are independent.}
   labels (See Details.)
 }
 \description{
+  The standard estimator implicitly involves the following
+  three assumptions: \enumerate{ \item TODO: Fixed prob
+  \item TODO: Independence within \item TODO: Independence
+  between }
+}
+\details{
   For two clusterings of the same data set, this function
   calculates the Jaccard similarity coefficient of the
   clusterings from the comemberships of the observations.
   Basically, the comembership is defined as the pairs of
   observations that are clustered together.
-}
-\details{
+
   To calculate the Rand index, we compute the 2x2
   contingency table, consisting of the following four
   cells: \describe{ \item{n_11}{the number of observation
@@ -54,7 +59,7 @@ K <- 3
 n <- 10
 labels1 <- sample.int(K, n, replace = TRUE)
 labels2 <- sample.int(K, n, replace = TRUE)
-jaccard_indep(labels1, labels2)
+jaccard_standard(labels1, labels2)
 
 # Here, we cluster the \\code{\\link{iris}} data set with the K-means and
 # hierarchical algorithms using the true number of clusters, K = 3.
@@ -62,7 +67,7 @@ jaccard_indep(labels1, labels2)
 # clusterings.
 iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
-jaccard_indep(iris_kmeans, iris_hclust)
+jaccard_standard(iris_kmeans, iris_hclust)
 }
 }
 

@@ -1,5 +1,4 @@
-#' Computes the Rand similarity index of two clusterings of the same data set
-#' under the assumption that the two clusterings are independent.
+#' Computes the Rand similarity coefficient of two vectors of cluster labels.
 #'
 #' TODO
 #'
@@ -8,9 +7,12 @@
 #'
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
+#' @param estimation the method used to estimate the Rand similarity
+#' coefficient. By default, we use a GLMM method.
 #' @return the Rand index for the two sets of cluster labels
+#' @export
 #' @examples
-#'\dontrun{
+#'
 #' # We generate K = 3 labels for each of n = 10 observations and compute the
 #' # Rand similarity index between the two clusterings.
 #' set.seed(42)
@@ -28,16 +30,13 @@
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' rand(iris_kmeans, iris_hclust, estimation = "glmm")
 #' rand(iris_kmeans, iris_hclust, estimation = "standard")
-#' }
-rand <- function(labels1, labels2, estimation = c("glmm", "standard") {
+#'
+rand <- function(labels1, labels2, estimation = c("glmm", "standard")) {
   estimation <- match.arg(estimation)
     
   switch(estimation,
          glmm = rand_glmm(labels1, labels2),
          standard = rand_standard(labels1, labels2))
-}
-
-  with(com_table, (n_11 + n_00) / (n_11 + n_10 + n_01 + n_00))
 }
 
 #' Computes the Rand similarity coefficient of two clusterings using a
@@ -155,14 +154,5 @@ rand_glmm <- function(labels1, labels2, glmm_obj = NULL, num_reps = 10000) {
 #' }
 rand_standard <- function(labels1, labels2) {
   com_table <- comembership_table(labels1, labels2)
-  rand_out <- with(com_table, n_11 / (n_11 + n_10 + n_01))
-
-  # In the case where 'labels1' and 'labels2' contain all singletons, the Rand
-  # coefficient results in the expression 0 / 0, which yields a NaN value in R.
-  # We define such cases as 0.
-  if (is.nan(rand_out)) {
-    warning("The two clusterings contain all singletons -- returning 0.")
-    rand_out <- 0
-  }
-  rand_out
+  with(com_table, (n_11 + n_00) / (n_11 + n_10 + n_01 + n_00))
 }

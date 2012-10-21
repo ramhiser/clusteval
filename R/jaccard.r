@@ -13,7 +13,7 @@
 #' Details.)
 #' @export
 #' @examples
-#'\dontrun{
+#'
 #' # We generate K = 3 labels for each of n = 10 observations and compute the
 #' # Jaccard similarity coefficient between the two clusterings.
 #' set.seed(42)
@@ -32,7 +32,7 @@
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' jaccard(iris_kmeans, iris_hclust, estimation = "glmm")
 #' jaccard(iris_kmeans, iris_hclust, estimation = "standard")
-#' }
+#'
 jaccard <- function(labels1, labels2, estimation = c("glmm", "standard")) {
   estimation <- match.arg(estimation)
 

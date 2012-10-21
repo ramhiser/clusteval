@@ -25,3 +25,6 @@ Collate:
     'clusteval.r'
     'random_clustering.r'
     'comembership.r'
+    'glmm.r'
+    'jaccard.r'
+    'rand.r'
