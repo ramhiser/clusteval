@@ -98,3 +98,47 @@ comembership_table <- function(labels1, labels2) {
 
 	.Call("rcpp_comembership_table", labels1, labels2, PACKAGE = "clusteval")
 }
+
+#' For two vectors of clustering labels obtained from the same data set,
+#' we fit a Generalized Linear Mixed Model (GLMM) to the comemberships
+#' of each set of labels.
+#'
+#' We fit a GLMM to the comemberships using Gauss-Hermite quadrature via the
+#' \code{glmmML} function from the \code{glmmML} package.
+#'
+#' @importFrom glmmML glmmML
+#' @param labels1 a vector of \code{n} clustering labels
+#' @param labels2 a vector of \code{n} clustering labels
+#' @return list containing the fitted \code{glmmML} object, the comemberships,
+#' and the explicit GLMM parameter estimates
+comembership_glmm <- function(labels1, labels2) {
+  n <- length(labels1)
+  if (n != length(labels2)) {
+    stop("The lengths of the clustering labels must be equal.")
+  }
+
+  comemberships1 <- comembership(labels = labels1)
+  comemberships2 <- comembership(labels = labels2)
+
+  # Restructures the data to match the bottom of:
+  # http://www.biostat.jhsph.edu/~bcaffo/aglm/files/glmmPresentation.pdf
+  pairs_comembership <- data.frame(
+    Clustering = rep(c("Algorithm1", "Algorithm2"), choose(n, 2)),
+    pair = factor(rep(seq_len(choose(n, 2)), each = 2)),
+    comembership = as.vector(rbind(comemberships1, comemberships2))
+  )
+                                
+  # We fit a Generalized Linear Mixed Model (GLMM) to the comembership data
+  # using Gauss-Hermite quadrature via the `glmmML:::glmmML` function.
+  fit_glmmML <- glmmML(comembership ~ Clustering, cluster = pair,
+                       data = pairs_comembership, method = "ghq")
+
+  # Extracts the estimates for the GLMM model and returns the fitted GLMM
+  # object.
+  list(alpha = as.numeric(fit_glmmML$coefficients[1]),
+       beta = as.numeric(fit_glmmML$coefficients[2]),
+       sigma = fit_glmmML$sigma,
+       comembership = pairs_comembership,
+       fit = fit_glmmML
+  )
+}
