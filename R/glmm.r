@@ -1,4 +1,13 @@
 #' Generates two sequences of comemberships from a GLMM fit.
+#'
+#' TODO
+#'
+#' @export
+#' @param n the number of observations to generate
+#' @param alpha the random effects intercept
+#' @param beta the random effects "slope"
+#' @param sigma the random effect standard deviation
+#' @return list of two binary sequences -- each of length \code{n}
 generate_comemberships <- function(n, alpha, beta, sigma) {
   # Generate random effect.
   gamma <- rnorm(n, 0, sigma)

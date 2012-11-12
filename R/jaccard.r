@@ -9,6 +9,9 @@
 #' @param labels2 a vector of \code{n} clustering labels
 #' @param estimation the method used to estimate the Jaccard similarity
 #' coefficient. By default, we use a GLMM method.
+#' @param ... Additional arguments passed to the helper functions. See
+#' \code{\link{jaccard_glmm}} and \code{\link{jaccard_standard}} for more
+#' details.
 #' @return the Jaccard coefficient for the two sets of cluster labels (See
 #' Details.)
 #' @export
@@ -33,12 +36,12 @@
 #' jaccard(iris_kmeans, iris_hclust, estimation = "glmm")
 #' jaccard(iris_kmeans, iris_hclust, estimation = "standard")
 #'
-jaccard <- function(labels1, labels2, estimation = c("glmm", "standard")) {
+jaccard <- function(labels1, labels2, estimation = c("glmm", "standard"), ...) {
   estimation <- match.arg(estimation)
 
   switch(estimation,
-         glmm = jaccard_glmm(labels1, labels2),
-         standard = jaccard_standard(labels1, labels2))
+         glmm = jaccard_glmm(labels1, labels2, ...),
+         standard = jaccard_standard(labels1, labels2, ...))
 }
 
 #' Computes the Jaccard similarity coefficient of two clusterings using a
@@ -53,6 +56,9 @@ jaccard <- function(labels1, labels2, estimation = c("glmm", "standard")) {
 #' Jaccard similarity coefficient is computed. If specified, the cluster label
 #' arguments are ignored.
 #' @param num_reps the number of random effects sampled
+#' @param marginal_probs logical. If \code{FALSE}, we return in a list the
+#' \code{jaccard} estimate along with the marginal probabilities, \code{p1} and
+#' \code{p2}.
 #' @return the estimated Jaccard coefficient for the two sets of cluster labels
 #' @export
 #' @examples
@@ -74,7 +80,8 @@ jaccard <- function(labels1, labels2, estimation = c("glmm", "standard")) {
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' jaccard_glmm(iris_kmeans, iris_hclust)
 #' }
-jaccard_glmm <- function(labels1, labels2, glmm_obj = NULL, num_reps = 10000) {
+jaccard_glmm <- function(labels1, labels2, glmm_obj = NULL, num_reps = 10000,
+                         marginal_probs = FALSE, comemberships = FALSE) {
   if (!is.null(glmm_obj)) {
     if (!inherits(glmm_obj, "glmmML")) {
       stop("The 'glmm_obj' must be of class 'glmmML'.")
@@ -83,7 +90,8 @@ jaccard_glmm <- function(labels1, labels2, glmm_obj = NULL, num_reps = 10000) {
     beta <- as.numeric(glmm_obj$coefficients[2])
     sigma <- glmm_obj$sigma
   } else {
-    comem_glmm <- comembership_glmm(labels1 = labels1, labels2 = labels2)
+    comem_glmm <- comembership_glmm(labels1 = labels1, labels2 = labels2,
+                                    comemberships = comemberships)
     alpha <- comem_glmm$alpha
     beta <- comem_glmm$beta
     sigma <- comem_glmm$sigma
@@ -92,7 +100,14 @@ jaccard_glmm <- function(labels1, labels2, glmm_obj = NULL, num_reps = 10000) {
   gamma <- rnorm(num_reps, 0, sd = sigma)
   p1 <- mean(exp(alpha + gamma) / (1 + exp(alpha + gamma)))
   p2 <- mean(exp(alpha + beta + gamma) / (1 + exp(alpha + beta + gamma)))
-  (p1 * p2) / (p1 + p2 - p1 * p2)
+  jaccard <- (p1 * p2) / (p1 + p2 - p1 * p2)
+
+  if (marginal_probs) {
+    out <- list(jaccard = jaccard, p1 = p1, p2 = p2)
+  } else {
+    out <- jaccard
+  }
+  out
 }
 
 
@@ -136,6 +151,8 @@ jaccard_glmm <- function(labels1, labels2, glmm_obj = NULL, num_reps = 10000) {
 #'
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
+#' @param comemberships logical. If \code{TRUE}, the label sequences are the
+#' comemberships from which the Jaccard estimator is computed.
 #' @return the Jaccard coefficient for the two sets of cluster labels (See
 #' Details.)
 #' @export
@@ -158,9 +175,11 @@ jaccard_glmm <- function(labels1, labels2, glmm_obj = NULL, num_reps = 10000) {
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' jaccard_standard(iris_kmeans, iris_hclust)
 #' }
-jaccard_standard <- function(labels1, labels2) {
-  com_table <- comembership_table(labels1, labels2)
-  jaccard_out <- with(com_table, n_11 / (n_11 + n_10 + n_01))
+jaccard_standard <- function(labels1, labels2, comemberships = FALSE) {
+  comem_table <- comembership_table(labels1 = labels1, labels2 = labels2,
+                                    comemberships = comemberships)
+
+  jaccard_out <- with(comem_table, n_11 / (n_11 + n_10 + n_01))
 
   # In the case where 'labels1' and 'labels2' contain all singletons, the Jaccard
   # coefficient results in the expression 0 / 0, which yields a NaN value in R.

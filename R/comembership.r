@@ -64,6 +64,8 @@ comembership <- function(labels) {
 #' @export
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
+#' @param comemberships logical. If \code{TRUE}, the label sequences are the
+#' comemberships from which the comembership table is computed.
 #' @return named list containing the calculated contingency table:
 #' \itemize{
 #'   \item n_11
@@ -91,12 +93,23 @@ comembership <- function(labels) {
 #' iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' comembership_table(iris_kmeans, iris_hclust)
-comembership_table <- function(labels1, labels2) {
+comembership_table <- function(labels1, labels2, comemberships = FALSE) {
   if (length(labels1) != length(labels2)) {
     stop("The two vectors of cluster labels must be of equal length.");
   }
 
-	.Call("rcpp_comembership_table", labels1, labels2, PACKAGE = "clusteval")
+  if (comemberships) {
+    # TODO: Compute this table with Rcpp for speed.
+    comem_table <- list(
+      n_11 = sum(labels1 & labels2),
+      n_10 = sum(labels1 & !labels2),
+      n_01 = sum(!labels1 & labels2),
+      n_00 = sum(!labels1 & !labels2))
+  } else {
+    comem_table <- .Call("rcpp_comembership_table", labels1, labels2,
+                         PACKAGE = "clusteval")
+  }
+  comem_table
 }
 
 #' For two vectors of clustering labels obtained from the same data set,
@@ -106,19 +119,28 @@ comembership_table <- function(labels1, labels2) {
 #' We fit a GLMM to the comemberships using Gauss-Hermite quadrature via the
 #' \code{glmmML} function from the \code{glmmML} package.
 #'
+#' @export
 #' @importFrom glmmML glmmML
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
+#' @param comemberships logical. If \code{TRUE}, the label sequences are the
+#' comemberships from which the comembership table is computed used to estimate
+#' the GLMM coefficients.
 #' @return list containing the fitted \code{glmmML} object, the comemberships,
 #' and the explicit GLMM parameter estimates
-comembership_glmm <- function(labels1, labels2) {
+comembership_glmm <- function(labels1, labels2, comemberships = FALSE) {
   n <- length(labels1)
   if (n != length(labels2)) {
     stop("The lengths of the clustering labels must be equal.")
   }
 
-  comemberships1 <- comembership(labels = labels1)
-  comemberships2 <- comembership(labels = labels2)
+  if (comemberships) {
+    comemberships1 <- labels1
+    comemberships2 <- labels2
+  } else {
+    comemberships1 <- comembership(labels = labels1)
+    comemberships2 <- comembership(labels = labels2)
+  }
 
   # Restructures the data to match the bottom of:
   # http://www.biostat.jhsph.edu/~bcaffo/aglm/files/glmmPresentation.pdf
