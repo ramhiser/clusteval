@@ -3,8 +3,7 @@
 \title{Computes the similarity between two clusterings of the same data set.}
 \usage{
   cluster_similarity(labels1, labels2,
-    similarity = c("jaccard", "rand"),
-    method = "independence")
+    similarity = c("jaccard", "rand"))
 }
 \arguments{
   \item{labels1}{a vector of \code{n} clustering labels}
@@ -12,9 +11,6 @@
   \item{labels2}{a vector of \code{n} clustering labels}
 
   \item{similarity}{the similarity statistic to calculate}
-
-  \item{method}{the model under which the statistic was
-  derived}
 }
 \value{
   the similarity between the two clusterings

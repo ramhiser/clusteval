@@ -31,7 +31,6 @@
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
 #' @param similarity the similarity statistic to calculate
-#' @param method the model under which the statistic was derived
 #' @return the similarity between the two clusterings
 #' @examples
 #' # Notice that the number of comemberships is 'n choose 2'.
@@ -39,20 +38,15 @@
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' cluster_similarity(iris_kmeans, iris_hclust)
 cluster_similarity <- function(labels1, labels2,
-                               similarity = c("jaccard", "rand"),
-                               method = "independence") {
+                               similarity = c("jaccard", "rand")) {
 	similarity <- match.arg(similarity)
-  method <- match.arg(method)
-
-  # Currently, we ignore the `method` argument and only use the similarity
-  # statistics derived under an independence assumption.
   switch(similarity,
-         jaccard = jaccard_indep(labels1, labels2),
-         rand = rand_indep(labels1, labels2))
+         jaccard = jaccard(labels1, labels2),
+         rand = rand(labels1, labels2))
 }
 
 #' Computes the Jaccard similarity coefficient of two clusterings of the same
-#' data set under the assumption that the two clusterings are independent.
+#' data set.
 #'
 #' For two clusterings of the same data set, this function calculates the Jaccard
 #' similarity coefficient of the clusterings from the comemberships of the
@@ -95,7 +89,7 @@ cluster_similarity <- function(labels1, labels2,
 #' n <- 10
 #' labels1 <- sample.int(K, n, replace = TRUE)
 #' labels2 <- sample.int(K, n, replace = TRUE)
-#' jaccard_indep(labels1, labels2)
+#' jaccard(labels1, labels2)
 #' 
 #' # Here, we cluster the \code{\link{iris}} data set with the K-means and
 #' # hierarchical algorithms using the true number of clusters, K = 3.
@@ -103,9 +97,9 @@ cluster_similarity <- function(labels1, labels2,
 #' # clusterings.
 #' iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
-#' jaccard_indep(iris_kmeans, iris_hclust)
+#' jaccard(iris_kmeans, iris_hclust)
 #' }
-jaccard_indep <- function(labels1, labels2) {
+jaccard <- function(labels1, labels2) {
   com_table <- comembership_table(labels1, labels2)
   jaccard_out <- with(com_table, n_11 / (n_11 + n_10 + n_01))
 
@@ -119,8 +113,7 @@ jaccard_indep <- function(labels1, labels2) {
   jaccard_out
 }
 
-#' Computes the Rand similarity index of two clusterings of the same data set
-#' under the assumption that the two clusterings are independent.
+#' Computes the Rand similarity index of two clusterings of the same data set.
 #'
 #' For two clusterings of the same data set, this function calculates the Rand
 #' similarity coefficient of the clusterings from the comemberships of the
@@ -158,16 +151,16 @@ jaccard_indep <- function(labels1, labels2) {
 #' n <- 10
 #' labels1 <- sample.int(K, n, replace = TRUE)
 #' labels2 <- sample.int(K, n, replace = TRUE)
-#' rand_indep(labels1, labels2)
+#' rand(labels1, labels2)
 #' 
 #' # Here, we cluster the \code{\link{iris}} data set with the K-means and
 #' # hierarchical algorithms using the true number of clusters, K = 3.
 #' # Then, we compute the Rand similarity index between the two clusterings.
 #' iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
-#' rand_indep(iris_kmeans, iris_hclust)
+#' rand(iris_kmeans, iris_hclust)
 #' }
-rand_indep <- function(labels1, labels2) {
+rand <- function(labels1, labels2) {
   com_table <- comembership_table(labels1, labels2)
   with(com_table, (n_11 + n_00) / (n_11 + n_10 + n_01 + n_00))
 }
