@@ -93,10 +93,10 @@
   of the proposed clusters. By default, we utilize the
   Jaccard similarity coefficient in the calculation of the
   ClustOmit statistic to provide a clear interpretation of
-  cluster assessment. The technical details of the
+  cluster assessment.  The technical details of the
   ClustOmit statistic can be found in our forthcoming
-  publication entitled "Cluster Stability Evaluation of
-  Gene Expression Data."
+  publication entitled "Cluster Stability Evaluation via
+  Cluster Omission."
 
   The ClustOmit cluster stability statistic is based on the
   cluster omission admissibility condition from Fisher and
@@ -131,11 +131,12 @@ kmeans_wrapper <- function(x, num_clusters, num_starts = 10, ...) {
 
 # For this example, we generate five multivariate normal populations with the
 # \\code{sim_data} function.
-x <- sim_data("normal", delta = 1.5, seed = 42)$x
+set.seed(42)
+x <- sim_data("normal", delta = 1.5)$x
 
-clustomit_out <- clustomit(x = x, num_clusters = 4,
+fom_out <- figure_of_merit(x = x, num_clusters = 4,
                            cluster_method = "kmeans_wrapper", num_cores = 1)
-clustomit_out2 <- clustomit(x = x, num_clusters = 5,
+fom_out2 <- figure_of_merit(x = x, num_clusters = 5,
                             cluster_method = kmeans_wrapper, num_cores = 1)
 }
 \references{

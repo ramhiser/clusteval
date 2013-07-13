@@ -1,6 +1,12 @@
 clusteval 0.2
 -------------
 
+CLUSTER EVALUATION METHODS
+
+* `figure_of_merit()` is an implementation of the Figure of Merit statistic
+  proposed by Yeung et al. (2001) to estimate the predictive power of a
+  clustering algorithm.
+
 MISCELLANEOUS
 
 * Simplified the naming of the similarity indices. For example, `jaccard_indep()`

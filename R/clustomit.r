@@ -12,21 +12,21 @@
 #' 
 #' To compute the ClustOmit statistic, we first cluster the data given in
 #' \code{x} into \code{num_clusters} clusters with the clustering algorithm
-#' specified in \code{cluster_method}. We then omit each cluster in turn
-#' and all of the observations in that cluster. For the omitted cluster, we
-#' resample from the remaining observations and cluster the resampled
-#' observations into \code{num_clusters - 1} clusters again using the clustering
-#' algorithm specified in \code{cluster_method}. Next, we compute the similarity
-#' between the cluster labels of the original data set and the cluster labels of
-#' the bootstrapped sample. We approximate the sampling distribution of the
-#' ClustOmit statistic using a stratified, nonparametric bootstrapping scheme and
-#' use the apparent variability in the approximated sampling distribution as a
-#' diagnostic tool for further evaluation of the proposed clusters. By default,
-#' we utilize the Jaccard similarity coefficient in the calculation of the
-#' ClustOmit statistic to provide a clear interpretation of cluster assessment.
-#' The technical details of the ClustOmit statistic can be found in our
-#' forthcoming publication entitled "Cluster Stability Evaluation of Gene
-#' Expression Data."
+#' specified in \code{cluster_method}. We then omit each cluster in turn and all
+#' of the observations in that cluster. For the omitted cluster, we resample
+#' from the remaining observations and cluster the resampled observations into
+#' \code{num_clusters - 1} clusters again using the clustering algorithm
+#' specified in \code{cluster_method}. Next, we compute the similarity between
+#' the cluster labels of the original data set and the cluster labels of the
+#' bootstrapped sample. We approximate the sampling distribution of the
+#' ClustOmit statistic using a stratified, nonparametric bootstrapping scheme
+#' and use the apparent variability in the approximated sampling distribution as
+#' a diagnostic tool for further evaluation of the proposed clusters. By
+#' default, we utilize the Jaccard similarity coefficient in the calculation of
+#' the ClustOmit statistic to provide a clear interpretation of cluster
+#' assessment.  The technical details of the ClustOmit statistic can be found in
+#' our forthcoming publication entitled "Cluster Stability Evaluation via
+#' Cluster Omission."
 #'
 #' The ClustOmit cluster stability statistic is based on the cluster omission
 #' admissibility condition from Fisher and Van Ness (1971), who provide
@@ -34,8 +34,8 @@
 #' algorithm should satisfy. The guidelines from Fisher and Van Ness (1971)
 #' establish a systematic foundation that is often lacking in the evaluation of
 #' clustering algorithms. The ClustOmit statistic is our proposed methodology to
-#' evaluate the cluster omission admissibility condition from Fisher and
-#' Van Ness (1971).
+#' evaluate the cluster omission admissibility condition from Fisher and Van
+#' Ness (1971).
 #'
 #' We require a clustering algorithm function to be specified in the argument
 #' \code{cluster_method}. The function given should accept at least two
@@ -102,11 +102,12 @@
 #'
 #' # For this example, we generate five multivariate normal populations with the
 #' # \code{sim_data} function.
-#' x <- sim_data("normal", delta = 1.5, seed = 42)$x
+#' set.seed(42)
+#' x <- sim_data("normal", delta = 1.5)$x
 #'
-#' clustomit_out <- clustomit(x = x, num_clusters = 4,
+#' fom_out <- figure_of_merit(x = x, num_clusters = 4,
 #'                            cluster_method = "kmeans_wrapper", num_cores = 1)
-#' clustomit_out2 <- clustomit(x = x, num_clusters = 5,
+#' fom_out2 <- figure_of_merit(x = x, num_clusters = 5,
 #'                             cluster_method = kmeans_wrapper, num_cores = 1)
 clustomit <- function(x, num_clusters, cluster_method,
                       similarity = c("jaccard", "rand"), weighted_mean = TRUE,
