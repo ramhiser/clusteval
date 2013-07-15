@@ -70,7 +70,8 @@
 #' clustering labels for each observation in the matrix \code{x}.
 #' @param similarity the similarity statistic that is used to compare the
 #' original clustering (after a single cluster and its observations have been
-#' omitted) to its resampled counterpart.
+#' omitted) to its resampled counterpart. See \code{\link{similarity_methods}}
+#' for a listing of available similarity methods.
 #' @param weighted_mean logical value. Should the aggregate similarity score for
 #' each bootstrap replication be weighted by the number of observations in each
 #' of the observed clusters? By default, yes (i.e., \code{TRUE}).
@@ -122,14 +123,13 @@
 #'                            num_cores = 1)
 #' clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = kmeans_wrapper,
 #'                             num_cores = 1)
-clustomit <- function(x, K, cluster_method,
-                      similarity = c("adjusted_rand", "jaccard", "rand"),
-                      weighted_mean = FALSE, stratified = FALSE, num_reps = 250,
+clustomit <- function(x, K, cluster_method, similarity, weighted_mean = FALSE,
+                      stratified = FALSE, num_reps = 250,
                       num_cores = getOption("mc.cores", 2), ...) {
   x <- as.matrix(x)
   K <- as.integer(K)
   cluster_method <- match.fun(cluster_method)
-  similarity <- match.arg(similarity)
+  similarity <- match.arg(similarity, similarity_methods()$method)
 
   # The cluster labels for the observed (original) data matrix (i.e., x).  
   obs_clusters <- cluster_method(x = x, K = K, ...)
@@ -167,16 +167,16 @@ clustomit <- function(x, K, cluster_method,
   boot_aggregate <- apply(boot_similarity_matrix, 1, weighted.mean,
                           w = aggregate_weights)
 
-	obj <- list(
+  obj <- list(
     boot_aggregate = as.vector(boot_aggregate),
-		boot_similarity = boot_similarity,
+    boot_similarity = boot_similarity,
     obs_clusters = obs_clusters,
-		K = K,
-		similarity = similarity,
+    K = K,
+    similarity = similarity,
     num_reps = num_reps
 	)
-	class(obj) <- "clustomit"
-	obj
+  class(obj) <- "clustomit"
+  obj
 }
 
 is.clustomit <- function(x) {
@@ -206,9 +206,12 @@ plot.clustomit <- function(x) {
   clustomit_summary <- data.frame(Cluster = cluster_labels,
                                   ClustOmit = clustomit_vals)
 
+  # Determines which similarity method was used.
+  similarity_name <- subset(similarity_methods(), method == x$similarity)$name
+
   p <- ggplot(clustomit_summary, aes(x = ClustOmit, fill = Cluster))
   p <- p + geom_density(alpha = 0.2) + scale_fill_discrete(name = "Cluster")
-  p <- p + xlab("ClustOmit Similarity") + ylab("Density")
+  p <- p + xlab(similarity_name) + ylab("Density")
   if (x$similarity == "adjusted_rand") {
     p <- p + xlim(-1, 1)
   } else {

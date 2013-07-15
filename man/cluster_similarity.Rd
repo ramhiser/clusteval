@@ -2,15 +2,16 @@
 \alias{cluster_similarity}
 \title{Computes the similarity between two clusterings of the same data set.}
 \usage{
-  cluster_similarity(labels1, labels2,
-    similarity = c("adjusted_rand", "dice", "fowlkes_mallows", "jaccard", "phi", "rand", "rogers_tanimoto", "russel_rao", "sokal_sneath"))
+  cluster_similarity(labels1, labels2, similarity)
 }
 \arguments{
   \item{labels1}{a vector of \code{n} clustering labels}
 
   \item{labels2}{a vector of \code{n} clustering labels}
 
-  \item{similarity}{the similarity statistic to calculate}
+  \item{similarity}{the similarity statistic to calculate.
+  See \code{\link{similarity_methods}} for a listing of
+  available similarity methods.}
 }
 \value{
   the similarity between the two clusterings

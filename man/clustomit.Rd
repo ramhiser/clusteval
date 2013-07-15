@@ -3,8 +3,7 @@
 \alias{plot.clustomit}
 \title{ClustOmit - Cluster Stability Evaluation via Cluster Omission}
 \usage{
-  clustomit(x, K, cluster_method,
-    similarity = c("adjusted_rand", "jaccard", "rand"),
+  clustomit(x, K, cluster_method, similarity,
     weighted_mean = FALSE, stratified = FALSE,
     num_reps = 250, num_cores = getOption("mc.cores", 2),
     ...)
@@ -28,7 +27,9 @@
   \item{similarity}{the similarity statistic that is used
   to compare the original clustering (after a single
   cluster and its observations have been omitted) to its
-  resampled counterpart.}
+  resampled counterpart. See
+  \code{\link{similarity_methods}} for a listing of
+  available similarity methods.}
 
   \item{weighted_mean}{logical value. Should the aggregate
   similarity score for each bootstrap replication be

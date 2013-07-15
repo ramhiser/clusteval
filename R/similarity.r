@@ -37,30 +37,52 @@
 #' @export
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
-#' @param similarity the similarity statistic to calculate
+#' @param similarity the similarity statistic to calculate. See
+#' \code{\link{similarity_methods}} for a listing of available similarity
+#' methods.
 #' @return the similarity between the two clusterings
 #' @examples
 #' # Notice that the number of comemberships is 'n choose 2'.
 #' iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' cluster_similarity(iris_kmeans, iris_hclust)
-cluster_similarity <- function(labels1, labels2,
-                               similarity = c("adjusted_rand", "dice",
-                                 "fowlkes_mallows", "jaccard", "phi", "rand",
-                                 "rogers_tanimoto", "russel_rao",
-                                 "sokal_sneath")) {
-	similarity <- match.arg(similarity)
-  switch(similarity,
-         adjusted_rand = adjusted_rand(labels1, labels2),
-         dice = dice(labels1, labels2),
-         fowlkes_mallows = fowlkes_mallows(labels1, labels2),
-         jaccard = jaccard(labels1, labels2),
-         phi = phi(labels1, labels2),
-         rand = rand(labels1, labels2),
-         rogers_tanimoto = rogers_tanimoto(labels1, labels2),
-         russel_rao = russel_rao(labels1, labels2),
-         sokal_sneath = sokal_sneath(labels1, labels2))
+cluster_similarity <- function(labels1, labels2, similarity) {
+	similarity <- match.arg(similarity, similarity_methods()$method)
+  similarity_fun <- match.fun(similarity)
+  similarity_fun(labels1, labels2)
 }
+
+#' Brief description of all similarity functions in the 'clusteval' package.
+#'
+#' For all similarity functions in the \code{\link{clusteval}} package, we
+#' summarize them in a data frame.
+#'
+#' @export
+#' @return data frame describing each similarity function in the package. The
+#' columns of the data frame are:
+#' \describe{
+#'   \item{method}{the name of the R function to calculate the similarity method}
+#'   \item{name}{The name of the similarity method}
+#' }
+similarity_methods <- function() {
+  similarity_summary <- rbind.data.frame(
+    c("adjusted_rand", "Adjusted Rand"),
+    c("dice", "Dice"),
+    c("fowlkes_mallows", "Fowlkes-Mallows"),
+    c("jaccard", "Jaccard"),
+    c("phi", "Phi"),
+    c("rand", "Rand"),
+    c("rogers_tanimoto", "Rogers-Tanimoto"),
+    c("russel_rao", "Russel-Rao"),
+    c("sokal_sneath", "Sokal-Sneath")
+  )
+  colnames(similarity_summary) <- c('method', 'name')
+  similarity_summary$method <- as.character(similarity_summary$method)
+  similarity_summary$name <- as.character(similarity_summary$name)
+
+  similarity_summary
+}
+
 
 #' Computes the adjusted Rand similarity index of two clusterings of the same
 #' data set.

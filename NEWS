@@ -31,6 +31,9 @@ CLUSTER SIMILARITY
 
 * `sokal_sneath()` implements the Sokal-Sneath similarity.
 
+* `similarity_methods()` also briefly describes the available similarity methods
+  and miscellaneous details
+
 MISCELLANEOUS
 
 * `clustomit()` no longer uses stratifed sampling by default. This functionality
