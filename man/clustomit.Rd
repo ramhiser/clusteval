@@ -5,8 +5,8 @@
 \usage{
   clustomit(x, K, cluster_method,
     similarity = c("adjusted_rand", "jaccard", "rand"),
-    weighted_mean = TRUE, stratified = FALSE,
-    num_reps = 50, num_cores = getOption("mc.cores", 2),
+    weighted_mean = FALSE, stratified = FALSE,
+    num_reps = 250, num_cores = getOption("mc.cores", 2),
     ...)
 
   \method{plot}{clustomit} (x)
@@ -28,9 +28,7 @@
   \item{similarity}{the similarity statistic that is used
   to compare the original clustering (after a single
   cluster and its observations have been omitted) to its
-  resampled counterpart. Currently, we have implemented the
-  Jaccard and Rand similarity statistics and use the
-  Jaccard statistic by default.}
+  resampled counterpart.}
 
   \item{weighted_mean}{logical value. Should the aggregate
   similarity score for each bootstrap replication be
@@ -64,7 +62,13 @@
   the observations in \code{x}} \item{K:}{the number of
   clusters found} \item{similarity:}{the similarity
   statistic used for comparison between the original
-  clustering and the resampled clusterings} }
+  clustering and the resampled clusterings}
+  \item{num_reps:}{the number of bootstrap replicates drawn
+  for each cluster omitted} }
+
+  a \code{\link{ggplot2}} object. The object is plotted in
+  interactive sessions. In some cases, the returned
+  objected may need plotted by invoking \code{plot}.
 }
 \description{
   We provide an implementation of the ClustOmit statistic,
@@ -134,8 +138,8 @@
   We require a clustering algorithm function to be
   specified in the argument \code{cluster_method}. The
   function given should accept at least two arguments:
-  \describe{ \item{x}{matrix of observations to cluster}
-  \item{K}{the number of clusters to find}
+  \describe{ \item{x:}{matrix of observations to cluster}
+  \item{K:}{the number of clusters to find}
   \item{...}{additional arguments that can be passed on} }
   Also, the function given should return only clustering
   labels for each observation in the matrix \code{x}. The

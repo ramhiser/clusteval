@@ -11,8 +11,7 @@ comemberships from two vectors of clustering labels.}
   \item{labels2}{a vector of \code{n} clustering labels}
 }
 \value{
-  named list containing the calculated contingency table:
-  \itemize{ \item n_11 \item n_10 \item n_01 \item n_00 }
+  named list containing the contingency table calculated
 }
 \description{
   For two clusterings of the same data set, this function
@@ -26,13 +25,13 @@ comemberships from two vectors of clustering labels.}
   the calculation of a similarity statistic (e.g., Rand
   index, Jaccard index) between the two clusterings. The
   2x2 contingency table consists of the following four
-  cells: \describe{ \item{n_11}{the number of observation
+  cells: \describe{ \item{n_11:}{the number of observation
   pairs where both observations are comembers in both
-  clusterings} \item{n_10}{the number of observation pairs
+  clusterings} \item{n_10:}{the number of observation pairs
   where the observations are comembers in the first
-  clustering but not the second} \item{n_01}{the number of
+  clustering but not the second} \item{n_01:}{the number of
   observation pairs where the observations are comembers in
-  the second clustering but not the first} \item{n_00}{the
+  the second clustering but not the first} \item{n_00:}{the
   number of observation pairs where neither pair are
   comembers in either clustering} }
 
@@ -41,8 +40,8 @@ comemberships from two vectors of clustering labels.}
   authors instead use the terms 'connectivity' or
   'co-occurrence'.
 
-  We use the \code{Rcpp} package to improve the runtime
-  speed of this function.
+  We use the \code{\link{Rcpp}} package to improve the
+  runtime speed of this function.
 }
 \examples{
 # We generate K = 3 labels for each of n = 10 observations and compute the

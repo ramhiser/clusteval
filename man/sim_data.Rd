@@ -29,13 +29,13 @@
   distributions each with a common covariance matrix} }
 }
 \details{
-  For each data-generating model, we generate \eqn{n_m}
-  observations \eqn{(m = 1, \ldots, M)} from each of
-  \eqn{M} multivariate distributions so that the Euclidean
-  distance between each of the population centroids and the
-  origin is equal and scaled by \eqn{\Delta \ge 0}. For
-  each model, the argument \code{delta} controls this
-  separation.
+  For each data-generating model, we generate \eqn{n_k}
+  observations \eqn{(k = 1, \ldots, K_0)} from each of
+  \eqn{K_0} multivariate distributions so that the
+  Euclidean distance between each of the population
+  centroids and the origin is equal and scaled by
+  \eqn{\Delta \ge 0}. For each model, the argument
+  \code{delta} controls this separation.
 
   This wrapper function is useful for simulation studies,
   where the efficacy of supervised and unsupervised

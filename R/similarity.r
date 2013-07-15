@@ -8,13 +8,13 @@
 #' To calculate the similarity, we compute the 2x2 contingency table, consisting
 #' of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
@@ -129,18 +129,18 @@ adjusted_rand <- function(labels1, labels2) {
 #' To calculate the Dice index, we compute the 2x2 contingency table, consisting
 #' of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
 #' The Dice similarity index is defined as:
-#' \deqn{\frac{2 * n_{11}}{2 n_{11} + n_{10} + n_{01}}}.
+#' \deqn{\frac{2 * n_{11}}{2 n_{11} + n_{10} + n_{01}}.}
 #'
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
@@ -183,18 +183,18 @@ dice <- function(labels1, labels2) {
 #' To calculate the Fowlkes-Mallows index, we compute the 2x2 contingency table, consisting
 #' of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
 #' The Fowlkes-Mallows similarity index is defined as:
-#' \deqn{\frac{n_{11}}{\sqrt{(n_{11} + n_{10})(n_{11} + n_{01})}}}.
+#' \deqn{\frac{n_{11}}{\sqrt{(n_{11} + n_{10})(n_{11} + n_{01})}}.}
 #'
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
@@ -238,18 +238,18 @@ fowlkes_mallows <- function(labels1, labels2) {
 #' To calculate the Jaccard coefficient, we compute the 2x2 contingency table,
 #' consisting of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
 #' The Jaccard similarity coefficient is defined as:
-#' \deqn{J = \frac{n_{11}}{n_{11} + n_{10} + n_{01}}}.
+#' \deqn{J = \frac{n_{11}}{n_{11} + n_{10} + n_{01}}.}
 #'
 #' In the special case that the Jaccard coefficient results in \eqn{0/0},
 #' we define \eqn{J = 0}. For instance, this case can occur when both clusterings
@@ -306,18 +306,18 @@ jaccard <- function(labels1, labels2) {
 #' To calculate the Phi coefficient, we compute the 2x2 contingency table,
 #' consisting of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
 #' The Phi coefficient is defined as:
-#' \deqn{\frac{n_{11} * n_{00} - n_{10} * n_{01}}{\sqrt{(n_{11} + n_{10})(n_{11} + n_{01})(n_{00} + n_{10})(n_{00} + n_{01})}}}.
+#' \deqn{\frac{n_{11} * n_{00} - n_{10} * n_{01}}{\sqrt{(n_{11} + n_{10})(n_{11} + n_{01})(n_{00} + n_{10})(n_{00} + n_{01})}}.}
 #'
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
@@ -364,18 +364,18 @@ phi <- function(labels1, labels2) {
 #' To calculate the Rand index, we compute the 2x2 contingency table, consisting
 #' of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
 #' The Rand similarity index is defined as:
-#' \deqn{\frac{n_{11} + n_{00}}{n_{11} + n_{10} + n_{01} + n_{00}}}.
+#' \deqn{\frac{n_{11} + n_{00}}{n_{11} + n_{10} + n_{01} + n_{00}}.}
 #'
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
@@ -417,18 +417,18 @@ rand <- function(labels1, labels2) {
 #' To calculate the Rogers-Tanimoto similarity, we compute the 2x2 contingency table,
 #' consisting of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
 #' The Rogers-Tanimoto similarity is defined as:
-#' \deqn{\frac{n_{11} + n_{00}}{n_{11} + 2 (n_{10} + n_{01}) + n_{00}}}.
+#' \deqn{\frac{n_{11} + n_{00}}{n_{11} + 2 (n_{10} + n_{01}) + n_{00}}.}
 #'
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
@@ -471,18 +471,18 @@ rogers_tanimoto <- function(labels1, labels2) {
 #' To calculate the Russel-Rao similarity, we compute the 2x2 contingency table,
 #' consisting of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
 #' The Russel-Rao similarity is defined as:
-#' \deqn{\frac{n_{11}}{n_{11} + n_{10} + n_{01} + n_{00}}}.
+#' \deqn{\frac{n_{11}}{n_{11} + n_{10} + n_{01} + n_{00}}.}
 #'
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.
@@ -524,18 +524,18 @@ russel_rao <- function(labels1, labels2) {
 #' To calculate the Sokal-Sneath similarity, we compute the 2x2 contingency table,
 #' consisting of the following four cells:
 #' \describe{
-#'   \item{n_11}{the number of observation pairs where both observations are
+#'   \item{n_11:}{the number of observation pairs where both observations are
 #' comembers in both clusterings}
-#'   \item{n_10}{the number of observation pairs where the observations are
+#'   \item{n_10:}{the number of observation pairs where the observations are
 #' comembers in the first clustering but not the second}
-#'   \item{n_01}{the number of observation pairs where the observations are
+#'   \item{n_01:}{the number of observation pairs where the observations are
 #' comembers in the second clustering but not the first}
-#'   \item{n_00}{the number of observation pairs where neither pair are comembers
+#'   \item{n_00:}{the number of observation pairs where neither pair are comembers
 #' in either clustering}
 #' }
 #'
 #' The Sokal-Sneath similarity is defined as:
-#' \deqn{\frac{2 (n_{11} + n_{00})}{2 n_{11} + n_{10} + n_{01} + 2 n_{00}}}.
+#' \deqn{\frac{2 (n_{11} + n_{00})}{2 n_{11} + n_{10} + n_{01} + 2 n_{00}}.}
 #'
 #' To compute the contingency table, we use the \code{\link{comembership_table}}
 #' function.

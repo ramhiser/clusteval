@@ -12,19 +12,19 @@
   \item{K}{the number of clusters}
 
   \item{prob}{a vector of probabilities to generate each
-  cluster label. If NULL, each cluster label has an equal
-  chance of being selected.}
+  cluster label. If \code{NULL}, each cluster label has an
+  equal chance of being selected.}
 }
 \value{
   a vector of clustering labels for each observation in
-  'x'.
+  \code{x}.
 }
 \description{
-  For each observation (row) in 'x', one of K labels is
-  randomly generated. By default, the probabilities of
-  selecting each clustering label are equal, but this can
-  be altered by specifying 'prob', a vector of
-  probabilities for each cluster.
+  For each observation (row) in \code{x}, one of \code{K}
+  labels is randomly generated.  By default, the
+  probabilities of selecting each clustering label are
+  equal, but this can be altered by specifying \code{prob},
+  a vector of probabilities for each cluster.
 }
 \details{
   Random clustering is often utilized as a baseline

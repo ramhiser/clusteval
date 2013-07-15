@@ -50,8 +50,8 @@
 #' \code{cluster_method}. The function given should accept at least two
 #' arguments:
 #' \describe{
-#'   \item{x}{matrix of observations to cluster}
-#'   \item{K}{the number of clusters to find}
+#'   \item{x:}{matrix of observations to cluster}
+#'   \item{K:}{the number of clusters to find}
 #'   \item{...}{additional arguments that can be passed on}
 #' }
 #' Also, the function given should return only clustering labels for each
@@ -70,9 +70,7 @@
 #' clustering labels for each observation in the matrix \code{x}.
 #' @param similarity the similarity statistic that is used to compare the
 #' original clustering (after a single cluster and its observations have been
-#' omitted) to its resampled counterpart. Currently, we have implemented the
-#' Jaccard and Rand similarity statistics and use the Jaccard statistic by
-#' default.
+#' omitted) to its resampled counterpart.
 #' @param weighted_mean logical value. Should the aggregate similarity score for
 #' each bootstrap replication be weighted by the number of observations in each
 #' of the observed clusters? By default, yes (i.e., \code{TRUE}).
@@ -97,6 +95,8 @@
 #'   \item{K:}{the number of clusters found}
 #'   \item{similarity:}{the similarity statistic used for comparison between the
 #' original clustering and the resampled clusterings}
+#'   \item{num_reps:}{the number of bootstrap replicates drawn for each cluster
+#' omitted}
 #' }
 #' @references Ramey, J. A., Sego, L. H., and Young, D. M. (2013), Cluster
 #' Stability Evaluation via Cluster Omission.
@@ -124,7 +124,7 @@
 #'                             num_cores = 1)
 clustomit <- function(x, K, cluster_method,
                       similarity = c("adjusted_rand", "jaccard", "rand"),
-                      weighted_mean = TRUE, stratified = FALSE, num_reps = 50,
+                      weighted_mean = FALSE, stratified = FALSE, num_reps = 250,
                       num_cores = getOption("mc.cores", 2), ...) {
   x <- as.matrix(x)
   K <- as.integer(K)

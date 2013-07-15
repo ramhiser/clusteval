@@ -19,7 +19,7 @@
 #' with replacement from each cluster. In this case, the number of observations
 #' sampled from a cluster is equal to the number of observations originally
 #' assigned to that cluster (i.e., its cluster size).
-#' The returned list contains \eqn{K \times num_reps} elements.
+#' The returned list contains \code{K * num_reps} elements.
 #'
 #' Both resampling schemes ensure that we avoid errors when clustering, similar
 #' to this post on R Help:

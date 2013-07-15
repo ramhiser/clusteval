@@ -22,8 +22,8 @@
   authors instead use the terms 'connectivity' or
   'co-occurrence'.
 
-  We use the \code{Rcpp} package to improve the runtime
-  speed of this function.
+  We use the \code{\link{Rcpp}} package to improve the
+  runtime speed of this function.
 }
 \examples{
 # We generate K = 3 labels for each of n = 10 observations and compute the

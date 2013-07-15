@@ -1,40 +1,41 @@
 #' Generates random variates from multivariate normal populations with intraclass
 #' covariance matrices.
 #'
-#' We generate \eqn{n_m} observations \eqn{(m = 1, \ldots, M)} from each of
-#' \eqn{M} multivariate normal distributions such that the Euclidean distance
+#' We generate \eqn{n_k} observations \eqn{(k = 1, \ldots, K_0)} from each of
+#' \eqn{K_0} multivariate normal distributions such that the Euclidean distance
 #' between each of the means and the origin is equal and scaled by
 #' \eqn{\Delta \ge 0}.
 #'
-#' Let \eqn{\Pi_m} denote the \eqn{m}th population with a \eqn{p}-dimensional
-#' multivariate normal distribution, \eqn{N_p(\mu_m, \Sigma_m)} with mean
-#' vector \eqn{\mu_m} and covariance matrix \eqn{\Sigma_m}. Also, let \eqn{e_m}
-#' be the \eqn{m}th standard basis vector (i.e., the \eqn{m}th element is 1 and
-#' the remaining values are 0). Then, we define
-#' \deqn{\mu_m = \Delta \sum_{j=1}^{p/M} e_{(p/M)(m-1) + j}.} Note that \code{p}
-#' must be divisible by \code{M}. By default, the first 10 dimensions of
-#' \eqn{\mu_1} are set to \code{delta} with all remaining dimensions set to 0,
-#' the second 10 dimensions of \eqn{\mu_2} are set to \code{delta} with all
-#' remaining dimensions set to 0, and so on.
+#' Let \eqn{\Pi_k} denote the \eqn{k}th population with a \eqn{p}-dimensional
+#' multivariate normal distribution, \eqn{N_p(\mu_k, \Sigma_k)} with mean vector
+#' \eqn{\mu_k} and covariance matrix \eqn{\Sigma_k}. Also, let \eqn{e_k} be the
+#' \eqn{k}th standard basis vector (i.e., the \eqn{k}th element is 1 and the
+#' remaining values are 0). Then, we define \deqn{\mu_k = \Delta
+#' \sum_{j=1}^{p/K_0} e_{(p/K_0)(k-1) + j}.} Note that \eqn{p} must be divisible
+#' by \eqn{K_0}. By default, the first 10 dimensions of \eqn{\mu_1} are set to
+#' \eqn{\Delta} with all remaining dimensions set to 0, the second 10 dimensions
+#' of \eqn{\mu_2} are set to \eqn{\Delta} with all remaining dimensions set to
+#' 0, and so on.
 #'
 #' Also, we consider intraclass covariance (correlation) matrices such that
-#' \eqn{\Sigma_m = \sigma^2 (1 - \rho_m) J_p + \rho_m I_p}, where
-#' \eqn{-(p-1)^{-1} < \rho_m < 1}, \eqn{I_p} is the \eqn{p \times p} identity
+#' \eqn{\Sigma_k = \sigma^2 (1 - \rho_k) J_p + \rho_k I_p}, where
+#' \eqn{-(p-1)^{-1} < \rho_k < 1}, \eqn{I_p} is the \eqn{p \times p} identity
 #' matrix, and \eqn{J_p} denotes the \eqn{p \times p} matrix of ones.
 #'
-#' By default, we let \eqn{M = 5}, \eqn{\Delta = 0}, and \eqn{\sigma^2 = 1}.
+#' By default, we let \eqn{K_0 = 5}, \eqn{\Delta = 0}, and \eqn{\sigma^2 = 1}.
 #' Furthermore, we generate 25 observations from each population by default.
 #'
-#' For \eqn{\Delta = 0} and \eqn{\rho_m = \rho}, \eqn{m = 1, \ldots, M}, the
-#' \eqn{M} populations are equal.
+#' For \eqn{\Delta = 0} and \eqn{\rho_k = \rho}, \eqn{k = 1, \ldots, K_0}, the
+#' \eqn{K_0} populations are equal.
 #'
-#' @param n a vector (of length M) of the sample sizes for each population
+#' @param n a vector (of length K_0) of the sample sizes for each population
 #' @param p the dimension of the multivariate normal populations
-#' @param rho a vector (of length M) of the intraclass constants for each
+#' @param rho a vector (of length K_0) of the intraclass constants for each
 #' population
 #' @param delta the fixed distance between each population and the origin
 #' @param sigma2 the coefficient of each intraclass covariance matrix
-#' @param seed seed for random number generation (If NULL, does not set seed)
+#' @param seed seed for random number generation (If \code{NULL}, does not set
+#' seed)
 #' @return named list containing:
 #' \describe{
 #'   \item{x:}{A matrix whose rows are the observations generated and whose
@@ -58,7 +59,7 @@
 sim_normal <- function(n = rep(25, 5), p = 50, rho = rep(0.9, 5), delta = 0,
                        sigma2 = 1, seed = NULL) {
   # The number of populations
-  M <- length(n)
+  K_0 <- length(n)
 
   if (delta < 0) {
     stop("The value for 'delta' must be a nonnegative constant.")
@@ -69,32 +70,32 @@ sim_normal <- function(n = rep(25, 5), p = 50, rho = rep(0.9, 5), delta = 0,
   if (length(n) != length(rho)) {
     stop("The length of the vectors 'n' and 'rho' must be equal.")
   }
-  if (p %% M != 0) {
-    stop("We require that 'p' be divisible by 'M'")
+  if (p %% K_0 != 0) {
+    stop("We require that 'p' be divisible by 'K_0'")
   }
   if(!is.null(seed)) {
     set.seed(seed)
   }
 
   # A matrix whose rows are the population means.
-  means <- lapply(seq.int(M), function(m) {
-    mu_m <- matrix(0, nrow = M, ncol = p / M)
-    mu_m[m, ] <- delta
-    mu_m
+  means <- lapply(seq.int(K_0), function(k) {
+    mu_k <- matrix(0, nrow = K_0, ncol = p / K_0)
+    mu_k[k, ] <- delta
+    mu_k
   })
   means <- do.call(cbind, means)
 
   # A list containing each of the covariance matrices.
   cov_list <- lapply(rho, intraclass_cov, p = p)
 
-  # Generates the data in a list of length M.
+  # Generates the data in a list of length K_0.
   # Then, we rbind the data together.
-  x <- lapply(seq_len(M), function(m) {
-    rmvnorm(n[m], means[m, ], cov_list[[m]])
+  x <- lapply(seq_len(K_0), function(k) {
+    rmvnorm(n[k], means[k, ], cov_list[[k]])
   })
   x <- do.call(rbind, x)
-  y <- do.call(c, sapply(seq_len(M), function(m) {
-    rep.int(m, n[m])
+  y <- do.call(c, sapply(seq_len(K_0), function(k) {
+    rep.int(k, n[k])
   }, simplify = FALSE))
   list(x = x, y = y)
 }
@@ -102,7 +103,7 @@ sim_normal <- function(n = rep(25, 5), p = 50, rho = rep(0.9, 5), delta = 0,
 #' Constructs an intraclass covariance matrix.
 #'
 #' We define a \eqn{p \times p} intraclass covariance (correlation)
-#' matrix to be \eqn{\Sigma_m = \sigma^2 (1 - \rho) J_p + \rho I_p},
+#' matrix to be \eqn{\Sigma = \sigma^2 (1 - \rho) J_p + \rho I_p},
 #' where \eqn{-(p-1)^{-1} < \rho < 1}, \eqn{I_p} is the
 #' \eqn{p \times p} identity matrix, and \eqn{J_p} denotes the
 #' \eqn{p \times p} matrix of ones.
