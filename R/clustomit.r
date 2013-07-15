@@ -172,9 +172,49 @@ clustomit <- function(x, K, cluster_method,
 		boot_similarity = boot_similarity,
     obs_clusters = obs_clusters,
 		K = K,
-		similarity = similarity
+		similarity = similarity,
+    num_reps = num_reps
 	)
 	class(obj) <- "clustomit"
 	obj
 }
+
+is.clustomit <- function(x) {
+  inherits(x, "clustomit")
+}
+
+#' Plots the results of a ClustOmit object.
+#'
+#' @keywords internal
+#' @param x a \code{clustomit} object
+#' @return a \code{\link{ggplot2}} object. The object is plotted in interactive
+#' sessions. In some cases, the returned objected may need plotted by invoking
+#' \code{plot}.
+#' @rdname clustomit
+#' @method plot clustomit
+#' @S3method plot clustomit
+#' @export
+#' @import ggplot2
+plot.clustomit <- function(x) {
+  if (!is.clustomit(x)) {
+    stop("'x' must be a 'clustomit' object.")
+  }
+
+  # Formats results for ggplot2
+  cluster_labels <- with(x, gl(K, num_reps, labels = names(boot_similarity)))
+  clustomit_vals <- as.vector(do.call(c, x$boot_similarity))
+  clustomit_summary <- data.frame(Cluster = cluster_labels,
+                                  ClustOmit = clustomit_vals)
+
+  p <- ggplot(clustomit_summary, aes(x = ClustOmit, fill = Cluster))
+  p <- p + geom_density(alpha = 0.2) + scale_fill_discrete(name = "Cluster")
+  p <- p + xlab("ClustOmit Similarity") + ylab("Density")
+  if (x$similarity == "adjusted_rand") {
+    p <- p + xlim(-1, 1)
+  } else {
+    p <- p + xlim(0, 1)
+  }
+  p
+}
+
 

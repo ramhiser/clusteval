@@ -1,5 +1,6 @@
 \name{clustomit}
 \alias{clustomit}
+\alias{plot.clustomit}
 \title{ClustOmit - Cluster Stability Evaluation via Cluster Omission}
 \usage{
   clustomit(x, K, cluster_method,
@@ -7,6 +8,8 @@
     weighted_mean = TRUE, stratified = FALSE,
     num_reps = 50, num_cores = getOption("mc.cores", 2),
     ...)
+
+  \method{plot}{clustomit} (x)
 }
 \arguments{
   \item{x}{data matrix with \code{n} observations (rows)
@@ -47,6 +50,8 @@
 
   \item{...}{additional arguments passed to the function
   specified in \code{cluster_method}}
+
+  \item{x}{a \code{clustomit} object}
 }
 \value{
   object of class \code{clustomit}, which contains a named
@@ -75,6 +80,8 @@
   determine the stability of the clustering via the
   similarity statistic specified (by default, the Jaccard
   coefficient).
+
+  Plots the results of a ClustOmit object.
 }
 \details{
   To compute the ClustOmit statistic, we first cluster the
@@ -165,4 +172,5 @@ clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = kmeans_wrapper,
   stability, _Computational Statistics and Data Analysis_,
   52, 258-271. \url{http://www.jstor.org/stable/2334320}
 }
+\keyword{internal}
 

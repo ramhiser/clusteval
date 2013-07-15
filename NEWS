@@ -1,6 +1,12 @@
 clusteval 0.2
 -------------
 
+PLOTTING
+
+* An S3 `plot()` function has been added to plot a summary of the similarity
+  values stored in a ClustOmit object. The plotting function utilizes the
+  `ggplot2` package.
+
 CLUSTER EVALUATION METHODS
 
 * `figure_of_merit()` is an implementation of the Figure of Merit statistic
