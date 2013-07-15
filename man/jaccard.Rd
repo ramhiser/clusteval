@@ -22,7 +22,7 @@ data set.}
   observations that are clustered together.
 }
 \details{
-  To calculate the Rand index, we compute the 2x2
+  To calculate the Jaccard coefficient, we compute the 2x2
   contingency table, consisting of the following four
   cells: \describe{ \item{n_11}{the number of observation
   pairs where both observations are comembers in both

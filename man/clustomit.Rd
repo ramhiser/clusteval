@@ -2,7 +2,7 @@
 \alias{clustomit}
 \title{ClustOmit - Cluster Stability Evaluation via Cluster Omission}
 \usage{
-  clustomit(x, num_clusters, cluster_method,
+  clustomit(x, K, cluster_method,
     similarity = c("jaccard", "rand"),
     weighted_mean = TRUE, num_reps = 50,
     num_cores = getOption("mc.cores", 2), ...)
@@ -11,9 +11,8 @@
   \item{x}{data matrix with \code{n} observations (rows)
   and \code{p} features (columns)}
 
-  \item{num_clusters}{the number of clusters to find with
-  the clustering algorithm specified in
-  \code{cluster_method}}
+  \item{K}{the number of clusters to find with the
+  clustering algorithm specified in \code{cluster_method}}
 
   \item{cluster_method}{a character string or a function
   specifying the clustering algorithm that will be used.
@@ -53,10 +52,10 @@
   \item{boot_similarity:}{list containing the bootstrapped
   similarity scores for each cluster omitted}
   \item{obs_clusters:}{the clustering labels determined for
-  the observations in \code{x}} \item{num_clusters:}{the
-  number of clusters found} \item{similarity:}{the
-  similarity statistic used for comparison between the
-  original clustering and the resampled clusterings} }
+  the observations in \code{x}} \item{K:}{the number of
+  clusters found} \item{similarity:}{the similarity
+  statistic used for comparison between the original
+  clustering and the resampled clusterings} }
 }
 \description{
   We provide an implementation of the ClustOmit statistic,
@@ -75,28 +74,27 @@
 }
 \details{
   To compute the ClustOmit statistic, we first cluster the
-  data given in \code{x} into \code{num_clusters} clusters
-  with the clustering algorithm specified in
-  \code{cluster_method}. We then omit each cluster in turn
-  and all of the observations in that cluster. For the
-  omitted cluster, we resample from the remaining
-  observations and cluster the resampled observations into
-  \code{num_clusters - 1} clusters again using the
+  data given in \code{x} into \code{K} clusters with the
   clustering algorithm specified in \code{cluster_method}.
-  Next, we compute the similarity between the cluster
-  labels of the original data set and the cluster labels of
-  the bootstrapped sample. We approximate the sampling
-  distribution of the ClustOmit statistic using a
-  stratified, nonparametric bootstrapping scheme and use
-  the apparent variability in the approximated sampling
-  distribution as a diagnostic tool for further evaluation
-  of the proposed clusters. By default, we utilize the
-  Jaccard similarity coefficient in the calculation of the
-  ClustOmit statistic to provide a clear interpretation of
-  cluster assessment.  The technical details of the
-  ClustOmit statistic can be found in our forthcoming
-  publication entitled "Cluster Stability Evaluation via
-  Cluster Omission."
+  We then omit each cluster in turn and all of the
+  observations in that cluster. For the omitted cluster, we
+  resample from the remaining observations and cluster the
+  resampled observations into \code{K - 1} clusters again
+  using the clustering algorithm specified in
+  \code{cluster_method}. Next, we compute the similarity
+  between the cluster labels of the original data set and
+  the cluster labels of the bootstrapped sample. We
+  approximate the sampling distribution of the ClustOmit
+  statistic using a stratified, nonparametric bootstrapping
+  scheme and use the apparent variability in the
+  approximated sampling distribution as a diagnostic tool
+  for further evaluation of the proposed clusters. By
+  default, we utilize the Jaccard similarity coefficient in
+  the calculation of the ClustOmit statistic to provide a
+  clear interpretation of cluster assessment.  The
+  technical details of the ClustOmit statistic can be found
+  in our forthcoming publication entitled "Cluster
+  Stability Evaluation via Cluster Omission."
 
   The ClustOmit cluster stability statistic is based on the
   cluster omission admissibility condition from Fisher and
@@ -113,7 +111,7 @@
   specified in the argument \code{cluster_method}. The
   function given should accept at least two arguments:
   \describe{ \item{x}{matrix of observations to cluster}
-  \item{num_clusters}{the number of clusters to find}
+  \item{K}{the number of clusters to find}
   \item{...}{additional arguments that can be passed on} }
   Also, the function given should return only clustering
   labels for each observation in the matrix \code{x}. The
@@ -125,8 +123,8 @@
 # First, we create a wrapper function for the K-means clustering algorithm
 # that returns only the clustering labels for each observation (row) in
 # \\code{x}.
-kmeans_wrapper <- function(x, num_clusters, num_starts = 10, ...) {
-  kmeans(x = x, centers = num_clusters, nstart = num_starts, ...)$cluster
+kmeans_wrapper <- function(x, K, num_starts = 10, ...) {
+  kmeans(x = x, centers = K, nstart = num_starts, ...)$cluster
 }
 
 # For this example, we generate five multivariate normal populations with the
@@ -134,10 +132,10 @@ kmeans_wrapper <- function(x, num_clusters, num_starts = 10, ...) {
 set.seed(42)
 x <- sim_data("normal", delta = 1.5)$x
 
-fom_out <- figure_of_merit(x = x, num_clusters = 4,
-                           cluster_method = "kmeans_wrapper", num_cores = 1)
-fom_out2 <- figure_of_merit(x = x, num_clusters = 5,
-                            cluster_method = kmeans_wrapper, num_cores = 1)
+clustomit_out <- clustomit(x = x, K = 4, cluster_method = "kmeans_wrapper",
+                           num_cores = 1)
+clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = kmeans_wrapper,
+                            num_cores = 1)
 }
 \references{
   Fisher, L. and Van Ness, J. (1971), Admissible Clustering

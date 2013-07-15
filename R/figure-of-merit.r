@@ -13,14 +13,14 @@
 #' clustering algorithm is preferred and has more predictive power. However,
 #' Yeung et al. (2001) note that the FOM statistic can be used only for relative
 #' comparisons of clustering algorithms on the same data set for a specified
-#' value of \code{num_clusters}.
+#' value of \code{K}.
 #' 
 #' We require a clustering algorithm function to be specified in the argument
 #' \code{cluster_method}. The function given should accept at least two
 #' arguments:
 #' \describe{
 #'   \item{x}{matrix of observations to cluster}
-#'   \item{num_clusters}{the number of clusters to find}
+#'   \item{K}{the number of clusters to find}
 #'   \item{...}{additional arguments that can be passed on}
 #' }
 #' Also, the function given should return only clustering labels for each
@@ -28,10 +28,11 @@
 #' \code{...} are useful if a wrapper function is used: see the example below for
 #' an illustration.
 #'
+#' @export
 #' @param x data matrix with \code{n} observations (rows) and \code{p} features
 #' (columns)
-#' @param num_clusters the number of clusters to find with the clustering
-#' algorithm specified in \code{cluster_method}
+#' @param K the number of clusters to find with the clustering algorithm
+#' specified in \code{cluster_method}
 #' @param cluster_method a character string or a function specifying the
 #' clustering algorithm that will be used. The method specified is matched with
 #' the \code{\link{match.fun}} function. The function given should return only
@@ -50,11 +51,32 @@
 #' @references Yeung K., Haynor D., and Ruzzo W. (2001), Validating Clustering
 #' for Gene Expression Data, _Bioinformatics_, 17, 4, 309–318.
 #' \url{http://bioinformatics.oxfordjournals.org/content/17/4/309.abstract}
-figure_of_merit <- function(x, num_clusters, cl_method, adjusted = TRUE, ...) {
+#' @examples
+#' # First, we create a wrapper function for the K-means clustering algorithm
+#' # that returns only the clustering labels for each observation (row) in
+#' # \code{x}.
+#' kmeans_wrapper <- function(x, K, num_starts = 10, ...) {
+#'   kmeans(x = x, centers = K, nstart = num_starts, ...)$cluster
+#' }
+#'
+#' # For this example, we generate five multivariate normal populations with the
+#' # \code{sim_data} function.
+#' set.seed(42)
+#' x <- sim_data("normal", delta = 1.5)$x
+#'
+#' fom_out <- figure_of_merit(x = x, K = 4, cluster_method = "kmeans_wrapper",
+#'                            num_cores = 1)
+#' fom_out2 <- figure_of_merit(x = x, K = 5, cluster_method = kmeans_wrapper,
+#'                             num_cores = 1)
+figure_of_merit <- function(x, K, cluster_method, adjusted = TRUE, ...) {
+  x <- as.matrix(x)
+  K <- as.integer(K)
+  cluster_method <- match.fun(cluster_method)
+
   N <- nrow(x)
   fom_scores <- numeric(N)
   for (i in seq_len(N)) {
-    labels <- cl_method(x[-i, ], num_clusters = num_clusters, ...)
+    labels <- cluster_method(x[-i, ], K = K, ...)
     distances <- tapply(seq_along(labels), labels, function(cluster_idx) {
       x_cluster <- x[-i, ][cluster_idx, ]
       if (is.vector(x_cluster)) {
@@ -67,7 +89,7 @@ figure_of_merit <- function(x, num_clusters, cl_method, adjusted = TRUE, ...) {
   }
   aggregate_fom <- sum(fom_scores)
   if (adjusted) {
-    aggregate_fom <- sqrt(N / (N - num_clusters)) * aggregate_fom
+    aggregate_fom <- sqrt(N / (N - K)) * aggregate_fom
   }
   obj <- list(
     scores = fom_scores,

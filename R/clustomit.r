@@ -11,22 +11,21 @@
 #' via the similarity statistic specified (by default, the Jaccard coefficient).
 #' 
 #' To compute the ClustOmit statistic, we first cluster the data given in
-#' \code{x} into \code{num_clusters} clusters with the clustering algorithm
-#' specified in \code{cluster_method}. We then omit each cluster in turn and all
-#' of the observations in that cluster. For the omitted cluster, we resample
-#' from the remaining observations and cluster the resampled observations into
-#' \code{num_clusters - 1} clusters again using the clustering algorithm
-#' specified in \code{cluster_method}. Next, we compute the similarity between
-#' the cluster labels of the original data set and the cluster labels of the
-#' bootstrapped sample. We approximate the sampling distribution of the
-#' ClustOmit statistic using a stratified, nonparametric bootstrapping scheme
-#' and use the apparent variability in the approximated sampling distribution as
-#' a diagnostic tool for further evaluation of the proposed clusters. By
-#' default, we utilize the Jaccard similarity coefficient in the calculation of
-#' the ClustOmit statistic to provide a clear interpretation of cluster
-#' assessment.  The technical details of the ClustOmit statistic can be found in
-#' our forthcoming publication entitled "Cluster Stability Evaluation via
-#' Cluster Omission."
+#' \code{x} into \code{K} clusters with the clustering algorithm specified in
+#' \code{cluster_method}. We then omit each cluster in turn and all of the
+#' observations in that cluster. For the omitted cluster, we resample from the
+#' remaining observations and cluster the resampled observations into \code{K -
+#' 1} clusters again using the clustering algorithm specified in
+#' \code{cluster_method}. Next, we compute the similarity between the cluster
+#' labels of the original data set and the cluster labels of the bootstrapped
+#' sample. We approximate the sampling distribution of the ClustOmit statistic
+#' using a stratified, nonparametric bootstrapping scheme and use the apparent
+#' variability in the approximated sampling distribution as a diagnostic tool
+#' for further evaluation of the proposed clusters. By default, we utilize the
+#' Jaccard similarity coefficient in the calculation of the ClustOmit statistic
+#' to provide a clear interpretation of cluster assessment.  The technical
+#' details of the ClustOmit statistic can be found in our forthcoming
+#' publication entitled "Cluster Stability Evaluation via Cluster Omission."
 #'
 #' The ClustOmit cluster stability statistic is based on the cluster omission
 #' admissibility condition from Fisher and Van Ness (1971), who provide
@@ -42,19 +41,19 @@
 #' arguments:
 #' \describe{
 #'   \item{x}{matrix of observations to cluster}
-#'   \item{num_clusters}{the number of clusters to find}
+#'   \item{K}{the number of clusters to find}
 #'   \item{...}{additional arguments that can be passed on}
 #' }
 #' Also, the function given should return only clustering labels for each
 #' observation in the matrix \code{x}. The additional arguments specified in
-#' \code{...} are useful if a wrapper function is used: see the example below for
-#' an illustration.
+#' \code{...} are useful if a wrapper function is used: see the example below
+#' for an illustration.
 #'
 #' @export
 #' @param x data matrix with \code{n} observations (rows) and \code{p} features
 #' (columns)
-#' @param num_clusters the number of clusters to find with the clustering
-#' algorithm specified in \code{cluster_method}
+#' @param K the number of clusters to find with the clustering algorithm
+#' specified in \code{cluster_method}
 #' @param cluster_method a character string or a function specifying the
 #' clustering algorithm that will be used. The method specified is matched with
 #' the \code{\link{match.fun}} function. The function given should return only
@@ -83,7 +82,7 @@
 #' for each cluster omitted}
 #'   \item{obs_clusters:}{the clustering labels determined for the observations
 #' in \code{x}}
-#'   \item{num_clusters:}{the number of clusters found}
+#'   \item{K:}{the number of clusters found}
 #'   \item{similarity:}{the similarity statistic used for comparison between the
 #' original clustering and the resampled clusterings}
 #' }
@@ -96,8 +95,8 @@
 #' # First, we create a wrapper function for the K-means clustering algorithm
 #' # that returns only the clustering labels for each observation (row) in
 #' # \code{x}.
-#' kmeans_wrapper <- function(x, num_clusters, num_starts = 10, ...) {
-#'   kmeans(x = x, centers = num_clusters, nstart = num_starts, ...)$cluster
+#' kmeans_wrapper <- function(x, K, num_starts = 10, ...) {
+#'   kmeans(x = x, centers = K, nstart = num_starts, ...)$cluster
 #' }
 #'
 #' # For this example, we generate five multivariate normal populations with the
@@ -105,20 +104,20 @@
 #' set.seed(42)
 #' x <- sim_data("normal", delta = 1.5)$x
 #'
-#' fom_out <- figure_of_merit(x = x, num_clusters = 4,
-#'                            cluster_method = "kmeans_wrapper", num_cores = 1)
-#' fom_out2 <- figure_of_merit(x = x, num_clusters = 5,
-#'                             cluster_method = kmeans_wrapper, num_cores = 1)
-clustomit <- function(x, num_clusters, cluster_method,
+#' clustomit_out <- clustomit(x = x, K = 4, cluster_method = "kmeans_wrapper",
+#'                            num_cores = 1)
+#' clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = kmeans_wrapper,
+#'                             num_cores = 1)
+clustomit <- function(x, K, cluster_method,
                       similarity = c("jaccard", "rand"), weighted_mean = TRUE,
                       num_reps = 50, num_cores = getOption("mc.cores", 2), ...) {
   x <- as.matrix(x)
-  num_clusters <- as.integer(num_clusters)
+  K <- as.integer(K)
   cluster_method <- match.fun(cluster_method)
   similarity <- match.arg(similarity)
 
   # The cluster labels for the observed (original) data matrix (i.e., x).  
-  obs_clusters <- cluster_method(x = x, num_clusters = num_clusters, ...)
+  obs_clusters <- cluster_method(x = x, K = K, ...)
   cluster_sizes <- as.vector(table(obs_clusters))
 
   # Determines the indices for the bootstrap reps.
@@ -128,7 +127,7 @@ clustomit <- function(x, num_clusters, cluster_method,
   # compute the similarity with the corresponding original clusters.
   boot_similarity <- mclapply(boot_indices, function(idx) {
     clusters_omit <- cluster_method(x = x[idx, ],
-                                    num_clusters = num_clusters - 1, ...)
+                                    K = K - 1, ...)
 
     cluster_similarity(obs_clusters[idx], clusters_omit,
                        similarity = similarity)
@@ -137,7 +136,7 @@ clustomit <- function(x, num_clusters, cluster_method,
   # Because 'mclapply' returns a list, we first simplify the list to an array and
   # then 'split' the similarity scores into a list by cluster.
   boot_similarity <- simplify2array(boot_similarity)
-  boot_similarity <- split(boot_similarity, gl(num_clusters, num_reps))
+  boot_similarity <- split(boot_similarity, gl(K, num_reps))
   boot_similarity <- lapply(boot_similarity, as.vector)
 
   # Now, we compute the weighted average of the similarity scores for each
@@ -151,7 +150,7 @@ clustomit <- function(x, num_clusters, cluster_method,
     boot_aggregate = as.vector(boot_aggregate),
 		boot_similarity = boot_similarity,
     obs_clusters = obs_clusters,
-		num_clusters = num_clusters,
+		K = K,
 		similarity = similarity
 	)
 	class(obj) <- "clustomit"

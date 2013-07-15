@@ -22,6 +22,7 @@
 #' clusters are unlikely to provide meaningful results on which the user can
 #' better understand the inherent structure within the data.
 #' 
+#' @export
 #' @param x a matrix containing the data to cluster. The rows are the sample
 #' observations, and the columns are the features.
 #' @param K the number of clusters

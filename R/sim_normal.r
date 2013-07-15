@@ -99,7 +99,7 @@ sim_normal <- function(n = rep(25, 5), p = 50, rho = rep(0.9, 5), delta = 0,
   list(x = x, y = y)
 }
 
-#' Construct an intraclass covariance matrix.
+#' Constructs an intraclass covariance matrix.
 #'
 #' We define a \eqn{p \times p} intraclass covariance (correlation)
 #' matrix to be \eqn{\Sigma_m = \sigma^2 (1 - \rho) J_p + \rho I_p},
@@ -110,7 +110,7 @@ sim_normal <- function(n = rep(25, 5), p = 50, rho = rep(0.9, 5), delta = 0,
 #' @param p the dimension of the matrix
 #' @param rho the intraclass covariance (correlation) constant
 #' @param sigma2 the coefficient of the intraclass covariance matrix
-#' @return an intraclass covariance matrix matrix of size p
+#' @return an intraclass covariance matrix of size \eqn{p \times p}
 intraclass_cov <- function(p, rho, sigma2 = 1) {
   if (rho <= -(p-1)^(-1) || rho >= 1) {
     stop("The value for 'rho' must be exclusively between -1 / (p - 1) and 1.")

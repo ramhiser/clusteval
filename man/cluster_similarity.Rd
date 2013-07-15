@@ -3,7 +3,7 @@
 \title{Computes the similarity between two clusterings of the same data set.}
 \usage{
   cluster_similarity(labels1, labels2,
-    similarity = c("jaccard", "rand"))
+    similarity = c("adjusted_rand", "dice", "fowlkes_mallows", "jaccard", "phi", "rand", "rogers_tanimoto", "russel_rao", "sokal_sneath"))
 }
 \arguments{
   \item{labels1}{a vector of \code{n} clustering labels}
@@ -36,8 +36,11 @@
   comembers in either clustering} }
 
   Currently, we have implemented the following similarity
-  statistics: \itemize{ \item Rand index \item Jaccard
-  coefficient }
+  statistics: \itemize{ \item Adjusted Rand index \item
+  Dice coefficient \item Fowlkes-Mallows coefficient \item
+  Jaccard coefficient \item Phi coefficient \item Rand
+  index \item Rogers-Tanimoto coefficient \item Russel-Rao
+  coefficient \item Sokal-Sneath coefficient }
 
   To compute the contingency table, we use the
   \code{\link{comembership_table}} function.

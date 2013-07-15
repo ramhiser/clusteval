@@ -1,0 +1,49 @@
+\name{adjusted_rand}
+\alias{adjusted_rand}
+\title{Computes the adjusted Rand similarity index of two clusterings of the same
+data set.}
+\usage{
+  adjusted_rand(labels1, labels2)
+}
+\arguments{
+  \item{labels1}{a vector of \code{n} clustering labels}
+
+  \item{labels2}{a vector of \code{n} clustering labels}
+}
+\value{
+  the adjusted Rand index for the two sets of cluster
+  labels
+}
+\description{
+  For two clusterings of the same data set, this function
+  calculates the adjusted Rand similarity coefficient of
+  the clusterings from the comemberships of the
+  observations.
+}
+\details{
+  The adjusted Rand index is a variant of the Rand index
+  that is corrected for chance. We refer the interested
+  reader to the Wikipedia entry for an overview of the
+  formula:
+  \url{http://en.wikipedia.org/wiki/Rand_index#Adjusted_Rand_index}
+}
+\examples{
+\dontrun{
+# We generate K = 3 labels for each of n = 10 observations and compute the
+# adjusted Rand index between the two clusterings.
+set.seed(42)
+K <- 3
+n <- 10
+labels1 <- sample.int(K, n, replace = TRUE)
+labels2 <- sample.int(K, n, replace = TRUE)
+adjusted_rand(labels1, labels2)
+
+# Here, we cluster the \\code{\\link{iris}} data set with the K-means and
+# hierarchical algorithms using the true number of clusters, K = 3.
+# Then, we compute the adjusted Rand index between the two clusterings.
+iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
+iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
+adjusted_rand(iris_kmeans, iris_hclust)
+}
+}
+

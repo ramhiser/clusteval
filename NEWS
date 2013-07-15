@@ -7,6 +7,24 @@ CLUSTER EVALUATION METHODS
   proposed by Yeung et al. (2001) to estimate the predictive power of a
   clustering algorithm.
 
+CLUSTER SIMILARITY
+
+* Several similarity indices have been added. These include the following:
+
+* `adjusted_rand()` implements the adjusted Rand index.
+
+* `dice()` implements the Dice similarity.
+
+* `fowlkes_mallows()` implements the Folkes-Mallows index.
+
+* `phi()` implements the Phi coefficient.
+
+* `rogers_tanimoto()` implements the Rogers-Tanimoto similarity.
+
+* `russel_rao()` implements the Russel-Rao similarity.
+
+* `sokal_sneath()` implements the Sokal-Sneath similarity.
+
 MISCELLANEOUS
 
 * Simplified the naming of the similarity indices. For example, `jaccard_indep()`

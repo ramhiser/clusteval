@@ -1,6 +1,6 @@
 \name{intraclass_cov}
 \alias{intraclass_cov}
-\title{Construct an intraclass covariance matrix.}
+\title{Constructs an intraclass covariance matrix.}
 \usage{
   intraclass_cov(p, rho, sigma2 = 1)
 }
@@ -14,7 +14,7 @@
   covariance matrix}
 }
 \value{
-  an intraclass covariance matrix matrix of size p
+  an intraclass covariance matrix of size \eqn{p \times p}
 }
 \description{
   We define a \eqn{p \times p} intraclass covariance

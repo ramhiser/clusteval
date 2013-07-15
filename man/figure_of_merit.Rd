@@ -3,16 +3,15 @@
 \title{Figure of Merit Method for Estimating the Predictive Power of a Clustering
 Algorithm}
 \usage{
-  figure_of_merit(x, num_clusters, cl_method,
-    adjusted = TRUE, ...)
+  figure_of_merit(x, K, cluster_method, adjusted = TRUE,
+    ...)
 }
 \arguments{
   \item{x}{data matrix with \code{n} observations (rows)
   and \code{p} features (columns)}
 
-  \item{num_clusters}{the number of clusters to find with
-  the clustering algorithm specified in
-  \code{cluster_method}}
+  \item{K}{the number of clusters to find with the
+  clustering algorithm specified in \code{cluster_method}}
 
   \item{cluster_method}{a character string or a function
   specifying the clustering algorithm that will be used.
@@ -52,21 +51,38 @@ Algorithm}
   preferred and has more predictive power. However, Yeung
   et al. (2001) note that the FOM statistic can be used
   only for relative comparisons of clustering algorithms on
-  the same data set for a specified value of
-  \code{num_clusters}.
+  the same data set for a specified value of \code{K}.
 }
 \details{
   We require a clustering algorithm function to be
   specified in the argument \code{cluster_method}. The
   function given should accept at least two arguments:
   \describe{ \item{x}{matrix of observations to cluster}
-  \item{num_clusters}{the number of clusters to find}
+  \item{K}{the number of clusters to find}
   \item{...}{additional arguments that can be passed on} }
   Also, the function given should return only clustering
   labels for each observation in the matrix \code{x}. The
   additional arguments specified in \code{...} are useful
   if a wrapper function is used: see the example below for
   an illustration.
+}
+\examples{
+# First, we create a wrapper function for the K-means clustering algorithm
+# that returns only the clustering labels for each observation (row) in
+# \\code{x}.
+kmeans_wrapper <- function(x, K, num_starts = 10, ...) {
+  kmeans(x = x, centers = K, nstart = num_starts, ...)$cluster
+}
+
+# For this example, we generate five multivariate normal populations with the
+# \\code{sim_data} function.
+set.seed(42)
+x <- sim_data("normal", delta = 1.5)$x
+
+fom_out <- figure_of_merit(x = x, K = 4, cluster_method = "kmeans_wrapper",
+                           num_cores = 1)
+fom_out2 <- figure_of_merit(x = x, K = 5, cluster_method = kmeans_wrapper,
+                            num_cores = 1)
 }
 \references{
   Yeung K., Haynor D., and Ruzzo W. (2001), Validating
