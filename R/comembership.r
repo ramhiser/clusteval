@@ -92,6 +92,8 @@ comembership <- function(labels) {
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' comembership_table(iris_kmeans, iris_hclust)
 comembership_table <- function(labels1, labels2) {
+  labels1 <- factor(as.vector(labels1))
+  labels2 <- factor(as.vector(labels2))
   if (length(labels1) != length(labels2)) {
     stop("The two vectors of cluster labels must be of equal length.");
   }

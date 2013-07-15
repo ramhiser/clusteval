@@ -97,9 +97,12 @@ cluster_similarity <- function(labels1, labels2,
 #' adjusted_rand(iris_kmeans, iris_hclust)
 #' }
 adjusted_rand <- function(labels1, labels2) {
-  labels1 <- factor(labels1)
-  labels2 <- factor(labels2)
+  labels1 <- factor(as.vector(labels1))
+  labels2 <- factor(as.vector(labels2))
   n <- length(labels1)
+  if (n != length(labels2)) {
+    stop("The two vectors of cluster labels must be of equal length.")
+  }
 
   # Summarizes the contingency table of agreement
   table_out <- table(labels1, labels2)
@@ -109,7 +112,7 @@ adjusted_rand <- function(labels1, labels2) {
   # Calculates the quantities employed in the adjusted Rand index
   margin1_sum <- sum(choose(margin1, 2))
   margin2_sum <- sum(choose(margin2, 2))
-  index <- sum(diag(table_out))
+  index <- sum(choose(as.vector(table_out), 2))
   expected_index <- margin1_sum * margin2_sum / choose(n, 2)
   max_index <- (margin1_sum + margin2_sum) / 2
 

@@ -159,8 +159,13 @@ clustomit <- function(x, K, cluster_method,
   # bootstrap replication. The weights correspond to the sample sizes of each
   # cluster.
   boot_similarity_matrix <- do.call(cbind, boot_similarity)
+  if (weighted_mean) {
+    aggregate_weights <- cluster_sizes
+  } else {
+    aggregate_weights <- rep(1, length(cluster_sizes))
+  }
   boot_aggregate <- apply(boot_similarity_matrix, 1, weighted.mean,
-                          w = cluster_sizes)
+                          w = aggregate_weights)
 
 	obj <- list(
     boot_aggregate = as.vector(boot_aggregate),
