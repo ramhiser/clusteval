@@ -27,6 +27,15 @@ CLUSTER SIMILARITY
 
 MISCELLANEOUS
 
+* `clustomit()` no longer uses stratifed sampling by default. This functionality
+  can be employed by settting `stratified = TRUE`. By default, we now use
+  nonparametric bootstrapping with the caveat that we first randomly sample one
+  observation from each cluster. See the documentation for details.
+
+* With regards to the previous change to `clustomit()`, we have renamed
+  `boot_stratified_omit()` to `boot_omit()` and added the optional `stratified`
+  argument.
+
 * Simplified the naming of the similarity indices. For example, `jaccard_indep()`
   is now `jaccard()`, and `rand_indep()` is now `rand()`.
 

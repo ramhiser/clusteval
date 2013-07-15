@@ -6,9 +6,9 @@
 #' in which a perturbation of the original data should yield a similar
 #' clustering. However, if a perturbation of the data yields a large change in
 #' the clustering, the original clustering is considered unstable. The ClustOmit
-#' statistic provides an approach to detecting instability via a stratified,
-#' nonparametric resampling scheme. We determine the stability of the clustering
-#' via the similarity statistic specified (by default, the Jaccard coefficient).
+#' statistic provides an approach to detecting instability via nonparametric
+#' bootstrapping. We determine the stability of the clustering via the
+#' similarity statistic specified (by default, the Jaccard coefficient).
 #' 
 #' To compute the ClustOmit statistic, we first cluster the data given in
 #' \code{x} into \code{K} clusters with the clustering algorithm specified in
@@ -19,14 +19,24 @@
 #' \code{cluster_method}. Next, we compute the similarity between the cluster
 #' labels of the original data set and the cluster labels of the bootstrapped
 #' sample. We approximate the sampling distribution of the ClustOmit statistic
-#' using a stratified, nonparametric bootstrapping scheme and use the apparent
-#' variability in the approximated sampling distribution as a diagnostic tool
-#' for further evaluation of the proposed clusters. By default, we utilize the
-#' Jaccard similarity coefficient in the calculation of the ClustOmit statistic
-#' to provide a clear interpretation of cluster assessment.  The technical
-#' details of the ClustOmit statistic can be found in our forthcoming
-#' publication entitled "Cluster Stability Evaluation via Cluster Omission."
+#' using a nonparametric bootstrapping scheme and use the apparent variability
+#' in the approximated sampling distribution as a diagnostic tool for further
+#' evaluation of the proposed clusters. By default, we utilize the Jaccard
+#' similarity coefficient in the calculation of the ClustOmit statistic to
+#' provide a clear interpretation of cluster assessment. The technical details
+#' of the ClustOmit statistic can be found in our forthcoming publication
+#' entitled "Cluster Stability Evaluation via Cluster Omission."
 #'
+#' The bootstrap resampling employed randomly samples from the remaining
+#' observations after a cluster is omitted. By default, we ensure that one
+#' observation is selected from each remaining cluster to avoid potential
+#' situations where the resampled data set contains multiple replicates of a
+#' single observation. Optionally, by setting the \code{stratified} argument to
+#' \code{TRUE}, we employ a stratified sampling scheme, where instead we sample
+#' with replacement from each cluster. In this case, the number of observations
+#' sampled from a cluster is equal to the number of observations originally
+#' assigned to that cluster (i.e., its cluster size).
+#' 
 #' The ClustOmit cluster stability statistic is based on the cluster omission
 #' admissibility condition from Fisher and Van Ness (1971), who provide
 #' decision-theoretic admissibility conditions that a reasonable clustering
@@ -66,6 +76,8 @@
 #' @param weighted_mean logical value. Should the aggregate similarity score for
 #' each bootstrap replication be weighted by the number of observations in each
 #' of the observed clusters? By default, yes (i.e., \code{TRUE}).
+#' @param stratified Should the bootstrap replicates be stratified by cluster?
+#' By default, no. See Details.
 #' @param num_reps the number of bootstrap replicates to draw for each omitted
 #' cluster
 #' @param num_cores the number of coures to use. If 1 core is specified, then
@@ -86,6 +98,8 @@
 #'   \item{similarity:}{the similarity statistic used for comparison between the
 #' original clustering and the resampled clusterings}
 #' }
+#' @references Ramey, J. A., Sego, L. H., and Young, D. M. (2013), Cluster
+#' Stability Evaluation via Cluster Omission.
 #' @references Fisher, L. and Van Ness, J. (1971), Admissible Clustering
 #' Procedures, _Biometrika_, 58, 1, 91-104.
 #' @references Hennic, C. (2007), Cluster-wise assessment of cluster stability,
@@ -109,8 +123,9 @@
 #' clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = kmeans_wrapper,
 #'                             num_cores = 1)
 clustomit <- function(x, K, cluster_method,
-                      similarity = c("jaccard", "rand"), weighted_mean = TRUE,
-                      num_reps = 50, num_cores = getOption("mc.cores", 2), ...) {
+                      similarity = c("adjusted_rand", "jaccard", "rand"),
+                      weighted_mean = TRUE, stratified = FALSE, num_reps = 50,
+                      num_cores = getOption("mc.cores", 2), ...) {
   x <- as.matrix(x)
   K <- as.integer(K)
   cluster_method <- match.fun(cluster_method)
@@ -121,7 +136,8 @@ clustomit <- function(x, K, cluster_method,
   cluster_sizes <- as.vector(table(obs_clusters))
 
   # Determines the indices for the bootstrap reps.
-  boot_indices <- boot_stratified_omit(y = obs_clusters, num_reps = num_reps)
+  boot_indices <- boot_omit(y = obs_clusters, num_reps = num_reps,
+                            stratified = stratified)
 
   # For each set of bootstrap indices, cluster the resampled data and
   # compute the similarity with the corresponding original clusters.
@@ -156,3 +172,4 @@ clustomit <- function(x, K, cluster_method,
 	class(obj) <- "clustomit"
 	obj
 }
+

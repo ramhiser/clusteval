@@ -1,5 +1,5 @@
 export(adjusted_rand)
-export(boot_stratified_omit)
+export(boot_omit)
 export(cluster_similarity)
 export(clustomit)
 export(comembership)

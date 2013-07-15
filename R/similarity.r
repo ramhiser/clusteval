@@ -97,6 +97,8 @@ cluster_similarity <- function(labels1, labels2,
 #' adjusted_rand(iris_kmeans, iris_hclust)
 #' }
 adjusted_rand <- function(labels1, labels2) {
+  labels1 <- factor(labels1)
+  labels2 <- factor(labels2)
   n <- length(labels1)
 
   # Summarizes the contingency table of agreement
