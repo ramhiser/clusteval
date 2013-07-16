@@ -48,6 +48,8 @@ MISCELLANEOUS
 * Simplified the naming of the similarity indices. For example, `jaccard_indep()`
   is now `jaccard()`, and `rand_indep()` is now `rand()`.
 
+* When printing a `clustomit` object, a summary is now provided.
+
 * Minor bug fixes in `clustomit()`.
 
 * Cleaned up documentation.

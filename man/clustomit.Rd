@@ -1,6 +1,7 @@
 \name{clustomit}
 \alias{clustomit}
 \alias{plot.clustomit}
+\alias{print.clustomit}
 \title{ClustOmit - Cluster Stability Evaluation via Cluster Omission}
 \usage{
   clustomit(x, K, cluster_method, similarity,
@@ -9,6 +10,8 @@
     ...)
 
   \method{plot}{clustomit} (x)
+
+  \method{print}{clustomit} (x)
 }
 \arguments{
   \item{x}{data matrix with \code{n} observations (rows)
@@ -51,6 +54,8 @@
   specified in \code{cluster_method}}
 
   \item{x}{a \code{clustomit} object}
+
+  \item{x}{object to print}
 }
 \value{
   object of class \code{clustomit}, which contains a named
@@ -87,6 +92,8 @@
   coefficient).
 
   Plots the results of a ClustOmit object.
+
+  Summarizes the \code{\link{clustomit}}.
 }
 \details{
   To compute the ClustOmit statistic, we first cluster the

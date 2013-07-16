@@ -172,9 +172,12 @@ clustomit <- function(x, K, cluster_method, similarity, weighted_mean = FALSE,
     boot_similarity = boot_similarity,
     obs_clusters = obs_clusters,
     K = K,
+    cluster_method = as.character(substitute(cluster_method)),
     similarity = similarity,
     num_reps = num_reps
 	)
+  obj$call <- match.call()
+
   class(obj) <- "clustomit"
   obj
 }
@@ -220,4 +223,36 @@ plot.clustomit <- function(x) {
   p
 }
 
+#' Outputs the summary for a clustomit classifier object.
+#'
+#' Summarizes the \code{\link{clustomit}}.
+#'
+#' @keywords internal
+#' @param x object to print
+#' @rdname clustomit
+#' @method print clustomit
+#' @S3method print clustomit
+#' @export
+print.clustomit <- function(x) {
+  if (!is.clustomit(x)) {
+    stop("'x' must be a 'clustomit' object.")
+  }
+
+  cat("Average ClustOmit Value:\n")
+  print(mean(x$boot_aggregate))
+  cat("Sample Size:\n")
+  print(x$N)
+  cat("Number of Features:\n")
+  print(x$p)
+  cat("Number of Clusters Found:\n")
+  print(x$K)
+  cat("Clustering Algorithm:\n")
+  print(x$cluster_method)
+  cat("Similarity Method:\n")
+  print(x$similarity)
+  cat("Number of Bootstrap Replicates:\n")
+  print(x$num_reps)
+  cat("Call:\n")
+  print(x$call)
+}
 

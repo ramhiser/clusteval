@@ -1,4 +1,5 @@
 S3method(plot,clustomit)
+S3method(print,clustomit)
 export(adjusted_rand)
 export(boot_omit)
 export(cluster_similarity)
