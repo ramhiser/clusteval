@@ -39,14 +39,14 @@
 #' @param labels2 a vector of \code{n} clustering labels
 #' @param similarity the similarity statistic to calculate. See
 #' \code{\link{similarity_methods}} for a listing of available similarity
-#' methods.
+#' methods. By default, the adjusted Rand index is used.
 #' @return the similarity between the two clusterings
 #' @examples
 #' # Notice that the number of comemberships is 'n choose 2'.
 #' iris_kmeans <- kmeans(iris[, -5], centers = 3)$cluster
 #' iris_hclust <- cutree(hclust(dist(iris[, -5])), k = 3)
 #' cluster_similarity(iris_kmeans, iris_hclust)
-cluster_similarity <- function(labels1, labels2, similarity) {
+cluster_similarity <- function(labels1, labels2, similarity = "adjusted_rand") {
 	similarity <- match.arg(similarity, similarity_methods()$method)
   similarity_fun <- match.fun(similarity)
   similarity_fun(labels1, labels2)

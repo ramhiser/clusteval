@@ -4,10 +4,10 @@
 \alias{print.clustomit}
 \title{ClustOmit - Cluster Stability Evaluation via Cluster Omission}
 \usage{
-  clustomit(x, K, cluster_method, similarity,
-    weighted_mean = FALSE, stratified = FALSE,
-    num_reps = 250, num_cores = getOption("mc.cores", 2),
-    ...)
+  clustomit(x, K, cluster_method,
+    similarity = "adjusted_rand", weighted_mean = FALSE,
+    stratified = FALSE, num_reps = 250,
+    num_cores = getOption("mc.cores", 2), ...)
 
   \method{plot}{clustomit} (x)
 
@@ -20,19 +20,19 @@
   \item{K}{the number of clusters to find with the
   clustering algorithm specified in \code{cluster_method}}
 
-  \item{cluster_method}{a character string or a function
-  specifying the clustering algorithm that will be used.
-  The method specified is matched with the
-  \code{\link{match.fun}} function. The function given
-  should return only clustering labels for each observation
-  in the matrix \code{x}.}
+  \item{cluster_method}{a character string specifying the
+  clustering algorithm that will be used. The method
+  specified is matched with \code{\link{match.fun}}. The
+  function given should return only clustering labels for
+  each observation in the matrix \code{x}.}
 
   \item{similarity}{the similarity statistic that is used
   to compare the original clustering (after a single
   cluster and its observations have been omitted) to its
   resampled counterpart. See
   \code{\link{similarity_methods}} for a listing of
-  available similarity methods.}
+  available similarity methods. By default, the adjusted
+  Rand index is used.}
 
   \item{weighted_mean}{logical value. Should the aggregate
   similarity score for each bootstrap replication be
@@ -65,12 +65,15 @@
   \item{boot_similarity:}{list containing the bootstrapped
   similarity scores for each cluster omitted}
   \item{obs_clusters:}{the clustering labels determined for
-  the observations in \code{x}} \item{K:}{the number of
+  the observations in \code{x}} \item{cluster_method:}{the
+  name of the clustering method} \item{K:}{the number of
   clusters found} \item{similarity:}{the similarity
   statistic used for comparison between the original
-  clustering and the resampled clusterings}
-  \item{num_reps:}{the number of bootstrap replicates drawn
-  for each cluster omitted} }
+  clustering and the resampled clusterings} \item{N:}{the
+  sample size (the number of rows of \code{x})}
+  \item{p:}{the number of features (the number of columns
+  of \code{x})} \item{num_reps:}{the number of bootstrap
+  replicates drawn for each cluster omitted} }
 
   a \code{\link{ggplot2}} object. The object is plotted in
   interactive sessions. In some cases, the returned
@@ -170,7 +173,7 @@ x <- sim_data("normal", delta = 1.5)$x
 
 clustomit_out <- clustomit(x = x, K = 4, cluster_method = "kmeans_wrapper",
                            num_cores = 1)
-clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = kmeans_wrapper,
+clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = "kmeans_wrapper",
                             num_cores = 1)
 }
 \references{

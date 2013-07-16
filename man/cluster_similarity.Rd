@@ -2,7 +2,8 @@
 \alias{cluster_similarity}
 \title{Computes the similarity between two clusterings of the same data set.}
 \usage{
-  cluster_similarity(labels1, labels2, similarity)
+  cluster_similarity(labels1, labels2,
+    similarity = "adjusted_rand")
 }
 \arguments{
   \item{labels1}{a vector of \code{n} clustering labels}
@@ -11,7 +12,8 @@
 
   \item{similarity}{the similarity statistic to calculate.
   See \code{\link{similarity_methods}} for a listing of
-  available similarity methods.}
+  available similarity methods. By default, the adjusted
+  Rand index is used.}
 }
 \value{
   the similarity between the two clusterings

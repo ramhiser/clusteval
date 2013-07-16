@@ -64,14 +64,15 @@
 #' (columns)
 #' @param K the number of clusters to find with the clustering algorithm
 #' specified in \code{cluster_method}
-#' @param cluster_method a character string or a function specifying the
-#' clustering algorithm that will be used. The method specified is matched with
-#' the \code{\link{match.fun}} function. The function given should return only
-#' clustering labels for each observation in the matrix \code{x}.
+#' @param cluster_method a character string specifying the clustering algorithm
+#' that will be used. The method specified is matched with
+#' \code{\link{match.fun}}. The function given should return only clustering
+#' labels for each observation in the matrix \code{x}.
 #' @param similarity the similarity statistic that is used to compare the
 #' original clustering (after a single cluster and its observations have been
 #' omitted) to its resampled counterpart. See \code{\link{similarity_methods}}
-#' for a listing of available similarity methods.
+#' for a listing of available similarity methods. By default, the adjusted Rand
+#' index is used.
 #' @param weighted_mean logical value. Should the aggregate similarity score for
 #' each bootstrap replication be weighted by the number of observations in each
 #' of the observed clusters? By default, yes (i.e., \code{TRUE}).
@@ -93,9 +94,12 @@
 #' for each cluster omitted}
 #'   \item{obs_clusters:}{the clustering labels determined for the observations
 #' in \code{x}}
+#'   \item{cluster_method:}{the name of the clustering method}
 #'   \item{K:}{the number of clusters found}
 #'   \item{similarity:}{the similarity statistic used for comparison between the
 #' original clustering and the resampled clusterings}
+#'   \item{N:}{the sample size (the number of rows of \code{x})}
+#'   \item{p:}{the number of features (the number of columns of \code{x})}
 #'   \item{num_reps:}{the number of bootstrap replicates drawn for each cluster
 #' omitted}
 #' }
@@ -121,18 +125,21 @@
 #'
 #' clustomit_out <- clustomit(x = x, K = 4, cluster_method = "kmeans_wrapper",
 #'                            num_cores = 1)
-#' clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = kmeans_wrapper,
+#' clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = "kmeans_wrapper",
 #'                             num_cores = 1)
-clustomit <- function(x, K, cluster_method, similarity, weighted_mean = FALSE,
-                      stratified = FALSE, num_reps = 250,
+clustomit <- function(x, K, cluster_method, similarity = "adjusted_rand",
+                      weighted_mean = FALSE, stratified = FALSE, num_reps = 250,
                       num_cores = getOption("mc.cores", 2), ...) {
   x <- as.matrix(x)
   K <- as.integer(K)
-  cluster_method <- match.fun(cluster_method)
+  cluster_method <- as.character(cluster_method)
+  cluster_fun <- match.fun(cluster_method)
   similarity <- match.arg(similarity, similarity_methods()$method)
+  N <- nrow(x)
+  p <- ncol(x)
 
   # The cluster labels for the observed (original) data matrix (i.e., x).  
-  obs_clusters <- cluster_method(x = x, K = K, ...)
+  obs_clusters <- cluster_fun(x = x, K = K, ...)
   cluster_sizes <- as.vector(table(obs_clusters))
 
   # Determines the indices for the bootstrap reps.
@@ -142,9 +149,7 @@ clustomit <- function(x, K, cluster_method, similarity, weighted_mean = FALSE,
   # For each set of bootstrap indices, cluster the resampled data and
   # compute the similarity with the corresponding original clusters.
   boot_similarity <- mclapply(boot_indices, function(idx) {
-    clusters_omit <- cluster_method(x = x[idx, ],
-                                    K = K - 1, ...)
-
+    clusters_omit <- cluster_fun(x = x[idx, ], K = K - 1, ...)
     cluster_similarity(obs_clusters[idx], clusters_omit,
                        similarity = similarity)
   }, mc.cores = num_cores)
@@ -172,8 +177,10 @@ clustomit <- function(x, K, cluster_method, similarity, weighted_mean = FALSE,
     boot_similarity = boot_similarity,
     obs_clusters = obs_clusters,
     K = K,
-    cluster_method = as.character(substitute(cluster_method)),
+    cluster_method = cluster_method,
     similarity = similarity,
+    N = N,
+    p = p,
     num_reps = num_reps
 	)
   obj$call <- match.call()
