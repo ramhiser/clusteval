@@ -1,12 +1,12 @@
 \name{sim_unif}
 \alias{sim_unif}
-\title{Generates random variates from five multivariate uniform populations.}
+\title{Generates random variates from multivariate uniform populations.}
 \usage{
   sim_unif(n = rep(25, 5), delta = 0, seed = NULL)
 }
 \arguments{
-  \item{n}{a vector (of length K_0 = 5) of the sample sizes
-  for each population}
+  \item{n}{a vector (of length \eqn{K_0}) of the sample
+  sizes for each population}
 
   \item{delta}{the fixed distance between each population
   and the origin}
@@ -22,40 +22,41 @@
   observation in each row was generated.} }
 }
 \description{
-  We generate \eqn{n} observations from five multivariate
-  uniform distributions such that the Euclidean distance
-  between each of the populations is a fixed constant,
-  \eqn{\Delta \ge 0}.
+  We generate \eqn{n} observations from each of \eqn{K_0}
+  multivariate uniform distributions such that the
+  Euclidean distance between each of the populations and
+  the origin is equal and scaled by \eqn{\Delta \ge 0}.
 }
 \details{
   To define the populations, let \eqn{x = (X_1, \ldots,
   X_p)'} be a multivariate uniformly distributed random
-  vector such that \eqn{X_j \sim U(a_j, b_j)} is an
-  independently distributed uniform random variable with
-  \eqn{a_j < b_j} for \eqn{j = 1, \ldots, p}. Let
-  \eqn{Pi_k} denote the \eqn{k}th population \eqn{(k = 1,
-  \ldots, 5)}. Then, we have the five populations:
-  \deqn{\Pi_1 = U(-1/2, 1/2) \times U(\Delta - 1/2, \Delta
-  + 1/2) \times U(-1/2, 1/2) \times U(-1/2, 1/2),}
-  \deqn{\Pi_2 = U(\Delta - 1/2, \Delta + 1/2) \times
-  U(-1/2, 1/2) \times U(-1/2, 1/2) \times U(-1/2, 1/2),}
-  \deqn{\Pi_3 = U(-1/2, 1/2) \times U(-\Delta - 1/2,
-  -\Delta + 1/2) \times U(-1/2, 1/2) \times U(-1/2, 1/2),}
-  \deqn{\Pi_4 = U(-1/2, 1/2) \times U(-1/2, 1/2) \times
-  U(-\Delta - 1/2, -\Delta + 1/2) \times U(-1/2, 1/2),}
-  \deqn{\Pi_5 = U(-1/2, 1/2) \times U(-1/2, 1/2) \times
-  U(-1/2, 1/2) \times U(\Delta - 1/2, \Delta + 1/2).}
+  vector such that \eqn{X_j \sim U(a_j^{(k)}, b_j^{(k)})}
+  is an independently distributed uniform random variable
+  with \eqn{a_j^{(k)} < b_j^{(k)}} for \eqn{j = 1, \ldots,
+  p}.
 
-  We generate \eqn{n_k} observations from population
-  \eqn{\Pi_k}.
+  For each population, we set the mean of the distribution
+  along one feature to \eqn{\Delta}, while the remaining
+  features have mean 0. The objective is to have unit
+  hypercubes with \eqn{p = K_0} where the population
+  centroids separate from each other in orthogonal
+  directions as \eqn{\Delta} increases, with no overlap for
+  \eqn{\Delta \ge 1}.
 
-  For \eqn{\Delta = 0} and \eqn{\rho_k = \rho}, \eqn{k = 1,
-  \ldots, K_0}, the \eqn{K_0 = 5} populations are equal.
+  Hence, let \eqn{(a_k^{k}, b_k^{(k)}) = c(\Delta - 1/2,
+  \Delta + 1/2)}. For the remaining ordered pairs, let
+  \eqn{(a_j^{(k)}, b_j^{(k)}) = (-1/2, 1/2)}.
+
+  We generate \eqn{n_k} observations from \eqn{k}th
+  population.
+
+  For \eqn{\Delta = 0}, the \eqn{K_0 = 5} populations are
+  equal.
 
   Notice that the support of each population is a unit
-  hypercube with 4 features. Moreover, for \eqn{\Delta \ge
-  1}, the populations are mutually exclusive and entirely
-  separated.
+  hypercube with \eqn{p = K_0} features. Moreover, for
+  \eqn{\Delta \ge 1}, the populations are mutually
+  exclusive and entirely separated.
 }
 \examples{
 data_generated <- sim_unif(seed = 42)

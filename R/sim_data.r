@@ -2,9 +2,11 @@
 #'
 #' We provide a wrapper function to generate from three data-generating models:
 #' \describe{
-#'   \item{\code{\link{sim_unif}}}{Five multivariate uniform distributions}
-#'   \item{\code{\link{sim_normal}}}{Multivariate normal distributions with intraclass covariance matrices}
-#'   \item{\code{\link{sim_student}}}{Multivariate Student's t distributions each with a common covariance matrix}
+#'   \item{\code{\link{sim_unif}}}{Multivariate uniform distributions}
+#'   \item{\code{\link{sim_normal}}}{Multivariate normal distributions with
+#' intraclass covariance matrices}
+#'   \item{\code{\link{sim_student}}}{Multivariate Student's t distributions each
+#' with a common covariance matrix}
 #' }
 #'
 #' For each data-generating model, we generate \eqn{n_k} observations \eqn{(k =

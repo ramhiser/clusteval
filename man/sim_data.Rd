@@ -21,7 +21,7 @@
 \description{
   We provide a wrapper function to generate from three
   data-generating models: \describe{
-  \item{\code{\link{sim_unif}}}{Five multivariate uniform
+  \item{\code{\link{sim_unif}}}{Multivariate uniform
   distributions}
   \item{\code{\link{sim_normal}}}{Multivariate normal
   distributions with intraclass covariance matrices}
