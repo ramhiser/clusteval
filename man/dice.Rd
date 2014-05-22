@@ -2,7 +2,7 @@
 \alias{dice}
 \title{Computes the Dice similarity index of two clusterings of the same data set.}
 \usage{
-  dice(labels1, labels2)
+dice(labels1, labels2)
 }
 \arguments{
   \item{labels1}{a vector of \code{n} clustering labels}
@@ -10,33 +10,33 @@
   \item{labels2}{a vector of \code{n} clustering labels}
 }
 \value{
-  the Dice index for the two sets of cluster labels
+the Dice index for the two sets of cluster labels
 }
 \description{
-  For two clusterings of the same data set, this function
-  calculates the Dice similarity coefficient of the
-  clusterings from the comemberships of the observations.
-  Basically, the comembership is defined as the pairs of
-  observations that are clustered together.
+For two clusterings of the same data set, this function
+calculates the Dice similarity coefficient of the
+clusterings from the comemberships of the observations.
+Basically, the comembership is defined as the pairs of
+observations that are clustered together.
 }
 \details{
-  To calculate the Dice index, we compute the 2x2
-  contingency table, consisting of the following four
-  cells: \describe{ \item{n_11:}{the number of observation
-  pairs where both observations are comembers in both
-  clusterings} \item{n_10:}{the number of observation pairs
-  where the observations are comembers in the first
-  clustering but not the second} \item{n_01:}{the number of
-  observation pairs where the observations are comembers in
-  the second clustering but not the first} \item{n_00:}{the
-  number of observation pairs where neither pair are
-  comembers in either clustering} }
+To calculate the Dice index, we compute the 2x2 contingency
+table, consisting of the following four cells: \describe{
+\item{n_11:}{the number of observation pairs where both
+observations are comembers in both clusterings}
+\item{n_10:}{the number of observation pairs where the
+observations are comembers in the first clustering but not
+the second} \item{n_01:}{the number of observation pairs
+where the observations are comembers in the second
+clustering but not the first} \item{n_00:}{the number of
+observation pairs where neither pair are comembers in
+either clustering} }
 
-  The Dice similarity index is defined as: \deqn{\frac{2 *
-  n_{11}}{2 n_{11} + n_{10} + n_{01}}.}
+The Dice similarity index is defined as: \deqn{\frac{2 *
+n_{11}}{2 n_{11} + n_{10} + n_{01}}.}
 
-  To compute the contingency table, we use the
-  \code{\link{comembership_table}} function.
+To compute the contingency table, we use the
+\code{\link{comembership_table}} function.
 }
 \examples{
 \dontrun{

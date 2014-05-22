@@ -2,7 +2,7 @@
 \alias{sim_data}
 \title{Wrapper function to generate data from a variety of data-generating models.}
 \usage{
-  sim_data(family = c("uniform", "normal", "student"), ...)
+sim_data(family = c("uniform", "normal", "student"), ...)
 }
 \arguments{
   \item{family}{the family of distributions from which to
@@ -12,35 +12,33 @@
   data-generating function}
 }
 \value{
-  named list containing: \describe{ \item{x:}{A matrix
-  whose rows are the observations generated and whose
-  columns are the \code{p} features (variables)}
-  \item{y:}{A vector denoting the population from which the
-  observation in each row was generated.} }
+named list containing: \describe{ \item{x:}{A matrix whose
+rows are the observations generated and whose columns are
+the \code{p} features (variables)} \item{y:}{A vector
+denoting the population from which the observation in each
+row was generated.} }
 }
 \description{
-  We provide a wrapper function to generate from three
-  data-generating models: \describe{
-  \item{\code{\link{sim_unif}}}{Multivariate uniform
-  distributions}
-  \item{\code{\link{sim_normal}}}{Multivariate normal
-  distributions with intraclass covariance matrices}
-  \item{\code{\link{sim_student}}}{Multivariate Student's t
-  distributions each with a common covariance matrix} }
+We provide a wrapper function to generate from three
+data-generating models: \describe{
+\item{\code{\link{sim_unif}}}{Multivariate uniform
+distributions} \item{\code{\link{sim_normal}}}{Multivariate
+normal distributions with intraclass covariance matrices}
+\item{\code{\link{sim_student}}}{Multivariate Student's t
+distributions each with a common covariance matrix} }
 }
 \details{
-  For each data-generating model, we generate \eqn{n_k}
-  observations \eqn{(k = 1, \ldots, K_0)} from each of
-  \eqn{K_0} multivariate distributions so that the
-  Euclidean distance between each of the population
-  centroids and the origin is equal and scaled by
-  \eqn{\Delta \ge 0}. For each model, the argument
-  \code{delta} controls this separation.
+For each data-generating model, we generate \eqn{n_k}
+observations \eqn{(k = 1, \ldots, K_0)} from each of
+\eqn{K_0} multivariate distributions so that the Euclidean
+distance between each of the population centroids and the
+origin is equal and scaled by \eqn{\Delta \ge 0}. For each
+model, the argument \code{delta} controls this separation.
 
-  This wrapper function is useful for simulation studies,
-  where the efficacy of supervised and unsupervised
-  learning methods and algorithms are evaluated as a the
-  population separation is increased.
+This wrapper function is useful for simulation studies,
+where the efficacy of supervised and unsupervised learning
+methods and algorithms are evaluated as a the population
+separation is increased.
 }
 \examples{
 set.seed(42)

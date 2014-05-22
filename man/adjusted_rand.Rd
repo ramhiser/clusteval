@@ -3,7 +3,7 @@
 \title{Computes the adjusted Rand similarity index of two clusterings of the same
 data set.}
 \usage{
-  adjusted_rand(labels1, labels2)
+adjusted_rand(labels1, labels2)
 }
 \arguments{
   \item{labels1}{a vector of \code{n} clustering labels}
@@ -11,21 +11,18 @@ data set.}
   \item{labels2}{a vector of \code{n} clustering labels}
 }
 \value{
-  the adjusted Rand index for the two sets of cluster
-  labels
+the adjusted Rand index for the two sets of cluster labels
 }
 \description{
-  For two clusterings of the same data set, this function
-  calculates the adjusted Rand similarity coefficient of
-  the clusterings from the comemberships of the
-  observations.
+For two clusterings of the same data set, this function
+calculates the adjusted Rand similarity coefficient of the
+clusterings from the comemberships of the observations.
 }
 \details{
-  The adjusted Rand index is a variant of the Rand index
-  that is corrected for chance. We refer the interested
-  reader to the Wikipedia entry for an overview of the
-  formula:
-  \url{http://en.wikipedia.org/wiki/Rand_index#Adjusted_Rand_index}
+The adjusted Rand index is a variant of the Rand index that
+is corrected for chance. We refer the interested reader to
+the Wikipedia entry for an overview of the formula:
+\url{http://en.wikipedia.org/wiki/Rand_index#Adjusted_Rand_index}
 }
 \examples{
 \dontrun{

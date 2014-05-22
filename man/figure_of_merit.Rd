@@ -3,8 +3,7 @@
 \title{Figure of Merit Method for Estimating the Predictive Power of a Clustering
 Algorithm}
 \usage{
-  figure_of_merit(x, K, cluster_method, adjusted = TRUE,
-    ...)
+figure_of_merit(x, K, cluster_method, adjusted = TRUE, ...)
 }
 \arguments{
   \item{x}{data matrix with \code{n} observations (rows)
@@ -27,44 +26,43 @@ Algorithm}
   specified in \code{cluster_method}}
 }
 \value{
-  object of class \code{figure_of_merit}, which contains a
-  named list with elements \describe{ \item{scores:}{vector
-  of length \code{n} containing the individual FOM scores
-  for each observation removed in sequence}
-  \item{aggregate:}{the aggregate FOM score. This value is
-  \code{adjusted} if specified} }
+object of class \code{figure_of_merit}, which contains a
+named list with elements \describe{ \item{scores:}{vector
+of length \code{n} containing the individual FOM scores for
+each observation removed in sequence} \item{aggregate:}{the
+aggregate FOM score. This value is \code{adjusted} if
+specified} }
 }
 \description{
-  We provide an implementation of the Figure of Merit (FOM)
-  stability method proposed by Yeung et al. (2001) for
-  estimating the predictive power of a clustering
-  algorithm. The FOM statistic aggregates the average
-  distance of each observation to its cluster centroid
-  (typically, the cluster mean) after removing each
-  observation in sequence, similar to the jackknife and
-  leave-one-out cross-validation methods. The aggregate FOM
-  score is a function of the average of the aggregated
-  distances corresponding to each sample being removed. For
-  observed FOM scores for clusterings obtained from two
-  distinct clustering algorithms, the smaller score
-  indicates that the corresponding clustering algorithm is
-  preferred and has more predictive power. However, Yeung
-  et al. (2001) note that the FOM statistic can be used
-  only for relative comparisons of clustering algorithms on
-  the same data set for a specified value of \code{K}.
+We provide an implementation of the Figure of Merit (FOM)
+stability method proposed by Yeung et al. (2001) for
+estimating the predictive power of a clustering algorithm.
+The FOM statistic aggregates the average distance of each
+observation to its cluster centroid (typically, the cluster
+mean) after removing each observation in sequence, similar
+to the jackknife and leave-one-out cross-validation
+methods. The aggregate FOM score is a function of the
+average of the aggregated distances corresponding to each
+sample being removed. For observed FOM scores for
+clusterings obtained from two distinct clustering
+algorithms, the smaller score indicates that the
+corresponding clustering algorithm is preferred and has
+more predictive power. However, Yeung et al. (2001) note
+that the FOM statistic can be used only for relative
+comparisons of clustering algorithms on the same data set
+for a specified value of \code{K}.
 }
 \details{
-  We require a clustering algorithm function to be
-  specified in the argument \code{cluster_method}. The
-  function given should accept at least two arguments:
-  \describe{ \item{x}{matrix of observations to cluster}
-  \item{K}{the number of clusters to find}
-  \item{...}{additional arguments that can be passed on} }
-  Also, the function given should return only clustering
-  labels for each observation in the matrix \code{x}. The
-  additional arguments specified in \code{...} are useful
-  if a wrapper function is used: see the example below for
-  an illustration.
+We require a clustering algorithm function to be specified
+in the argument \code{cluster_method}. The function given
+should accept at least two arguments: \describe{
+\item{x}{matrix of observations to cluster} \item{K}{the
+number of clusters to find} \item{...}{additional arguments
+that can be passed on} } Also, the function given should
+return only clustering labels for each observation in the
+matrix \code{x}. The additional arguments specified in
+\code{...} are useful if a wrapper function is used: see
+the example below for an illustration.
 }
 \examples{
 # First, we create a wrapper function for the K-means clustering algorithm
@@ -85,9 +83,9 @@ fom_out2 <- figure_of_merit(x = x, K = 5, cluster_method = kmeans_wrapper,
                             num_cores = 1)
 }
 \references{
-  Yeung K., Haynor D., and Ruzzo W. (2001), Validating
-  Clustering for Gene Expression Data, _Bioinformatics_,
-  17, 4, 309–318.
-  \url{http://bioinformatics.oxfordjournals.org/content/17/4/309.abstract}
+Yeung K., Haynor D., and Ruzzo W. (2001), Validating
+Clustering for Gene Expression Data, _Bioinformatics_, 17,
+4, 309–318.
+\url{http://bioinformatics.oxfordjournals.org/content/17/4/309.abstract}
 }
 

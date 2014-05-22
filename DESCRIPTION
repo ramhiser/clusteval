@@ -17,15 +17,3 @@ LinkingTo: Rcpp
 License: MIT + file LICENSE
 URL: https://github.com/ramhiser/clusteval,
     http://ramhiser.com
-Collate:
-    'similarity.r'
-    'sim_normal.r'
-    'sim_unif.r'
-    'sim_student.r'
-    'clustomit.r'
-    'sim_data.r'
-    'helper-boot.r'
-    'clusteval.r'
-    'random_clustering.r'
-    'comembership.r'
-    'figure-of-merit.r'

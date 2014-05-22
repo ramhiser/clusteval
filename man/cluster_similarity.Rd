@@ -2,8 +2,7 @@
 \alias{cluster_similarity}
 \title{Computes the similarity between two clusterings of the same data set.}
 \usage{
-  cluster_similarity(labels1, labels2,
-    similarity = "adjusted_rand")
+cluster_similarity(labels1, labels2, similarity = "adjusted_rand")
 }
 \arguments{
   \item{labels1}{a vector of \code{n} clustering labels}
@@ -16,37 +15,37 @@
   Rand index is used.}
 }
 \value{
-  the similarity between the two clusterings
+the similarity between the two clusterings
 }
 \description{
-  For two clusterings of the same data set, this function
-  calculates the similarity statistic specified of the
-  clusterings from the comemberships of the observations.
-  Basically, the comembership is defined as the pairs of
-  observations that are clustered together.
+For two clusterings of the same data set, this function
+calculates the similarity statistic specified of the
+clusterings from the comemberships of the observations.
+Basically, the comembership is defined as the pairs of
+observations that are clustered together.
 }
 \details{
-  To calculate the similarity, we compute the 2x2
-  contingency table, consisting of the following four
-  cells: \describe{ \item{n_11:}{the number of observation
-  pairs where both observations are comembers in both
-  clusterings} \item{n_10:}{the number of observation pairs
-  where the observations are comembers in the first
-  clustering but not the second} \item{n_01:}{the number of
-  observation pairs where the observations are comembers in
-  the second clustering but not the first} \item{n_00:}{the
-  number of observation pairs where neither pair are
-  comembers in either clustering} }
+To calculate the similarity, we compute the 2x2 contingency
+table, consisting of the following four cells: \describe{
+\item{n_11:}{the number of observation pairs where both
+observations are comembers in both clusterings}
+\item{n_10:}{the number of observation pairs where the
+observations are comembers in the first clustering but not
+the second} \item{n_01:}{the number of observation pairs
+where the observations are comembers in the second
+clustering but not the first} \item{n_00:}{the number of
+observation pairs where neither pair are comembers in
+either clustering} }
 
-  Currently, we have implemented the following similarity
-  statistics: \itemize{ \item Adjusted Rand index \item
-  Dice coefficient \item Fowlkes-Mallows coefficient \item
-  Jaccard coefficient \item Phi coefficient \item Rand
-  index \item Rogers-Tanimoto coefficient \item Russel-Rao
-  coefficient \item Sokal-Sneath coefficient }
+Currently, we have implemented the following similarity
+statistics: \itemize{ \item Adjusted Rand index \item Dice
+coefficient \item Fowlkes-Mallows coefficient \item Jaccard
+coefficient \item Phi coefficient \item Rand index \item
+Rogers-Tanimoto coefficient \item Russel-Rao coefficient
+\item Sokal-Sneath coefficient }
 
-  To compute the contingency table, we use the
-  \code{\link{comembership_table}} function.
+To compute the contingency table, we use the
+\code{\link{comembership_table}} function.
 }
 \examples{
 # Notice that the number of comemberships is 'n choose 2'.
