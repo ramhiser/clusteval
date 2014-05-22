@@ -128,9 +128,14 @@ adjusted_rand <- function(labels1, labels2) {
 
   # Summarizes the contingency table of agreement
   table_out <- table(labels1, labels2)
+  
+  # When each vector is a singleton cluster, the Adjusted Rand should be 1.
+  if (all(dim(table_out) == c(1, 1))) {
+    return(1)
+  }
   margin1 <- as.vector(margin.table(table_out, 1))
   margin2 <- as.vector(margin.table(table_out, 2))
-
+  
   # Calculates the quantities employed in the adjusted Rand index
   margin1_sum <- sum(choose(margin1, 2))
   margin2_sum <- sum(choose(margin2, 2))
