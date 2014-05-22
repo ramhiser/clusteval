@@ -14,7 +14,7 @@ Imports:
     parallel,
     Rcpp (>= 0.9.13)
 LinkingTo: Rcpp
-License: MIT
+License: MIT + file LICENSE
 URL: https://github.com/ramhiser/clusteval,
     http://ramhiser.com
 Collate:
