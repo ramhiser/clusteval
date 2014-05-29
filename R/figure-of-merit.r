@@ -64,10 +64,8 @@
 #' set.seed(42)
 #' x <- sim_data("normal", delta = 1.5)$x
 #'
-#' fom_out <- figure_of_merit(x = x, K = 4, cluster_method = "kmeans_wrapper",
-#'                            num_cores = 1)
-#' fom_out2 <- figure_of_merit(x = x, K = 5, cluster_method = kmeans_wrapper,
-#'                             num_cores = 1)
+#' fom_out <- figure_of_merit(x = x, K = 4, cluster_method = "kmeans_wrapper")
+#' fom_out2 <- figure_of_merit(x = x, K = 5, cluster_method = kmeans_wrapper)
 figure_of_merit <- function(x, K, cluster_method, adjusted = TRUE, ...) {
   x <- as.matrix(x)
   K <- as.integer(K)

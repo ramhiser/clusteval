@@ -77,10 +77,8 @@ kmeans_wrapper <- function(x, K, num_starts = 10, ...) {
 set.seed(42)
 x <- sim_data("normal", delta = 1.5)$x
 
-fom_out <- figure_of_merit(x = x, K = 4, cluster_method = "kmeans_wrapper",
-                           num_cores = 1)
-fom_out2 <- figure_of_merit(x = x, K = 5, cluster_method = kmeans_wrapper,
-                            num_cores = 1)
+fom_out <- figure_of_merit(x = x, K = 4, cluster_method = "kmeans_wrapper")
+fom_out2 <- figure_of_merit(x = x, K = 5, cluster_method = kmeans_wrapper)
 }
 \references{
 Yeung K., Haynor D., and Ruzzo W. (2001), Validating
