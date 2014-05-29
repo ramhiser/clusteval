@@ -34,6 +34,11 @@ CLUSTER SIMILARITY
 * `similarity_methods()` also briefly describes the available similarity methods
   and miscellaneous details
 
+* `variation_information()` calculates Meila's (2007) Variation of Information
+  (VI) metric between two clusterings of the same data set. VI is an
+  information-theoretic criterion that measures the amount of information lost
+  and gained between two clusterings.
+
 MISCELLANEOUS
 
 * `clustomit()` no longer uses stratifed sampling by default. This functionality
