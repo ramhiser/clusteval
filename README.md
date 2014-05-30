@@ -15,5 +15,5 @@ If you prefer to download the latest version, instead type:
 
 ```r
 library(devtools)
-install_github('clusteval', 'ramey')
+install_github("ramhiser/clusteval")
 ```

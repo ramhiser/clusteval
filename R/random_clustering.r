@@ -1,9 +1,9 @@
 #' Randomly cluster a data set into K clusters.
 #'
-#' For each observation (row) in 'x', one of K labels is randomly generated.
-#' By default, the probabilities of selecting each clustering label are equal,
-#' but this can be altered by specifying 'prob', a vector of probabilities for
-#' each cluster.
+#' For each observation (row) in \code{x}, one of \code{K} labels is randomly
+#' generated.  By default, the probabilities of selecting each clustering label
+#' are equal, but this can be altered by specifying \code{prob}, a vector of
+#' probabilities for each cluster.
 #'
 #' Random clustering is often utilized as a baseline comparison clustering
 #' against which other clustering algorithms are employed to identify structure
@@ -22,12 +22,13 @@
 #' clusters are unlikely to provide meaningful results on which the user can
 #' better understand the inherent structure within the data.
 #' 
+#' @export
 #' @param x a matrix containing the data to cluster. The rows are the sample
 #' observations, and the columns are the features.
 #' @param K the number of clusters
 #' @param prob a vector of probabilities to generate each cluster label. If
-#' NULL, each cluster label has an equal chance of being selected.
-#' @return a vector of clustering labels for each observation in 'x'.
+#' \code{NULL}, each cluster label has an equal chance of being selected.
+#' @return a vector of clustering labels for each observation in \code{x}.
 random_clustering <- function(x, K, prob = NULL) {
   if (!is.null(prob)) {
     if (!is.numeric(prob)) {

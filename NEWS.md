@@ -1,3 +1,66 @@
+clusteval 0.2
+-------------
+
+PLOTTING
+
+* An S3 `plot()` function has been added to plot a summary of the similarity
+  values stored in a ClustOmit object. The plotting function utilizes the
+  `ggplot2` package.
+
+CLUSTER EVALUATION METHODS
+
+* `figure_of_merit()` is an implementation of the Figure of Merit statistic
+  proposed by Yeung et al. (2001) to estimate the predictive power of a
+  clustering algorithm.
+
+CLUSTER SIMILARITY
+
+* Several similarity indices have been added. These include the following:
+
+* `adjusted_rand()` implements the adjusted Rand index.
+
+* `dice()` implements the Dice similarity.
+
+* `fowlkes_mallows()` implements the Folkes-Mallows index.
+
+* `phi()` implements the Phi coefficient.
+
+* `rogers_tanimoto()` implements the Rogers-Tanimoto similarity.
+
+* `russel_rao()` implements the Russel-Rao similarity.
+
+* `sokal_sneath()` implements the Sokal-Sneath similarity.
+
+* `similarity_methods()` also briefly describes the available similarity methods
+  and miscellaneous details
+
+* `variation_information()` calculates Meila's (2007) Variation of Information
+  (VI) metric between two clusterings of the same data set. VI is an
+  information-theoretic criterion that measures the amount of information lost
+  and gained between two clusterings.
+
+MISCELLANEOUS
+
+* `clustomit()` no longer uses stratifed sampling by default. This functionality
+  can be employed by settting `stratified = TRUE`. By default, we now use
+  nonparametric bootstrapping with the caveat that we first randomly sample one
+  observation from each cluster. See the documentation for details.
+
+* With regards to the previous change to `clustomit()`, we have renamed
+  `boot_stratified_omit()` to `boot_omit()` and added the optional `stratified`
+  argument.
+
+* Simplified the naming of the similarity indices. For example, `jaccard_indep()`
+  is now `jaccard()`, and `rand_indep()` is now `rand()`.
+
+* When printing a `clustomit` object, a summary is now provided.
+
+* Minor bug fixes in `clustomit()`.
+
+* `sim_unif()` is now greatly simplified.
+
+* Cleaned up documentation.
+
 clusteval 0.1
 -------------
 
