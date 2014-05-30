@@ -19,7 +19,7 @@
 #' @param labels1 a vector of \code{n} clustering labels
 #' @param labels2 a vector of \code{n} clustering labels
 #' @return the VI distance between \code{labels1} and \code{labels2}
-#' @references Meila, M. (2007). "Comparing clusterings—an information based
+#' @references Meila, M. (2007). "Comparing clusterings - an information based
 #' distance," Journal of Multivariate Analysis, 98, 5, 873-895.
 #' \url{http://www.sciencedirect.com/science/article/pii/S0047259X06002016}
 #' @examples

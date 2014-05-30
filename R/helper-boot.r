@@ -30,6 +30,8 @@
 #' coercible with \code{\link{as.factor}}.
 #' @param num_reps the number of bootstrap replications to use for each group
 #' @return named list containing indices for each bootstrap replication
+#' @param stratified Should the bootstrap replicates be stratified by cluster?
+#' By default, no. See Details.
 #' @examples
 #' set.seed(42)
 #' # We use 4 clusters, each with up to 10 observations. The sample sizes are

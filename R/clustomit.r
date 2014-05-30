@@ -103,7 +103,7 @@
 #'   \item{num_reps:}{the number of bootstrap replicates drawn for each cluster
 #' omitted}
 #' }
-#' @references Ramey, J. A., Sego, L. H., and Young, D. M. (2013), Cluster
+#' @references Ramey, J. A., Sego, L. H., and Young, D. M. (2014), Cluster
 #' Stability Evaluation via Cluster Omission.
 #' @references Fisher, L. and Van Ness, J. (1971), Admissible Clustering
 #' Procedures, _Biometrika_, 58, 1, 91-104.
@@ -111,6 +111,7 @@
 #' _Computational Statistics and Data Analysis_, 52, 258-271.
 #' \url{http://www.jstor.org/stable/2334320}
 #' @examples
+#' \dontrun{
 #' # First, we create a wrapper function for the K-means clustering algorithm
 #' # that returns only the clustering labels for each observation (row) in
 #' # \code{x}.
@@ -127,6 +128,7 @@
 #'                            num_cores = 1)
 #' clustomit_out2 <- clustomit(x = x, K = 5, cluster_method = "kmeans_wrapper",
 #'                             num_cores = 1)
+#' }
 clustomit <- function(x, K, cluster_method, similarity = "adjusted_rand",
                       weighted_mean = FALSE, stratified = FALSE, num_reps = 250,
                       num_cores = getOption("mc.cores", 2), ...) {
@@ -195,17 +197,13 @@ is.clustomit <- function(x) {
 
 #' Plots the results of a ClustOmit object.
 #'
-#' @keywords internal
-#' @param x a \code{clustomit} object
 #' @return a \code{\link{ggplot2}} object. The object is plotted in interactive
 #' sessions. In some cases, the returned objected may need plotted by invoking
 #' \code{plot}.
 #' @rdname clustomit
-#' @method plot clustomit
-#' @S3method plot clustomit
 #' @export
 #' @import ggplot2
-plot.clustomit <- function(x) {
+plot.clustomit <- function(x, ...) {
   if (!is.clustomit(x)) {
     stop("'x' must be a 'clustomit' object.")
   }
@@ -234,13 +232,9 @@ plot.clustomit <- function(x) {
 #'
 #' Summarizes the \code{\link{clustomit}}.
 #'
-#' @keywords internal
-#' @param x object to print
 #' @rdname clustomit
-#' @method print clustomit
-#' @S3method print clustomit
 #' @export
-print.clustomit <- function(x) {
+print.clustomit <- function(x, ...) {
   if (!is.clustomit(x)) {
     stop("'x' must be a 'clustomit' object.")
   }

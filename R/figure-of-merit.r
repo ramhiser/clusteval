@@ -49,9 +49,10 @@
 #' specified}
 #' }
 #' @references Yeung K., Haynor D., and Ruzzo W. (2001), Validating Clustering
-#' for Gene Expression Data, _Bioinformatics_, 17, 4, 309–318.
+#' for Gene Expression Data, _Bioinformatics_, 17, 4, 309-318.
 #' \url{http://bioinformatics.oxfordjournals.org/content/17/4/309.abstract}
 #' @examples
+#' \dontrun{
 #' # First, we create a wrapper function for the K-means clustering algorithm
 #' # that returns only the clustering labels for each observation (row) in
 #' # \code{x}.
@@ -66,6 +67,7 @@
 #'
 #' fom_out <- figure_of_merit(x = x, K = 4, cluster_method = "kmeans_wrapper")
 #' fom_out2 <- figure_of_merit(x = x, K = 5, cluster_method = kmeans_wrapper)
+#' }
 figure_of_merit <- function(x, K, cluster_method, adjusted = TRUE, ...) {
   x <- as.matrix(x)
   K <- as.integer(K)
