@@ -208,6 +208,10 @@ plot.clustomit <- function(x, ...) {
     stop("'x' must be a 'clustomit' object.")
   }
 
+  # HACK: Fixes NOTE from R CMD CHECK. Related to Issue #30.
+  # See: http://stackoverflow.com/a/8096882/234233
+  method <- ClustOmit <- Cluster <- NULL
+
   # Formats results for ggplot2
   cluster_labels <- with(x, gl(K, num_reps, labels = names(boot_similarity)))
   clustomit_vals <- as.vector(do.call(c, x$boot_similarity))
