@@ -4,7 +4,7 @@ Version: 0.2
 Date: 2015-02-01
 Author: John A. Ramey
 Maintainer: John A. Ramey <johnramey@gmail.com>
-Description: An R package that provides a suite of tools to evaluate clustering
+Description: Provides a suite of tools to evaluate clustering
     algorithms, clusterings, and individual clusters.
 Depends:
     R (>= 3.0.2)
