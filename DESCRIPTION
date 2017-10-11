@@ -17,3 +17,4 @@ LinkingTo: Rcpp
 License: MIT + file LICENSE
 URL: https://github.com/ramhiser/clusteval,
     http://ramhiser.com
+RoxygenNote: 5.0.1
