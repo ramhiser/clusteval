@@ -1,7 +1,7 @@
 Package: clusteval
 Title: Evaluation of Clustering Algorithms
-Version: 0.2
-Date: 2015-02-01
+Version: 0.2.1
+Date: 2017-10-11
 Author: John A. Ramey
 Maintainer: John A. Ramey <johnramey@gmail.com>
 Description: Provides a suite of tools to evaluate clustering
