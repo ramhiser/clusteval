@@ -1,3 +1,11 @@
+clusteval 0.2.1
+---------------
+
+UPDATES
+
+* `comembership()` and `cluster_similarity()` are more robust to non-factor
+  labels. #35
+
 clusteval 0.2
 -------------
 
