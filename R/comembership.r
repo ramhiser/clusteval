@@ -31,6 +31,7 @@
 #' # Notice that the number of comemberships is 'n choose 2'.
 #' length(comembership_out) == choose(n, 2)
 comembership <- function(labels) {
+  labels <- factor(as.vector(labels))
 	.Call("rcpp_comembership", labels, PACKAGE = "clusteval")
 }
 
